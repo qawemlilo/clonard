@@ -1,0 +1,67 @@
+<?php
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.model' );
+
+class ClonardModelAdmin extends JModel
+{
+	public $orders;
+	
+	function getOrders()
+	{
+	    if (!isset($this->$orders)) 
+		{
+			$db =& JFactory::getDBO();
+			
+			$query = "SELECT *  FROM jos_clonard_orders ORDER BY ts DESC";
+			$db->setQuery($query);
+			$allorders = $db->loadAssocList();
+            
+			if ($allorders && !empty($allorders))
+			{
+			    $orders_arr = array();
+				foreach($allorders as $order) {
+			        $p_id = $order['parent'];
+                    $c_id = $order['child'];					
+					$p_data = $this->getParent($p_id);
+					$c_data = $this->getStudent($c_id);
+					
+					if ($p_data)
+				        $order['parent'] = $p_data;
+						
+					if ($c_data)
+				        $order['chidData'] = $c_data;
+						
+					$orders_arr[] = $order;
+			    }
+				
+				$this->orders = $orders_arr;
+		     }
+			 else {
+			   $this->orders = false;
+			 }
+			 
+			 return $this->orders;
+		}
+    }
+	
+	function getStudent($id)
+	{
+	    $db =& JFactory::getDBO();
+		$query = "SELECT name, surname, dob, gender, choice, afrikaans, maths  FROM jos_clonard_students WHERE id='$id'";
+        $db->setQuery($query);
+		$data = $db->loadAssoc();
+
+		return $data;
+	}
+	
+	function getParent($id)
+	{
+	    $db =& JFactory::getDBO();
+		$query = "SELECT title, name, surname, email, phone, cell, address, code  FROM jos_clonard_parents WHERE id='$id'";
+        $db->setQuery($query);
+		$data = $db->loadAssoc();
+
+		return $data;
+	}
+}
