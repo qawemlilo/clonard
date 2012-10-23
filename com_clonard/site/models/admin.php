@@ -6,6 +6,26 @@ jimport( 'joomla.application.component.model' );
 class ClonardModelAdmin extends JModel
 {
 	public $orders;
+    var $_total = null;
+    
+    var $_pagination = null;
+    
+
+    function __construct()
+    {
+        parent::__construct();
+ 
+        $mainframe = JFactory::getApplication();
+ 
+        // Get pagination request variables
+        $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', 5, 'int');
+        $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+        
+        // In case limit has been changed, adjust it
+        $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $this->setState('limit', $limit);
+        $this->setState('limitstart', $limitstart);
+    }
 	
 	function getOrders()
 	{
@@ -14,23 +34,27 @@ class ClonardModelAdmin extends JModel
 			$db =& JFactory::getDBO();
 			
 			$query = "SELECT *  FROM jos_clonard_orders ORDER BY ts DESC";
-			$db->setQuery($query);
-			$allorders = $db->loadAssocList();
             
-			if ($allorders && !empty($allorders))
+            $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+            
+            
+			//$db->setQuery($query);
+			$allorders = $this->_data;
+            
+			if (is_array($allorders))
 			{
 			    $orders_arr = array();
 				foreach($allorders as $order) {
-			        $p_id = $order['parent'];
-                    $c_id = $order['child'];					
+			        $p_id = $order->parent;
+                    $c_id = $order->child;					
 					$p_data = $this->getParent($p_id);
 					$c_data = $this->getStudent($c_id);
 					
 					if ($p_data)
-				        $order['parent'] = $p_data;
+				        $order->parent = $p_data;
 						
 					if ($c_data)
-				        $order['chidData'] = $c_data;
+				        $order->chidData = $c_data;
 						
 					$orders_arr[] = $order;
 			    }

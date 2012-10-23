@@ -106,6 +106,8 @@ class ClonardViewAdmin extends JView
 		{
 		    $model = &$this->getModel();
 			$orders = $model->getOrders();
+            print_r($orders);
+            exit();
 			$html = createTable($orders);
 			
 			$this->assignRef('orders', $html);
