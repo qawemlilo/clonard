@@ -17,21 +17,22 @@ jQuery.noConflict();
 	   
 	   
 	   //Step two reload selected grade field
-	   if ($("#grade").val()) {
-	       change($("#grade").val());
-	   }
+	  // if ($("#grade").val()) {
+	       //change($("#grade").val());
+	  // }
 	   
-	   $("#gradepassed").change(function() {
-	        var gradeval = $("#grade").val();
+	   //$("#gradepassed").change(function() {
+	       // var gradeval = $("#grade").val();
 			
-	        if (gradeval) {
-			   $("#gradepassed option:first").select();   
-			}
+	        //if (gradeval) {
+			 //  $("#gradepassed option:first").select();   
+			//}
 			
-            return true;
-	   });	
+            //return true;
+	   //});	
 	   
-	   $("#grade").change(function() {
+	  // $("#grade").change(function() {
+         /*
 	        var $this = this, val = $($this).val(), currentgrade = $("#gradepassed").val();
 			
 
@@ -81,29 +82,30 @@ jQuery.noConflict();
 			else {
 			  return false;
 			}
+            
 	   });
 	  
 	   function change(val) {
-				if (val === "Grade R" || val === "Grade 1" || val === "Grade 2" || val === "Grade 3") {
+				if (val === "R" || val === "1" || val === "2" || val === "3") {
 				    pitems.hide('slow');
 				    $("#contactForm .one").show('slow');
 				}
 				
-				if (val === "Grade 4" || val === "Grade 5" || val === "Grade 6") {
+				if (val === "4" || val === "5" || val === "6") {
 				    pitems.hide('slow');
 				    $("#contactForm .two").show('slow');
 				}
 				
-				if (val === "Grade 7") {
+				if (val === "7") {
 				    pitems.hide('slow');
 				    $("#contactForm .three").show('slow');
 				}
 				
-				if (val === "Grade 8" || val === "Grade 9") {
+				if (val === "8" || val === "9") {
 				    pitems.hide('slow');
 				    $("#contactForm .four").show('slow');
 				}
-      }
+      }*/
 	  
 	  $('.ui-datepicker-title select.ui-datepicker-year').attr('size', 10);
       
