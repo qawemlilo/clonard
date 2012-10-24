@@ -2,6 +2,8 @@
 defined('_JEXEC') or die('Restricted access'); 
 
 $document = &JFactory::getDocument();
+
+$document->addStyleSheet('components/com_clonard/css/bootstrap.min.css');
 $document->addStyleSheet('components/com_clonard/css/style.css');
 $document->addStyleSheet('components/com_clonard/css/steps.css');
 $document->addStyleSheet('components/com_clonard/css/ui-lightness/jquery-ui-1.8.16.custom.css');
