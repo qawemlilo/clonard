@@ -6,9 +6,8 @@ jimport( 'joomla.application.component.model' );
 class ClonardModelAdmin extends JModel
 {
 	public $orders;
-    var $_total = null;
-    
-    var $_pagination = null;
+    public $_total = null;
+    public $_pagination = null;
     
 
     function __construct()

@@ -117,7 +117,7 @@ class ClonardViewAdmin extends JView
 		}
 		else
 		{
-		    header("Location: index.php?option=com_clonard&view=stepone");
+		    header("Location: index.php");
 			exit();
 		}			
 	}
