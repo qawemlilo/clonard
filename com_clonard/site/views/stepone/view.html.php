@@ -177,6 +177,6 @@ class ClonardViewStepone extends JView
 		    if (!$currentUser->get('guest') && !$session->has('parent')) 
 			    $form->set('parent', $cache);
 		    parent::display($tpl);
-	   }
+	    }
 	}
 }

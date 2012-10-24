@@ -22,6 +22,16 @@ $document->addScript('components/com_clonard/js/jquery-ui-1.8.16.custom.min.js')
 <div id="form-cont">
 
   <h2 style="margin-left:10px">Clonard Orders</h2>
-
+  
+  <div style="padding: 5px; margin: 5px 0px 10px 0px;">
+    <form action="index.php?option=com_clonard&view=admin" method="post" name="myform">
+      <strong>Number of orders per page #</strong> <?php echo $this->pagination->getLimitBox() . " &nbsp; &nbsp; <span style=\"margin-left: 200px;\"> " . $this->pagination->getPagesCounter(); ?></span>
+    </form>
+  </div>
+  
   <?php echo $this->orders; ?>  
+  
+  <div style="padding: 5px; margin: 10px 0px 10px 0px;">
+    <?php echo $this->pagination->getPagesLinks(); ?>
+  </div>
 </div>

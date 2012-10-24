@@ -18,7 +18,7 @@ class ClonardModelAdmin extends JModel
         $mainframe = JFactory::getApplication();
  
         // Get pagination request variables
-        $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', 5, 'int');
+        $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', 10, 'int');
         $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
         
         // In case limit has been changed, adjust it
@@ -88,4 +88,28 @@ class ClonardModelAdmin extends JModel
 
 		return $data;
 	}
+    
+    function getTotal()
+    {
+        // Load the content if it doesn't already exist
+        if (empty($this->_total)) {
+            $query = "SELECT *  FROM jos_clonard_orders";
+ 	        $this->_total = $this->_getListCount($query);	
+ 	    }
+        return $this->_total;
+    }
+    
+    
+    function getPagination(&$pid)
+    {
+ 	    $total = $this->getTotal();
+ 	    
+        // Load the content if it doesn't already exist
+ 	    if (empty($this->_pagination)) {
+ 	        jimport('joomla.html.pagination');
+ 	        $this->_pagination = new JPagination($total, $this->getState('limitstart'), $this->getState('limit') );
+        }
+ 	
+        return $this->_pagination;
+    }
 }
