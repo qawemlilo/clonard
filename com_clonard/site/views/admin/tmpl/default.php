@@ -21,19 +21,27 @@ $document->addScript('components/com_clonard/js/jquery-ui-1.8.16.custom.min.js')
   });
 })(jQuery);
 </script>
-<div id="form-cont">
 
-  <h2 style="margin-left:10px">Clonard Orders</h2>
+<div class="row">
+  <ul class="nav nav-pills" style="padding-left:20px;  margin-bottom: 10px;">
+    <li class="active">
+      <a href="index.php?option=com_clonard&view=admin"><i class="icon-home icon-white"></i> Orders </a>
+    </li>
+    <li><a href="#"><i class="icon-book"></i> Refunds </a></li>
+    <li><a href="#"><i class="icon-briefcase"></i> Packs </a></li>
+  </ul>
+</div>
+<div class="row" style="padding-left:20px">
   
-  <div style="padding: 5px; margin: 5px 0px 10px 0px;">
-    <form action="index.php?option=com_clonard&view=admin" method="post" name="myform">
-      <strong>Number of orders per page #</strong> <?php echo $this->pagination->getLimitBox() . " &nbsp; &nbsp; <span style=\"margin-left: 200px;\"> " . $this->pagination->getPagesCounter(); ?></span>
-    </form>
-  </div>
+    <div style="padding: 5px; margin: 0px 0px 10px 0px;">
+      <form action="index.php?option=com_clonard&view=admin" method="post" name="myform">
+        <strong>Number of orders per page #</strong> <?php echo $this->pagination->getLimitBox() . " &nbsp; &nbsp; <span style=\"margin-left: 100px;\"> " . $this->pagination->getPagesCounter(); ?></span>
+      </form>
+    </div>
   
-  <?php echo $this->orders; ?>  
+    <?php echo $this->orders; ?>  
   
-  <div style="padding: 5px; margin: 10px 0px 10px 0px;">
-    <?php echo $this->pagination->getPagesLinks(); ?>
-  </div>
+    <div style="padding: 5px; margin: 10px 0px 10px 0px;">
+      <?php echo $this->pagination->getPagesLinks(); ?>
+    </div>
 </div>

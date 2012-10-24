@@ -436,3 +436,7 @@ color:#333;
 background: -moz-linear-gradient(100% 100% 90deg, #eee, #fff);
 background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#fff));
 } 
+
+#limit {
+  width: 80px;
+}

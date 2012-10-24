@@ -8,12 +8,12 @@ class ClonardController extends JController
 	function display()
 	{
 	    $currentUser =& JFactory::getUser();
-
-		if ($currentUser->usertype == "Administrator") 
-		    JRequest::setVar('view', 'admin');
-			
-        elseif(!JRequest::getVar('view'))
+        
+        if(!JRequest::getVar('view'))
               JRequest::setVar('view', 'stepone');
+              
+		elseif ($currentUser->usertype == "Administrator") 
+		    JRequest::setVar('view', 'admin');
 	   
 	    parent::display();
 	}
