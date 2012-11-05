@@ -99,7 +99,7 @@ class ClonardModelAdmin extends JModel
     }
     
     
-    function getPagination(&$pid)
+    function getPagination()
     {
  	    $total = $this->getTotal();
  	    
