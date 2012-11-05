@@ -31,11 +31,14 @@ class ApplicationForm
 {
     public $session;
 	public $html = '';
+    public $app;
 	public $shipping = 0;
+    public $shippingcost = 0;
 	
     function __construct()
 	{
 	    $this->session = JFactory::getSession();
+        $this->app =& JFactory::getApplication();
 	}
 	
     function processForm()
@@ -45,7 +48,7 @@ class ApplicationForm
 		if (isset($_POST['import'])) 
 		{
 		    $this->session->set('new', 'yes');
-			header("Location: index.php?option=com_clonard&view=steptwo");
+			$this->app->redirect("index.php?option=com_clonard&view=steptwo");
 		}
 	}
 	
@@ -127,15 +130,17 @@ class ApplicationForm
 		
 		if ($this->shipping == 1) {
 		    $shipping = 80;
-		}
-		
-		if ($this->shipping > 1) {
+		} elseif ($this->shipping > 1) {
 			$remainder = ($this->shipping - 2);			
 			$remainder_total = ($remainder * 80);
 			
 		    $shipping = (110 + $remainder_total);
-		}
+		} else {
+            $this->session->destroy();
+            header("Location: index.php?option=com_clonard&view=steptwo");
+        }
 		
+        $this->shippingcost = $shipping;
 		$grandtotal = $total + $shipping;
 		
 		$this->session->set('total', $grandtotal);
@@ -209,13 +214,8 @@ class ApplicationForm
 		
 		    $num_packeges = count($basket);
 		
-		    if ($num_packeges == 1)
-		        $shipping = 80;		
-		    if ($num_packeges > 1) 
-		        $shipping = (55 * $num_packeges) ;
-		
-		    $this->session->set('shipping', $shipping);
-		    $total += $shipping;
+		    $this->session->set('shipping', $this->shippingcost);
+		    $total += $this->shippingcost;
 		    $this->session->set('total', $total);
 
 		    if (!empty($basket))
@@ -234,7 +234,7 @@ class ApplicationForm
 		
 		    $form .= '<INPUT TYPE="HIDDEN" NAME="LIDSKU'. $num_packeges .'" VALUE="PRO_00'. $num_s .'">';
 		    $form .= '<INPUT TYPE="HIDDEN" NAME="LIDDesc'. $num_packeges .'" VALUE="Shipping ' . $packs . '">';
-		    $form .= '<INPUT TYPE="HIDDEN" NAME="LIDPrice'. $num_packeges .'" VALUE="'. $shipping .'.00">';
+		    $form .= '<INPUT TYPE="HIDDEN" NAME="LIDPrice'. $num_packeges .'" VALUE="'. $this->shippingcost .'.00">';
 			$form .= '<INPUT TYPE="HIDDEN" NAME="LIDQty'. $num_packeges .'" VALUE="1">';
             
             $form .= '<p><strong style="margin-left: 10px">Please Note:</strong><ul><li>Collect-Once payment has been received we will contact you to arrange collection.</li><li>Overnight Delivery or Courier - Please contact us on <a href="mailto:orders@clonard.co.za">orders@clonard.co.za</a> for prices.</li></p>';

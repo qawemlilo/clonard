@@ -11,13 +11,13 @@ function createTable($orders)
     $table = '<div id="accordion">';
     foreach($orders as $order)
 	{ 	    	    
-	    $table .= '<h3><a href="#">Order #' . $order->id  . ' - ' . $order->ts  . '</a></h3>';
+	    $table .= '<h3><a href="#">Order #' . $order->id  . ' - ' . $order->parent['title'] . ' ' . $order->parent['name'] . ' ' . $order->parent['surname'] . '</a></h3>';
 		
 		$books_arr = explode(",", $order->books);
 		//$feesObj = new Fees();
 		//$fees = $feesObj->getTotal($order['grade'], $books_arr);
 		
-        $table .= '<div><p><strong>' . $order->parent['title'] . ' ' . $order->parent['name'] . ' ' . $order->parent['surname'] . '</strong></p>';
+        $table .= '<div><p><strong>Date: </strong>' .  $order->ts  . '</p>';
 	    $table .= '<p><strong>Email Address:</strong> <a href="mailto: ' . $order->parent['email'] . '">'.$order->parent['email'] . '</a></p>';
 		$table .= '<p><strong>Telephone:</strong> 0' . $order->parent['phone'] . '</p>';
 		
