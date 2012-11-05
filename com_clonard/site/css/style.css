@@ -440,7 +440,7 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#fff));
 #orders-breadcrumbs {
   background: #999; 
   color: #fff; 
-  padding: 8px; 
+  padding: 2px 8px 2px 8px; 
   margin: 0px 0px 10px 0px;
   -moz-border-radius: 5px; /* Firefox */
   -webkit-border-radius: 5px; /* Safari, Chrome */

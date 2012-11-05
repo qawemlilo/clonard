@@ -22,13 +22,7 @@ jQuery.noConflict();
 	   }
 	   
 	   $("#gradepassed").change(function() {
-	        var gradeval = $("#grade").val();
-			
-	        if (gradeval) {
-			   $("#gradepassed option:first").select();   
-			}
-			
-            return true;
+	        $("#grade option:first").select();   
 	   });	
 	   
 	   $("#grade").change(function() {
