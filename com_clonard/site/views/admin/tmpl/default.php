@@ -28,7 +28,7 @@ $document->addScript('components/com_clonard/js/jquery-ui-1.8.16.custom.min.js')
       <a href="index.php?option=com_clonard&view=admin"><i class="icon-home icon-white"></i> Orders </a>
     </li>
     <li><a href="index.php?option=com_clonard&view=refunds"><i class="icon-book"></i> Refunds </a></li>
-    <li><a href="#"><i class="icon-briefcase"></i> Packs </a></li>
+    <li><a href="index.php?option=com_clonard&view=packs"><i class="icon-briefcase"></i> Packs </a></li>
   </ul>
   </div>
 </div>

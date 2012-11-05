@@ -27,7 +27,7 @@ $gradedd = '<select name="gradeid" id="gradeid">';
   <div class="span3">
     <ul class="nav nav-tabs nav-stacked" style="padding-left: 0px;">
       <li  class="active">
-        <a href="#">2013<i style="margin-left:110px" class="icon-chevron-right"></i></a> 
+        <a href="#"><?php echo $this->pack->academic_year; ?><i style="margin-left:110px" class="icon-chevron-right"></i></a> 
       </li>
     </ul>
   </div>
