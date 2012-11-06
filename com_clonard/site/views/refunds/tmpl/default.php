@@ -69,7 +69,7 @@ $document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
               </td>
               <td>
                 <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->gradeid; ?>&layout=edit&id=<?php echo $refundable->id; ?>" class="btn"> <i class="icon-edit"></i> Edit </a>
-                <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->gradeid; ?>&task=remove&id=<?php echo $refundable->id; ?>" style="color: #fff" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete that item?');"> <i class="icon-remove icon-white"></i> Delete </a>
+                <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->gradeid; ?>&task=remove_book&id=<?php echo $refundable->id; ?>" style="color: #fff" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete that item?');"> <i class="icon-remove icon-white"></i> Delete </a>
               </td>
             </tr>
         <?php                

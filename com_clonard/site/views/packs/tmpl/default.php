@@ -65,7 +65,7 @@ function moneyFt($num) {
               </td>
               <td>
                 <a href="index.php?option=com_clonard&view=packs&layout=edit&id=<?php echo $pack->id; ?>" class="btn"> <i class="icon-edit"></i> Edit </a>
-                <a href="index.php?option=com_clonard&view=packs&task=remove&id=<?php echo $pack->id; ?>" style="color: #fff" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete that item?');"> <i class="icon-remove icon-white"></i> Delete </a>
+                <a href="index.php?option=com_clonard&view=packs&task=remove_pack&id=<?php echo $pack->id; ?>" style="color: #fff" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete that Pack?');"> <i class="icon-remove icon-white"></i> Delete </a>
               </td>
             </tr>
         <?php                

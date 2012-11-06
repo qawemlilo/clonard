@@ -74,6 +74,30 @@ class ClonardController extends JController
     }
     
     
+    function remove_book() {
+        $mainframe =& JFactory::getApplication();
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $model =& $this->getModel('refunds');
+        
+        $gradeid = JRequest::getInt('grade', '', 'get');
+        $id = JRequest::getInt('id', '', 'get');
+
+        if(empty($id) || empty($gradeid)) {
+            $mainframe->redirect($refer, "Error! Missing fields", "error");
+        }
+        else {
+            $success = $model->deleteRefund($id);
+
+            if ($success) {
+                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "Refundable item deleted!");
+            }
+            else {
+                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "An unexpected error occured", "error");
+            }
+        }
+    }
+    
+    
     function edit_pack() {
         $mainframe =& JFactory::getApplication();
         $refer = JRoute::_($_SERVER['HTTP_REFERER']);
@@ -124,27 +148,23 @@ class ClonardController extends JController
         }
     }
     
-    
-    
-    function remove() {
+    function remove_pack() {
         $mainframe =& JFactory::getApplication();
-        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
-        $model =& $this->getModel('refunds');
+        $model =& $this->getModel('packs');
         
-        $gradeid = JRequest::getInt('grade', '', 'get');
         $id = JRequest::getInt('id', '', 'get');
 
-        if(empty($id) || empty($gradeid)) {
-            $mainframe->redirect($refer, "Error! Missing fields", "error");
+        if(empty($id)) {
+            $mainframe->redirect('index.php?option=com_clonard&view=packs', "Error! Missing fields", "error");
         }
         else {
-            $success = $model->deleteRefund($id);
+            $success = $model->deletePack($id);
 
             if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "Refundable item deleted!");
+                $mainframe->redirect('index.php?option=com_clonard&view=packs', "Package deleted!");
             }
             else {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "An unexpected error occured", "error");
+                $mainframe->redirect('index.php?option=com_clonard&view=packs', "An unexpected error occured", "error");
             }
         }
     }
