@@ -8,7 +8,7 @@ class ClonardModelStepone extends JModel
 {
     protected $results;
 	public $parentID;
-	public $parentData;
+	private $parentData;
 	
 	function createParent(array $arr)
 	{
@@ -68,7 +68,9 @@ class ClonardModelStepone extends JModel
 			$q_str = substr($q, 0, -1) . ')';
 			$values = substr($v, 0, -1) . ')';
 			
-			return $q_str .= $values;
+			$q_str .= $values;
+            
+            return $q_str;
 		}
 
 		return false;
@@ -98,25 +100,28 @@ class ClonardModelStepone extends JModel
 	}
 	
 
-        function getParentData() 
-        {
-		    if (!isset($this->parentData))
-			{
-			    $user = JFactory::getUser();
-				$id = $user->id;
-				$db =& JFactory::getDBO();
+    function getParentData() 
+    {
+		if (!isset($this->parentData))
+	    {
+		    $user = JFactory::getUser();
+			$id = $user->id;
+			$db =& JFactory::getDBO();
 
-				$email = $user->email;
-				$name = explode(" ", $user->name);
+			$email = $user->email;
+			$name = explode(" ", $user->name);
 				
-				$query = "SELECT * FROM jos_clonard_parents WHERE email='$email'";
-				$db->setQuery($query);           
-				$this->parentData = $db->loadAssoc();
-				$this->parentData['email'] = $email;
-				$this->parentData['name'] = $name[0];
-				if(count($name) > 1) $this->parentData['surname'] = end($name);
-			}
+			$query = "SELECT * FROM jos_clonard_parents WHERE email='$email'";
+			$db->setQuery($query);           
+			$this->parentData = $db->loadAssoc();
+			$this->parentData['email'] = $email;
+			$this->parentData['name'] = $name[0];
+            
+			if(count($name) > 1) {
+                $this->parentData['surname'] = end($name);
+            }
+		}
 			
-			return $this->parentData;
-        }
+		return $this->parentData;
+    }
 }

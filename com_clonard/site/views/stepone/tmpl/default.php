@@ -48,8 +48,6 @@ jQuery.noConflict();
 <div class="clear"></div>
 
 <div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount"><?php echo (!$total) ? '0' : $total; ?></span><span></div>
-<!--
-<div id="logoff"><img src="components/com_clonard/images/lock.png" style="height:20px; margin-right: 5px; vertical-align: middle"/><a href="index.php?option=com_content&view=article&id=15&Itemid=30">Logout</a></div>-->
 
 <div class="clear"></div>
 <!-- Our form -->
@@ -63,7 +61,7 @@ jQuery.noConflict();
 	  <p>
 	  
 	    <input type="hidden" name="import" value="1" />
-        <input type="hidden" name="step_completed" value="one" />
+        <input type="hidden" name="task" value="save" />
 		
 	    <label for="title">Title:<span class="req">*</span></label>
 		<select name="title" <?php if(isset($errors['title'])) echo 'class="error"'; ?>>
