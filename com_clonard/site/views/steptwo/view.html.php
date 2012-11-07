@@ -214,39 +214,12 @@ class ClonardViewSteptwo extends JView
 {
 	function display($tpl = null)
 	{
-	    $model = &$this->getModel(); 
-		
-		$currentUser =& JFactory::getUser();
-		$id = $user->id;
-        $step_completed = JRequest::getVar('step_completed', '', 'post', 'string');
-		
-		$currentUser =& JFactory::getUser();
-		
-		if($currentUser->get('guest')) 
-		{
-		    header("Location: index.php?option=com_clonard&view=stepone");
-			exit();
-		}
-		
-		if (isset($_POST['import']) && $step_completed == 'two')
-		{
-		    $form = new ApplicationForm();
-			$success = $form->processForm();
-			
-			if ($success) 
-			{
-			    $data = $form->childData;
-				$proceed = $model->createStudent($data);
-				$id = JRequest::getInt('id', '', 'GET');
-
-			    if ($proceed)
-				    header("Location: index.php?option=com_clonard&view=stepthree");				
-            }							
-            parent::display($tpl);		  
-		}
-		else {
-		    $form = new ApplicationForm();
-		    parent::display($tpl);
-	   }
+	    $model = &$this->getModel();
+        
+        $form = new ApplicationForm();
+        $cgrades = $model->getGrades(2013);
+        
+        $this->assignRef('cgrades', $cgrades);
+		parent::display($tpl);
 	}
 }

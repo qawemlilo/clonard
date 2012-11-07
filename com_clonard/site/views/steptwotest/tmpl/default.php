@@ -38,8 +38,6 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 <div class="clear"></div>
 
 <div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount"><?php echo $total; ?></span><span></div>
-<!--
-<div id="logoff"><img src="components/com_clonard/images/lock.png" style="height:20px; margin-right: 5px; vertical-align: middle"/><a href="index.php?option=com_content&view=article&id=15&Itemid=30">Logout</a></div> -->
 
 <div class="clear"></div>
 <!-- Our form -->

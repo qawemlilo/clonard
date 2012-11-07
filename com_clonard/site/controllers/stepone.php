@@ -6,7 +6,30 @@ jimport('joomla.application.component.controller');
 
 class ClonardControllerStepone extends JController
 {
+	function display()
+	{
+        $mainframe =& JFactory::getApplication();
+	    $currentUser =& JFactory::getUser();
+        
+        if($currentUser->get('guest')) {
+            $uri = JFactory::getURI();
+            $return = $uri->toString();
+            $url = 'index.php?option=com_user&view=login';
+            $url .= '&return='.base64_encode($return);
+            
+            $mainframe->redirect($url, JText::_('You must login first') );        
+        }
+        
+        if($currentUser->usertype == "Administrator") {
+            $mainframe->redirect('index.php?option=com_clonard&view=admin');
+        }
+	   
+	    parent::display();
+	}
+    
+    
     function save() {
+        $currentUser =& JFactory::getUser();
         $mainframe =& JFactory::getApplication();
         $model =& $this->getModel('stepone');
         $session =& JFactory::getSession();
@@ -29,8 +52,9 @@ class ClonardControllerStepone extends JController
 	    $parent['postalcode'] = JRequest::getString('postalcode', '', 'POST'); 
         $parent['comments'] = JRequest::getString('comments', '', 'POST');
         $parent['city'] = JRequest::getString('city', '', 'POST');
-        $parent['province'] = JRequest::getString('province', '', 'POST');	   
-
+        $parent['province'] = JRequest::getString('province', '', 'POST');
+        $parent['user_id'] = $currentUser->id; 
+        
 	    if($parent['province'] == "other") 
 	    {
 		    if (empty($other)  || strlen($other) < 4) 

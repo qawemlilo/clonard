@@ -144,4 +144,17 @@ class ClonardModelSteptwo extends JModel
 		
 		return $this->studentData;
 	}
+    
+    
+	function getGrades($year)
+	{
+		$db =& JFactory::getDBO();
+        
+        $query = "SELECT id, grade, price FROM jos_cld_grades WHERE academic_year=$year";
+	    $db->setQuery($query);
+			
+		$results = $db->loadObjectList();
+		
+		return $results;
+	}
 }

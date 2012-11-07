@@ -7,7 +7,7 @@ $document->addStyleSheet('components/com_clonard/css/style.css');
 $document->addStyleSheet('components/com_clonard/css/steps.css');
 $document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
 $document->addScript('components/com_clonard/js/jquery-ui-1.8.16.custom.min.js');
-$document->addScript('components/com_clonard/js/clonard.js');
+$document->addScript('components/com_clonard/js/clonard.front.v8.js');
 
 
 $errors = array();
@@ -38,8 +38,7 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 <div class="clear"></div>
 
 <div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount"><?php echo $total; ?></span><span></div>
-<!--
-<div id="logoff"><img src="components/com_clonard/images/lock.png" style="height:20px; margin-right: 5px; vertical-align: middle"/><a href="index.php?option=com_content&view=article&id=15&Itemid=30">Logout</a></div> -->
+
 
 <div class="clear"></div>
 <!-- Our form -->
@@ -83,61 +82,60 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 	  <p class="feilds">
 	    <label for="gradepassed">Current Grade:<span class="req">*</span></label>
 		<select name="gradepassed" id="gradepassed" <?php if(isset($errors['gradepassed'])) echo 'class="error"'; ?>>
-		  <option value="">Grade</option>
-		  <option value="Grade n" <?php if($currentChild['gradepassed'] == "Grade n") echo 'selected="selected"' ; ?>>Going to grade R</option>
-		  <option value="Grade R" <?php if($currentChild['gradepassed'] == "Grade R") echo 'selected="selected"' ; ?>>R</option>
-		  <option value="Grade 1" <?php if($currentChild['gradepassed'] == "Grade 1") echo 'selected="selected"' ; ?>>1</option>
-		  <option value="Grade 2" <?php if($currentChild['gradepassed'] == "Grade 2") echo 'selected="selected"' ; ?>>2</option>
-		  <option value="Grade 3" <?php if($currentChild['gradepassed'] == "Grade 3") echo 'selected="selected"' ; ?>>3</option>
-		  <option value="Grade 4" <?php if($currentChild['gradepassed'] == "Grade 4") echo 'selected="selected"' ; ?>>4</option>
-		  <option value="Grade 5" <?php if($currentChild['gradepassed'] == "Grade 5") echo 'selected="selected"' ; ?>>5</option>
-		  <option value="Grade 6" <?php if($currentChild['gradepassed'] == "Grade 6") echo 'selected="selected"' ; ?>>6</option>
-		  <option value="Grade 7" <?php if($currentChild['gradepassed'] == "Grade 7") echo 'selected="selected"' ; ?>>7</option>
-		  <option value="Grade 8" <?php if($currentChild['gradepassed'] == "Grade 8") echo 'selected="selected"' ; ?>>8</option>		  
+          <option value="0">Grade</option>
+		  <option value="-1">Going to grade R</option>
+		    <?php
+              foreach ($this->cgrades as $cgrade) {
+            ?>
+                  <option value="<?php echo $cgrade->grade; ?>" <?php if($currentChild['gradepassed'] == $cgrade->grade) echo 'selected="selected"' ; ?>>
+                    Grade <?php echo $cgrade->grade;  ?>
+                  </option>
+            <?php
+              }          
+            ?>              
 		</select>
 	  </p>	
 	  
 	  <p class="feilds">
 	    <label for="grade">Grade Ordered:<span class="req">*</span></label>
 		<select name="grade" id="grade" <?php if(isset($errors['grade'])) echo 'class="error"'; ?>>
-		  <option value="">Grade</option>
-		  <option value="Grade R" <?php if($currentChild['grade'] == 'Grade R') echo 'selected="selected"' ; ?>>R - (R2800) </option>
-		  <option value="Grade 1" <?php if($currentChild['grade'] == 'Grade 1') echo 'selected="selected"' ; ?>>1 - (R4000) </option>
-		  <option value="Grade 2" <?php if($currentChild['grade'] == 'Grade 2') echo 'selected="selected"' ; ?>>2 - (R4100) </option>
-		  <option value="Grade 3" <?php if($currentChild['grade'] == 'Grade 3') echo 'selected="selected"' ; ?>>3 - (R4450) </option>
-		  <option value="Grade 4" <?php if($currentChild['grade'] == 'Grade 4') echo 'selected="selected"' ; ?>>4 - (R5150) </option>
-		  <option value="Grade 5" <?php if($currentChild['grade'] == 'Grade 5') echo 'selected="selected"' ; ?>>5 - (R5200) </option>
-		  <option value="Grade 6" <?php if($currentChild['grade'] == 'Grade 6') echo 'selected="selected"' ; ?>>6 - (R5250) </option>
-		  <option value="Grade 7" <?php if($currentChild['grade'] == 'Grade 7') echo 'selected="selected"' ; ?>>7 - (R5750) </option>
-		  <option value="Grade 8" <?php if($currentChild['grade'] == 'Grade 8') echo 'selected="selected"' ; ?>>8 - (R6250) </option>
-		  <option value="Grade 9" <?php if($currentChild['grade'] == 'Grade 9') echo 'selected="selected"' ; ?>>9 - (R6300) </option>
+		  <option value="0">Grade</option>
+		  <?php
+              foreach ($this->cgrades as $cgrade) {
+          ?>
+                  <option value="<?php echo $cgrade->grade; ?>" <?php if($currentChild['grade'] == $cgrade->grade) echo 'selected="selected"' ; ?>>
+                    <?php echo "$cgrade->grade - (R{$cgrade->price})";  ?>
+                  </option>
+          <?php
+              }          
+          ?> 
 		</select>
 	  </p>
 	  <!--     Compulsory  Subjects  -->  
 	  
-	  <h2 class="shead one two three four">Subjects</h2>
+	  <h2 class="shead one two three four allopts">Subjects</h2>
 
-	  <p class="feilds one">
+	  <p class="feilds one allopts">
 	    <label for="Literacy">Literacy</label>
 		<input name="Literacy" type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds one">
+	  <p class="feilds one allopts">
 	    <label for="Numeracy">Numeracy</label>
 		<input name="Numeracy" type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds one">
+	  <p class="feilds one allopts">
 	    <label for="skills">Life Skills</label>
 		<input name="skills" type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds two three four">
+	  <p class="feilds two three four allopts">
 	    <label for="english">English</label>
 		<input name="english" type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds two three four">
+	  <p class="feilds two three four allopts">
 	    <label for="afrikaans">Afrikaans:</label>
 		<select name="afrikaans" id="afrikaans" <?php if(isset($errors['afrikaans'])) echo 'class="error"'; ?>>
 		  <option value="">Choose</option>
@@ -146,27 +144,27 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 		</select>
 	  </p>
 	  
-	  <p class="feilds two">
+	  <p class="feilds two allopts">
 	    <label for="mathematics">Mathematics</label>
 		<input name="mathematics" type="text" class="yes" />
 	  </p>
 
-	  <p class="feilds two">
+	  <p class="feilds two allopts">
 	    <label for="naturalsciences">Science/Biology</label>
 		<input name="naturalsciences" type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds two">
+	  <p class="feilds two allopts">
 	    <label for="geography">Geography</label>
 		<input name="geography" type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds two">
+	  <p class="feilds two allopts">
 	    <label for="history">History</label>
 		<input name="history" type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds four">
+	  <p class="feilds four allopts">
 	    <label for="maths">Maths:<span class="req">*</span></label>
 		<select name="maths" id="maths" <?php if(isset($errors['maths'])) echo 'class="error"'; ?>>
 		  <option value="">Choose Type</option>
@@ -175,86 +173,86 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 		</select>
 	  </p>	
 
-	  <p class="feilds three">
+	  <p class="feilds three allopts">
 	    <label for="naturalsciences">Physical Science</label>
 		<input type="text" class="yes" />
 	  </p>
 
-	  <p class="feilds three">
+	  <p class="feilds three allopts">
 	    <label for="Biology">Biology</label>
 		<input type="text" class="yes" />
 	  </p>	
 
-	  <p class="feilds three">
+	  <p class="feilds three allopts">
 	    <label for="Geography">Geography</label>
 		<input type="text" class="yes" />
 	  </p>	  
 	  
-	  <p class="feilds four">
+	  <p class="feilds four allopts">
 	    <label for="nsciences">Natural Science</label>
 		<input type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds four">
+	  <p class="feilds four allopts">
 	    <label for="ecoman"><span style="color:black">*</span> E &amp; M Sciences</label>
 		<input type="text" class="yes" />
 	  </p>
 	  	  
 	  <!--     Compulsory Non-Exam Subjects  --> 
 
-	  <h2 class="shead two three four">Non Exam Subjects</h2>	
+	  <h2 class="shead two three four allopts">Non Exam Subjects</h2>	
 
-	  <p class="feilds two three">
+	  <p class="feilds two three allopts">
 	    <label for="lifeorientation">Life Orientation</label>
 		<input type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds two">
+	  <p class="feilds two allopts">
 	    <label for="technology">Technology</label>
 		<input type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds three">
+	  <p class="feilds three allopts">
 	    <label for="aandc">Arts &amp; Culture</label>
 		<input type="text" class="yes" />
 	  </p>
 	  	
-	  <p class="feilds three">
+	  <p class="feilds three allopts">
 	    <label for="Technology">Technology</label>
 		<input type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds three">
+	  <p class="feilds three allopts">
 	    <label for="econ"><span style="color:black">*</span> E &amp; M Sciences</label>
 		<input type="text" class="yes" />
 	  </p>
 
-	  <p class="feilds four">
+	  <p class="feilds four allopts">
 	    <label for="socsci">Social Sciences</label>
 		<input type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds four">
+	  <p class="feilds four allopts">
 	    <label for="Tech">Technology</label>
 		<input type="text" class="yes" />
 	  </p>
 	  
-	  <p class="feilds four">
+	  <p class="feilds four allopts">
 	    <label for="Tech">Technology</label>
 		<input type="text" class="yes" />
 	  </p>
 	  
 	  
-	  <p class="feilds four">
+	  <p class="feilds four allopts">
 	    <label for="artsc">Arts &amp; Culture</label>
 		<input type="text" class="yes" />
 	  </p>
 
 	  <!--     Choice Subject  --> 
 
-	  <h2 class="shead four">Choice Subject</h2>	
+	  <h2 class="shead four allopts">Choice Subject</h2>	
 	  
-	  <p class="feilds four">
+	  <p class="feilds four allopts">
 	    <label for="choice">Choice Subject:<span class="req">*</span></label>
 		<select name="choice" id="subject" <?php if(isset($errors['choice'])) echo 'class="error"'; ?>>
 		  <option value="">Choose Subject</option>
@@ -267,9 +265,9 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 		</select>
 	  </p>
 	  
-	  <p style="margin-left: 90px;" class="one two three four"><i>All subjects are compulsory</i></p>
+	  <p style="margin-left: 90px;" class="one two three four allopts"><i>All subjects are compulsory</i></p>
 	  
-	  <p class="three four" style="margin-left: 90px;"><span style="color:black">*</span> Economics &amp; Management Sciences</p>
+	  <p class="three four allopts" style="margin-left: 90px;"><span style="color:black">*</span> Economics &amp; Management Sciences</p>
       
      <p> &nbsp; </p>	  
 	   
