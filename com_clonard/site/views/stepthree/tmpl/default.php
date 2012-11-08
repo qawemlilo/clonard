@@ -1,26 +1,16 @@
 <?php 
 defined('_JEXEC') or die('Restricted access'); 
 
-include_once('components/com_clonard/inc/books.php');
-
 $document = &JFactory::getDocument();
 $document->addStyleSheet('components/com_clonard/css/style.css');
 $document->addStyleSheet('components/com_clonard/css/steps.css');
 
 $session =& JFactory::getSession(); 
-$children = $session->get('children');
-$current = $session->get('current');
-$currentChild = $children[$current]; 
-$total = $session->get('total');
+$students = $session->get('students');
+$child_id = JRequest::getVar('s_id', '', 'get', 'string');
 
-$books = new Books;
+$currentChild = $students[$child_id]; 
 
-if($currentChild['grade'] == 'Grade 0')
-   $Fixzero = 'Grade R';
-else
-   $Fixzero = $currentChild['grade'];
-
-$books_html = $books->getHTML($currentChild['grade']);
 ?>
 
 <div id="form-cont">
@@ -36,13 +26,11 @@ $books_html = $books->getHTML($currentChild['grade']);
 
 <div class="clear"></div>
 
-<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount"><?php echo (!$total) ? '0' : $total; ?></span><span></div>
-<!--
-<div id="logoff"><img src="components/com_clonard/images/lock.png" style="height:20px; margin-right: 5px; vertical-align: middle"/><a href="index.php?option=com_content&view=article&id=15&Itemid=30">Logout</a></div>-->
+<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount">0</span><span></div>
 
 <div class="clear"></div>
 <!-- Our form -->
- <form id="contactForm" name="stepthree" method="POST" action="?option=com_clonard&view=stepthree">
+ <form id="contactForm" name="stepthree" method="POST" action="index.php?option=com_clonard&view=stepthree">
     <fieldset>
 	  <legend><?php echo $currentChild['grade'] . " Curriculum for " . $currentChild['name'];?></legend>
 	  
@@ -50,8 +38,18 @@ $books_html = $books->getHTML($currentChild['grade']);
       
       <input type="hidden" name="import" value="1" />
       <input type="hidden" name="step_completed" value="three" />
-      <?php echo $books_html; ?>	  
-   
+      <table class="booktable">
+      <?php 
+        if (is_array($this->refunds) && count($this->refunds) > 0) {
+          foreach($this->refunds as $refund) {
+      ?>
+	        <tr><td><input type="checkbox" name="books[]" class="bookcheck" <?php if($refund->price == 0) echo 'disabled="disabled"';  ?> value="<?php echo $refund->id;  ?>" /></td>
+            <td><span class="pricetag" >- R <?php echo $refund->price;  ?> . 00</span></td>
+            <td><span class="booktitle"><?php echo $refund->title;  ?></span></td></tr>';	
+      <?php
+        }
+      ?>      
+      </table>
          
 	  <div class="clear"></div> 
 
