@@ -105,7 +105,6 @@ class ClonardModelStepone extends JModel
 		if (!isset($this->parentData))
 	    {
 		    $user = JFactory::getUser();
-			$id = $user->id;
 			$db =& JFactory::getDBO();
 
 			$email = $user->email;

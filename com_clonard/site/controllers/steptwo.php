@@ -26,18 +26,24 @@ class ClonardControllerSteptwo extends JController
 	    parent::display();
 	}
     
-    function save() {
+    function save_student() {
         $mainframe =& JFactory::getApplication();
         $model =& $this->getModel('stepone');
         $session =& JFactory::getSession();
         $session->clear('errors');
         
         $child = array();
-	    $children = array();
+	    $students = array();
 	    $errors = array();
+        $parent = $session->get('parent');
+        $student_id = JRequest::getString('s_id', '', 'GET');
 	   
-	    if($session->has('children'))
-		   $children = $session->get('children');
+	    if($session->has('students')) {
+		   $students = $session->get('students');
+        }
+        else {
+            $session->set('students', array());
+        }
 	   
 	    $child['name'] = JRequest::getString('name', '', 'POST');
 	    $child['surname'] = JRequest::getString('surname', '', 'POST');
@@ -48,7 +54,7 @@ class ClonardControllerSteptwo extends JController
         $child['afrikaans'] = JRequest::getString('afrikaans', '', 'POST');
 	    $child['maths'] = JRequest::getString('maths', '', 'POST');
 	    $child['choice'] = JRequest::getString('choice', '', 'POST');
-	    $child['parent'] = JRequest::getInt('id', '', 'GET');
+	    $child['parent'] = $parent['id'];
 	   
 	    if(empty($child['name'])) 
 	        $errors['name'] = 'Please fill in the name';
@@ -63,7 +69,6 @@ class ClonardControllerSteptwo extends JController
 	    if(empty($child['grade'])) {  
 	        $errors['grade'] = 'Please fill in selected grade';
 	    }
-        
         if($child['grade'] == '8' || $child['grade'] == '9') {
             if (empty($child['maths']))
 			    $errors['maths'] = 'Please fill in maths field';
@@ -75,26 +80,41 @@ class ClonardControllerSteptwo extends JController
         
         if (count($errors) > 0) {
             $session->set('errors', $errors);
-            $session->set('stepone', false);
+            $session->set('steptwo', false);
            
-            $mainframe->redirect('index.php?option=com_clonard&view=stepone', 'Missing feilds error',  'error');      
+            $mainframe->redirect('index.php?option=com_clonard&view=steptwo', 'Missing feilds error',  'error');      
         }
         else {
-            $session->set('stepone', 'complete');
-            $session->set('new', 'yes');
-            
-            $success = $model->createParent($parent);
-            
-            if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=steptwo');
+            if(empty($student_id)) {
+                $student_id = $this->createUniqueId(6, $students);
             }
-            else {
-                $errors['database'] = 'Database error';
-                $session->set('errors', $errors);
-                $session->set('stepone', false);
-                
-                $mainframe->redirect('index.php?option=com_clonard&view=stepone', 'Database error',  'error');
-            }
+            
+            $students[$student_id] = $child;
+            $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id);
+        }
+    }
+    
+    
+    private function createUniqueId($length = 6, $arr)
+	{
+        $conso = array("a", "b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","x","y","z");
+        $vocal = array(1,2,3,4,5,6,7,8,9);
+         
+        $id = "";
+        srand ((double)microtime()*1000000);
+        $max = $length/2;
+        
+        for($i=1; $i<=$max; $i++)
+        {
+            $id .= $conso[rand(0,20)];
+            $id .= $vocal[rand(0,8)];
+        }
+        
+        if (!array_key_exists($id, $arr)) {
+            return $id;
+        }
+        else {
+            $this->createUniqueId($length, $arr);
         }
     }
 }

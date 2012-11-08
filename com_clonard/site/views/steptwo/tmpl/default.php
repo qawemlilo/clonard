@@ -42,7 +42,7 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 
 <div class="clear"></div>
 <!-- Our form -->
- <form id="contactForm" name="steptwo" method="POST" action="index.php?option=com_clonard&view=steptwo<?php if($_GET['id']) echo "&id=".$_GET['id']; if($_GET['student']) echo "&student=".$_GET['student'];?>">
+ <form id="contactForm" name="steptwo" method="POST" action="index.php?option=com_clonard&view=steptwo">
  
     <fieldset>
 	  <legend>Details of Child</legend>
@@ -51,14 +51,11 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 	  <h2>Students Details</h2>
 	  
 	  <p class="feilds">
-	    <input type="hidden" name="import" value="1" />
-        <input type="hidden" name="step_completed" value="two" />
 	    <label for="name">First Name:<span class="req">*</span></label>
 		<input type="text" id="name" name="name" class="<?php if(isset($errors['name'])) echo 'txt error'; else echo 'txt'; ?>" size="22" value="<?php echo $currentChild['name']; ?>" />
 	  </p>
 	  
 	  <p class="feilds">
-	    <input type="hidden" name="import" value="1" />
 	    <label for="surname">Surname:<span class="req">*</span></label>
 		<input type="text" id="surname" name="surname" class="<?php if(isset($errors['surname'])) echo 'txt error'; else echo 'txt'; ?>" size="22" value="<?php echo $currentChild['surname']; ?>" />
 	  </p>
@@ -269,6 +266,9 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 	  
 	  <p class="three four allopts" style="margin-left: 90px;"><span style="color:black">*</span> Economics &amp; Management Sciences</p>
       
+     <input type="hidden" name="task" value="save_student" />
+	 <input type="hidden" name="import" value="1" />
+     <input type="hidden" name="step_completed" value="two" />
      <p> &nbsp; </p>	  
 	   
 	  <p>

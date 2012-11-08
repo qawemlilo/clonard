@@ -9,11 +9,11 @@ class ClonardViewStepone extends JView
 	{
 	    $mainframe =& JFactory::getApplication();
 	    $model = &$this->getModel();
-        $cache = $model->getParentData();		
+        $parentData = $model->getParentData();		
 		$session =& JFactory::getSession();
         
         if(!$session->has('parent')) {
-            $session->set('parent', $cache);  
+            $session->set('parent', $parentData);  
 	    }
         
         parent::display($tpl);

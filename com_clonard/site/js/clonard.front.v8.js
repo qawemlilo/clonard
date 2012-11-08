@@ -57,7 +57,7 @@ var CART;
                     
                     Steptwo.feilds.grade = Number(grade);
                     
-                    if ((Steptwo.feilds.grade - Steptwo.feilds.gradepassed) === 1 && Steptwo.feilds.gradepassed !== 0) {
+                    if ((Steptwo.feilds.grade - Steptwo.feilds.gradepassed) === 1 && (Steptwo.feilds.gradepassed !== 0 || (Steptwo.feilds.gradepassed === 0 && Steptwo.feilds.grade === 1))) {
                         Steptwo.total = Steptwo.prices[Steptwo.feilds.grade] + CART.total;
                         $("#amount").html(Steptwo.total);
                         
