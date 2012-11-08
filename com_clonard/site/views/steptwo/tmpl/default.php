@@ -79,13 +79,20 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 	  <p class="feilds">
 	    <label for="gradepassed">Current Grade:<span class="req">*</span></label>
 		<select name="gradepassed" id="gradepassed" <?php if(isset($errors['gradepassed'])) echo 'class="error"'; ?>>
-          <option value="0">Grade</option>
+          <option value="-5">Grade</option>
 		  <option value="-1">Going to grade R</option>
 		    <?php
               foreach ($this->cgrades as $cgrade) {
             ?>
                   <option value="<?php echo $cgrade->grade; ?>" <?php if($currentChild['gradepassed'] == $cgrade->grade) echo 'selected="selected"' ; ?>>
-                    Grade <?php echo $cgrade->grade;  ?>
+                    Grade <?php
+                        if (!$cgrade->grade) {
+                            echo "R";
+                        }
+                        else {
+                             echo $cgrade->grade;
+                        }                        
+                     ?>
                   </option>
             <?php
               }          
@@ -96,12 +103,19 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 	  <p class="feilds">
 	    <label for="grade">Grade Ordered:<span class="req">*</span></label>
 		<select name="grade" id="grade" <?php if(isset($errors['grade'])) echo 'class="error"'; ?>>
-		  <option value="0">Grade</option>
+          <option value="-5">Grade</option>
 		  <?php
               foreach ($this->cgrades as $cgrade) {
           ?>
                   <option value="<?php echo $cgrade->grade; ?>" <?php if($currentChild['grade'] == $cgrade->grade) echo 'selected="selected"' ; ?>>
-                    <?php echo "$cgrade->grade - (R{$cgrade->price})";  ?>
+                    <?php 
+                        if (!$cgrade->grade) {
+                          echo "Grade R - (R{$cgrade->price})"; 
+                        } 
+                        else {
+                            echo "Grade $cgrade->grade - (R{$cgrade->price})"; 
+                        }                         
+                    ?>
                   </option>
           <?php
               }          
