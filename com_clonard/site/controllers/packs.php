@@ -10,12 +10,12 @@ class ClonardControllerPacks extends JController
         $refer = JRoute::_($_SERVER['HTTP_REFERER']);
         $model =& $this->getModel('packs');
         
-        $grade = JRequest::getVar('grade', '', 'post');
+        $grade = JRequest::getInt('grade', '', 'post');
         $id = JRequest::getInt('id', '', 'post');
         $year = JRequest::getInt('academic_year', '', 'post');
         $price = JRequest::getInt('price', '', 'post');     
         
-        if(empty($id) || empty($grade) || empty($year) || empty($price)) {
+        if(empty($id) || (empty($grade) && $grade !== 0) || empty($year) || empty($price)) {
             $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
         }
         else {
@@ -40,7 +40,7 @@ class ClonardControllerPacks extends JController
         $year = JRequest::getInt('academic_year', '', 'post');
         $price = JRequest::getInt('price', '', 'post');     
         
-        if(empty($grade) || empty($year) || empty($price)) {
+        if((empty($grade) && $grade !== 0) || empty($year) || empty($price)) {
             $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
         }
         else {

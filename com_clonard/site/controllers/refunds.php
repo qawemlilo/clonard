@@ -11,18 +11,18 @@ class ClonardControllerRefunds extends JController
         $model =& $this->getModel('refunds');
         
         $title = JRequest::getVar('title', '', 'post', 'string');
-        $id = JRequest::getInt('gradeid', '', 'post');
+        $grade = JRequest::getInt('grade', '', 'post');
         $year = JRequest::getInt('academic_year', '', 'post');
         $price = JRequest::getInt('price', '', 'post');     
         
-        if(empty($title) || empty($id) || empty($year) || empty($price)) {
+        if(empty($title) || (empty($grade) && $grade !== 0) || empty($year) || empty($price)) {
             $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
         }
         else {
-            $success = $model->newRefund($id, $title, $price, $year);
+            $success = $model->newRefund($grade, $title, $price, $year);
             
             if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $id, "Refundable item saved!");
+                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $grade, "Refundable item saved!");
             }
             else {
                 $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $id, "An unexpected error occured", "error");
@@ -37,22 +37,22 @@ class ClonardControllerRefunds extends JController
         $model =& $this->getModel('refunds');
         
         $title = JRequest::getVar('title', '', 'post', 'string');
-        $gradeid = JRequest::getInt('gradeid', '', 'post');
+        $grade = JRequest::getInt('grade', '', 'post');
         $id = JRequest::getInt('id', '', 'post');
         $year = JRequest::getInt('academic_year', '', 'post');
         $price = JRequest::getInt('price', '', 'post');     
         
-        if(empty($id) || empty($title) || empty($gradeid) || empty($year) || empty($price)) {
+        if(empty($id) || empty($title) || (empty($grade) && $grade !== 0) || empty($year) || empty($price)) {
             $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
         }
         else {
-            $success = $model->updateRefund($id, $title, $gradeid, $price);
+            $success = $model->updateRefund($id, $title, $grade, $price);
 
             if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "Refundable item updated!");
+                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $grade, "Refundable item updated!");
             }
             else {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "An unexpected error occured", "error");
+                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $grade, "An unexpected error occured", "error");
             }
         }
     }

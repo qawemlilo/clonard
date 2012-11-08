@@ -52,7 +52,7 @@ function moneyFt($num) {
         ?>
             <tr>
               <td>
-                Grade <?php echo $pack->grade; ?>
+                Grade <?php if($pack->grade) echo $pack->grade; else echo 'R'; ?>
               </td>
               <td>
                  <?php echo $pack->academic_year; ?>

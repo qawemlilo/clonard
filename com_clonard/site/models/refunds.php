@@ -18,10 +18,10 @@ class ClonardModelRefunds extends JModel
 	}
 
     
-	function newRefund($gradeid, $title, $price, $year)
+	function newRefund($grade, $title, $price, $year)
 	{
 	    $db =& JFactory::getDBO();
-		$query = "INSERT INTO jos_clonard_refundables(`gradeid`, `title`, `price`, `academic_year`) VALUES($gradeid, '$title', $price, $year)";
+		$query = "INSERT INTO jos_clonard_refundables(`grade`, `title`, `price`, `academic_year`) VALUES($grade, '$title', $price, $year)";
         $db->setQuery($query);
 		$result = $db->query();
 
@@ -30,10 +30,10 @@ class ClonardModelRefunds extends JModel
         return $insertid;
 	}
 	
-	function updateRefund($id, $title, $gradeid, $price)
+	function updateRefund($id, $title, $grade, $price)
 	{
 	    $db =& JFactory::getDBO();
-		$query = "UPDATE jos_clonard_refundables SET title='$title', gradeid=$gradeid, price=$price WHERE id=$id";
+		$query = "UPDATE jos_clonard_refundables SET title='$title', grade=$grade, price=$price WHERE id=$id";
         $db->setQuery($query);
 		$result = $db->query();
 
@@ -53,10 +53,10 @@ class ClonardModelRefunds extends JModel
     
     
 	
-	function getRefunds($gradeid, $year = 2013)
+	function getRefunds($grade, $year = 2013)
 	{
 	    $db =& JFactory::getDBO();
-		$query = "SELECT id, title, price, academic_year FROM jos_clonard_refundables WHERE gradeid=$gradeid AND academic_year=$year";
+		$query = "SELECT id, title, price, academic_year FROM jos_clonard_refundables WHERE grade=$grade AND academic_year=$year";
         $db->setQuery($query);
 		$data = $db->loadObjectList();
 

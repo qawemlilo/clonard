@@ -8,7 +8,7 @@ $document->addStyleSheet('components/com_clonard/css/style.css');
 $document->addStyleSheet('components/com_clonard/css/steps.css');
 $document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
 
-$gradedd = '<select name="gradeid" id="gradeid">';
+$gradedd = '<select name="grade" id="grade">';
 
 ?>
 
@@ -28,13 +28,19 @@ $gradedd = '<select name="gradeid" id="gradeid">';
     <ul class="nav nav-tabs nav-stacked" style="padding-left: 0px;">
         <?php 
             foreach($this->grades as $grade) {
-                if($this->gradeid == $grade->id) {
-                  $li = '<li  class="active"><a href="index.php?option=com_clonard&view=refunds&grade=' . $grade->id . '">Grade ' . $grade->grade . ' <i style="margin-left:110px" class="icon-chevron-right"></i></a> </li>';
-                  $gradedd .= '<option value="'.$grade->id.'" selected="selected">Grade '.$grade->grade.'</option>';
+                $mygrade = $grade->grade;
+                
+                if (!$mygrade) { 
+                    $mygrade = 'R';
+                }
+                
+                if($this->grade == $grade->grade) {
+                  $li = '<li  class="active"><a href="index.php?option=com_clonard&view=refunds&grade=' . $grade->grade . '">Grade ' .$mygrade . ' <i style="margin-left:110px" class="icon-chevron-right"></i></a> </li>';
+                  $gradedd .= '<option value="'.$grade->grade.'" selected="selected">Grade '.$mygrade.'</option>';
                 }
                 else {
-                  $li = '<li><a href="index.php?option=com_clonard&view=refunds&grade=' . $grade->id . '">Grade ' . $grade->grade . ' <i style="margin-left:110px" class="icon-chevron-right"></i></a> </li>';
-                  $gradedd .= '<option value="'.$grade->id.'">Grade '.$grade->grade.'</option>';
+                  $li = '<li><a href="index.php?option=com_clonard&view=refunds&grade=' . $grade->grade . '">Grade ' .$mygrade . ' <i style="margin-left:110px" class="icon-chevron-right"></i></a> </li>';
+                  $gradedd .= '<option value="'.$grade->grade.'">Grade '.$mygrade.'</option>';
                 }  
                 echo $li;               
             }
@@ -46,7 +52,7 @@ $gradedd = '<select name="gradeid" id="gradeid">';
   
   <div class="span9" style="padding-top:10px">
     <form class="well" method="post" action="index.php?option=com_clonard&view=refunds">
-      <label for="gradeid"><strong>Grade</strong></label>
+      <label for="grade"><strong>Grade</strong></label>
       <?php echo $gradedd; ?>
       
       <label for="title"><strong>Title</strong></label>

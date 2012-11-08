@@ -25,11 +25,17 @@ $document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
     <ul class="nav nav-tabs nav-stacked" style="padding-left: 0px;">
         <?php 
             foreach($this->grades as $grade) {
-                if($this->gradeid == $grade->id) {
-                  $li = '<li  class="active"><a href="index.php?option=com_clonard&view=refunds&grade=' . $grade->id . '">Grade ' . $grade->grade . ' <i style="margin-left:110px" class="icon-chevron-right"></i></a> </li>';
+                $mygrade = $grade->grade;
+                
+                if (!$mygrade) { 
+                    $mygrade = 'R';
+                }
+                
+                if($this->grade == $grade->grade) {
+                  $li = '<li  class="active"><a href="index.php?option=com_clonard&view=refunds&grade=' . $grade->grade . '">Grade ' . $mygrade . ' <i style="margin-left:110px" class="icon-chevron-right"></i></a> </li>';
                 }
                 else {
-                  $li = '<li><a href="index.php?option=com_clonard&view=refunds&grade=' . $grade->id . '">Grade ' . $grade->grade . ' <i style="margin-left:110px" class="icon-chevron-right"></i></a> </li>';
+                  $li = '<li><a href="index.php?option=com_clonard&view=refunds&grade=' . $grade->grade . '">Grade ' . $mygrade . ' <i style="margin-left:110px" class="icon-chevron-right"></i></a> </li>';
                 }  
                 echo $li;               
             }
@@ -39,7 +45,7 @@ $document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
   
   <div class="span9">
     <div style="text-align: right; margin-bottom: 10px;">
-      <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->gradeid; ?>&layout=new" class="btn btn-large btn-success" style="color: #fff"> <i class="icon-plus-sign icon-white"></i> New Item </a>
+      <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->grade; ?>&layout=new" class="btn btn-large btn-success" style="color: #fff"> <i class="icon-plus-sign icon-white"></i> New Item </a>
     </div>
     
     <div>
@@ -68,8 +74,8 @@ $document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
                 R<?php echo $refundable->price; ?> .00
               </td>
               <td>
-                <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->gradeid; ?>&layout=edit&id=<?php echo $refundable->id; ?>" class="btn"> <i class="icon-edit"></i> Edit </a>
-                <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->gradeid; ?>&task=remove_book&id=<?php echo $refundable->id; ?>" style="color: #fff" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete that item?');"> <i class="icon-remove icon-white"></i> Delete </a>
+                <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->grade; ?>&layout=edit&id=<?php echo $refundable->id; ?>" class="btn"> <i class="icon-edit"></i> Edit </a>
+                <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->grade; ?>&task=remove_book&id=<?php echo $refundable->id; ?>" style="color: #fff" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete that item?');"> <i class="icon-remove icon-white"></i> Delete </a>
               </td>
             </tr>
         <?php                

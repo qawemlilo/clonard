@@ -13,12 +13,12 @@ class ClonardViewRefunds extends JView
 
 		if ($currentUser->usertype == "Administrator")
 		{
-            $gradeid =& JRequest::getInt('grade', 1);
+            $grade =& JRequest::getInt('grade', 0);
             $grades = $model->getGrades(2013);
-            $refundables = $model->getRefunds($gradeid, 2013);
+            $refundables = $model->getRefunds($grade, 2013);
             
             if (JRequest::getVar('layout') == 'edit') {
-                $id =& JRequest::getInt('id', 1);
+                $id =& JRequest::getInt('id');
                 $refund = $model->getRefund($id);
                 
                 $this->assignRef('refund', $refund);
@@ -26,7 +26,7 @@ class ClonardViewRefunds extends JView
             
             $this->assignRef('grades', $grades);
 
-            $this->assignRef('gradeid', $gradeid);
+            $this->assignRef('grade', $grade);
             $this->assignRef('refundables', $refundables);
             
 			parent::display($tpl);

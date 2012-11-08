@@ -27,7 +27,7 @@ $gradedd = '<select name="gradeid" id="gradeid">';
     <form class="well" method="post" action="index.php?option=com_clonard&view=packs">
       <label for="grade"><strong>Grade</strong></label>
       <select id="grade" name="grade">
-        <option value="R">Grade R</option>
+        <option value="0">Grade R</option>
         <option value="1">Grade 1</option>
         <option value="2">Grade 2</option>
         <option value="3">Grade 3</option>

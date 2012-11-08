@@ -36,7 +36,7 @@ $gradedd = '<select name="gradeid" id="gradeid">';
     <form class="well" name="refund-edit" method="post" action="index.php?option=com_clonard&view=packs">
       <label for="grade"><strong>Grade</strong></label>
       <select id="grade" name="grade">
-        <option value="R" <?php if($this->pack->grade == 'R') echo 'selected="selected"'; ?>>Grade R</option>
+        <option value="0" <?php if($this->pack->grade == '0') echo 'selected="selected"'; ?>>Grade R</option>
         <option value="1" <?php if($this->pack->grade == '1') echo 'selected="selected"'; ?>>Grade 1</option>
         <option value="2" <?php if($this->pack->grade == '2') echo 'selected="selected"'; ?>>Grade 2</option>
         <option value="3" <?php if($this->pack->grade == '3') echo 'selected="selected"'; ?>>Grade 3</option>
