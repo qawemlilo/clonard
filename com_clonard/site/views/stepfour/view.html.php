@@ -1,0 +1,182 @@
+<?php
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.view');
+
+
+class Cart
+{
+
+	private $html = '';
+    
+	public $num_packs = 0;
+    
+    public $subtotal = 0;
+    public $refundstotal = 0;
+    public $shippingtotal = 0;
+    
+    public $total = 0;
+    
+    public $session;
+	
+    
+    function __construct()
+	{
+	    $this->session = JFactory::getSession();
+	}
+    
+    
+	function getHTML()
+	{
+        //Check if calculations have been done
+        if($this->num_packs > 0) {
+            return false;
+        }
+        
+		$students = $this->session->get('students');
+        $refunds = $this->session->get('refunds');
+ 
+        if (is_array($students) && count($students) > 0) 
+		{
+            foreach($students as $student_id=>$student_details) 
+			{
+               $books = $refunds[$student_id];
+               $totalRefunds = $this->calcRefunds($books); 
+               
+               $this->num_packs = $this->num_packs + 1;
+               $this->refundstotal = $this->refundstotal + $totalRefunds;
+               $this->subtotal = ($this->subtotal + (int)$student_details['fees']);
+               
+               $this->addBody($student_details, $books );
+		    }
+            
+            $this->addShipping($student_details, $refund);
+		}
+        
+        return $this->html;
+	}
+
+	
+    function addBody($child, $books)
+	{
+        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'] .' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepthree&task=remove&s_id=' .$child['s_id'].'">Remove</a>]</th><th class="money" align="left">Price</th></tr><thead>';
+        $table .= '<tbody><tr><td>Tuition</td><td><span class="randv">R</span><span class="randnum">' . $child['fees'] . '</span></td></tr>';
+        
+        if (is_array($books) && count($books) > 0) {
+            $table .= '<tr><td><strong style="margin-right: 5px">Less books not required:</strong> <a style="color: red;" href="index.php?option=com_clonard&view=stepthree&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
+            
+            foreach($books as $book)
+            {
+                $table .= '<tr><td><span>' . $book->title . '</span></td><td><span class="randv">R</span><span class="randnum">' . $book->price . '</span></td></tr>';
+            }
+        }
+        
+        $table .= '</tbody></table>';
+        
+        $this->html .= $table;	  
+	}
+    
+    
+    function addShipping()
+	{
+        $collection = 0;
+        $overnight = $this->calcShipping($this->num_packs, 'overnight');
+        $registered_mail = $this->calcShipping($this->num_packs, 'registered');
+		
+        $this->shippingcost = $shipping;
+		$grandtotal = $total + $shipping;
+		
+		$this->session->set('total', $grandtotal);
+
+        $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Sub Total</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . ($this->subtotal - $this->refundstotal) .'</span></strong></td></tr></table>';	
+        
+        $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options - '. $this->num_packs .' package(s) </h2></td></tr></table>';
+        
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Self Collection - R0</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table>';
+        
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Registered Mail - R' . $registered_mail .'</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table>';
+        
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Overnight - R' . $overnight .'</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table><br>';
+	
+        $this->html .= $footer;
+    }
+        
+    
+    
+    function calcRefunds($refinds)
+	{
+        $total = 0;
+        
+        if(is_array($refinds) && count($refinds) > 0) {
+		    foreach($refinds as $refind) {
+		        $total = $total + (int)$refind->price;
+		    }
+        }
+		
+		return $total;
+	}
+    
+    
+    function calcShipping($num_items, $selected_option)
+	{
+        $total = 0;
+    
+        if ($selected_option == 'registered') {
+            switch($num_items) {
+                case 1:
+                    $total = 90;
+                break;
+            
+                case 2:
+                    $total = 130;
+                break;
+            
+                default:
+                    if ($num_items > 2) {
+                        $extra_items = ($num_items - 2);
+                        $extra_items_total = ($extra_items * 90);
+                    
+                        $total = $extra_items_total + 130;
+                    }
+            }
+        } 
+        
+        elseif ($selected_option == 'overnight') {
+            switch($num_items) {
+                case 1:
+                    $total = 380;
+                break;
+            
+                case 2:
+                    $total = 480;
+                break;
+            
+                default:
+                    if($num_items > 2) {
+                        $extra_reg_items = ($num_items - 2);
+                        $extra_reg_total = ($extra_reg_items * 380);
+                    
+                        $total = $extra_reg_total + 480;
+                    }
+            }  
+        }
+        
+        elseif ($selected_option == 'noshipping') {
+            $total = 0; 
+        }
+    
+        return $total;
+	}
+}
+
+class ClonardViewFinal extends JView
+{
+	function display($tpl = null)
+	{
+		$cart = new Cart();
+		$html = $cart->getHTML();
+		
+		$this->assignRef('html', $html);
+		parent::display($tpl);
+	}
+}
