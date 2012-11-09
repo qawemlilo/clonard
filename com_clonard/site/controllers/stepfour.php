@@ -17,5 +17,7 @@ class ClonardControllerStepfour extends JController
                 $url .= '&return='.base64_encode($return);
                 $mainframe->redirect($url, JText::_('You must login first') );
             }
+            
+            parent::display();
         }
 }
