@@ -5,151 +5,59 @@ jimport('joomla.application.component.controller');
 
 class ClonardControllerStepthree extends JController
 {
-    function save_book() {
+	function display()
+	{
         $mainframe =& JFactory::getApplication();
-        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
-        $model =& $this->getModel('refunds');
+	    $currentUser =& JFactory::getUser();
         
-        $title = JRequest::getVar('title', '', 'post', 'string');
-        $id = JRequest::getInt('gradeid', '', 'post');
-        $year = JRequest::getInt('academic_year', '', 'post');
-        $price = JRequest::getInt('price', '', 'post');     
-        
-        if(empty($title) || empty($id) || empty($year) || empty($price)) {
-            $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
-        }
-        else {
-            $success = $model->newRefund($id, $title, $price, $year);
+        if($currentUser->get('guest')) {
+            $uri = JFactory::getURI();
+            $return = $uri->toString();
+            $url = 'index.php?option=com_user&view=login';
+            $url .= '&return='.base64_encode($return);
             
-            if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $id, "Refundable item saved!");
-            }
-            else {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $id, "An unexpected error occured", "error");
-            }
+            $mainframe->redirect($url, JText::_('You must login first') );        
         }
-    }
+        
+        if ($currentUser->usertype == "Administrator") {
+            $mainframe->redirect('index.php?option=com_clonard&view=admin');
+        }
+	   
+	    parent::display();
+	}
     
- 
-    function edit_book() {
+    function save_books() {
         $mainframe =& JFactory::getApplication();
-        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
-        $model =& $this->getModel('refunds');
-        
-        $title = JRequest::getVar('title', '', 'post', 'string');
-        $gradeid = JRequest::getInt('gradeid', '', 'post');
-        $id = JRequest::getInt('id', '', 'post');
-        $year = JRequest::getInt('academic_year', '', 'post');
-        $price = JRequest::getInt('price', '', 'post');     
-        
-        if(empty($id) || empty($title) || empty($gradeid) || empty($year) || empty($price)) {
-            $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
+        $model =& $this->getModel('stepthree');
+        $session =& JFactory::getSession();
+	   
+	    if($session->has('refunds')) {
+		   $refunds = $session->get('refunds');
         }
         else {
-            $success = $model->updateRefund($id, $title, $gradeid, $price);
+           $refunds = array();
+        }
+        
+        $student_id = JRequest::getString('s_id', '', 'POST');
+        $books = JRequest::getVar('books', NULL, 'post', 'array');
+        
+        $refund = array();
 
-            if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "Refundable item updated!");
-            }
-            else {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "An unexpected error occured", "error");
-            }
-        }
-    }
-    
-    
-    function remove_book() {
-        $mainframe =& JFactory::getApplication();
-        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
-        $model =& $this->getModel('refunds');
-        
-        $gradeid = JRequest::getInt('grade', '', 'get');
-        $id = JRequest::getInt('id', '', 'get');
-
-        if(empty($id) || empty($gradeid)) {
-            $mainframe->redirect($refer, "Error! Missing fields", "error");
-        }
-        else {
-            $success = $model->deleteRefund($id);
-
-            if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "Refundable item deleted!");
-            }
-            else {
-                $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $gradeid, "An unexpected error occured", "error");
-            }
-        }
-    }
-    
-    
-    function edit_pack() {
-        $mainframe =& JFactory::getApplication();
-        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
-        $model =& $this->getModel('packs');
-        
-        $grade = JRequest::getVar('grade', '', 'post');
-        $id = JRequest::getInt('id', '', 'post');
-        $year = JRequest::getInt('academic_year', '', 'post');
-        $price = JRequest::getInt('price', '', 'post');     
-        
-        if(empty($id) || empty($grade) || empty($year) || empty($price)) {
-            $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
-        }
-        else {
-            $success = $model->updatePack($id, $grade, $year, $price);
-
-            if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=packs', "Package updated!");
-            }
-            else {
-                $mainframe->redirect('index.php?option=com_clonard&view=packs', "An unexpected error occured", "error");
-            }
-        }
-    }
-    
-    
-    function save_pack() {
-        $mainframe =& JFactory::getApplication();
-        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
-        $model =& $this->getModel('packs');
-        
-        $grade = JRequest::getVar('grade', '', 'post', 'string');
-        $year = JRequest::getInt('academic_year', '', 'post');
-        $price = JRequest::getInt('price', '', 'post');     
-        
-        if(empty($grade) || empty($year) || empty($price)) {
-            $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
-        }
-        else {
-            $success = $model->newPack($grade, $year, $price);
+	    if($books && is_array($books) && count($books) > 0) {
+            $result = $model->getSelectedRefunds($books);
             
-            if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=packs', "Pack saved!");
+            if($result) {
+                $refund = $result; 
             }
             else {
-                $mainframe->redirect('index.php?option=com_clonard&view=packs', "An unexpected error occured", "error");
+                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id, 'Database error, please try again',  'error'); 
             }
-        }
-    }
-    
-    function remove_pack() {
-        $mainframe =& JFactory::getApplication();
-        $model =& $this->getModel('packs');
+	    }
         
-        $id = JRequest::getInt('id', '', 'get');
-
-        if(empty($id)) {
-            $mainframe->redirect('index.php?option=com_clonard&view=packs', "Error! Missing fields", "error");
-        }
-        else {
-            $success = $model->deletePack($id);
-
-            if ($success) {
-                $mainframe->redirect('index.php?option=com_clonard&view=packs', "Package deleted!");
-            }
-            else {
-                $mainframe->redirect('index.php?option=com_clonard&view=packs', "An unexpected error occured", "error");
-            }
-        }
+        print_r($refund);
+        exit();
+        $refunds[$student_id] = $refund;
+        $session->set('refunds', $refunds);
+        $mainframe->redirect('index.php?option=com_clonard&view=final');      
     }
 }

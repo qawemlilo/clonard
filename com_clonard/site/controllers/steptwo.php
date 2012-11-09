@@ -41,15 +41,12 @@ class ClonardControllerSteptwo extends JController
 	    if($session->has('students')) {
 		   $students = $session->get('students');
         }
-        else {
-            $session->set('students', array());
-        }
 	   
 	    $child['name'] = JRequest::getString('name', '', 'POST');
 	    $child['surname'] = JRequest::getString('surname', '', 'POST');
 	    $child['dob'] = JRequest::getString('dob', '', 'POST');
 	    $child['gender'] = JRequest::getWord('gender', '', 'POST');
-        $child['grade'] = JRequest::getString('grade', '', 'POST');	
+        $child['grade'] = JRequest::getInt('grade', '', 'POST');	
         $child['gradepassed'] = JRequest::getString('gradepassed', '', 'POST');	
         $child['afrikaans'] = JRequest::getString('afrikaans', '', 'POST');
 	    $child['maths'] = JRequest::getString('maths', '', 'POST');
@@ -66,10 +63,10 @@ class ClonardControllerSteptwo extends JController
 	        $errors['gender'] = 'Please fill in gender';
 	    if(empty($child['gradepassed']))	   
 	        $errors['gradepassed'] = 'Please fill in last grade passed';
-	    if(empty($child['grade'])) {  
+	    if(empty($child['grade']) && $child['grade'] !== 0) {  
 	        $errors['grade'] = 'Please fill in selected grade';
 	    }
-        if($child['grade'] == '8' || $child['grade'] == '9') {
+        if($child['grade'] == 8 || $child['grade'] == 9) {
             if (empty($child['maths']))
 			    $errors['maths'] = 'Please fill in maths field';
             if (empty($child['choice']))
@@ -90,6 +87,8 @@ class ClonardControllerSteptwo extends JController
             }
             
             $students[$student_id] = $child;
+            $session->set('students', $students);
+            
             $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id);
         }
     }
