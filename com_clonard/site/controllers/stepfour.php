@@ -20,4 +20,29 @@ class ClonardControllerStepfour extends JController
             
             parent::display();
         }
+        
+        
+        function add_opt() {
+            $mainframe =& JFactory::getApplication();
+            $model =& $this->getModel('stepthree');
+            $session =& JFactory::getSession();
+            
+            $students = $session->get('students');
+            
+            $opt = JRequest::getString('opt', '', 'GET');
+            $s_id = JRequest::getString('s_id', '', 'GET');
+            
+            if ($opt == 'a') {
+                $opt = 'A - 5% Discount';
+            }
+            elseif($opt == 'b') {
+                $opt = 'B - Part Payment';
+            }
+            
+            $students[$s_id]['opt'] = $opt;
+            
+            $session->set('students', $students);
+            
+            $mainframe->redirect('index.php?option=com_clonard&view=final'); 
+        }
 }

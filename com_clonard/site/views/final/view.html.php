@@ -8,7 +8,8 @@ class Cart
 {
 
 	private $html = '';
-    public $num_packs = 0;
+    
+	public $num_packs = 0;
     
     public $subtotal = 0;
     public $refundstotal = 0;
@@ -32,7 +33,7 @@ class Cart
             return false;
         }
         
-		$students = $this->session->get('students');
+	$students = $this->session->get('students');
         $refunds = $this->session->get('refunds');
  
         if (is_array($students) && count($students) > 0) 
@@ -49,7 +50,7 @@ class Cart
                $this->addBody($student_details, $books );
 		    }
             
-            $this->addShipping($student_details, $refund);
+            $this->addShipping($student_details, $books);
 		}
         
         return $this->html;
@@ -58,17 +59,11 @@ class Cart
 	
     function addBody($child, $books)
 	{
-	$opt = JRequest::getString('opt', '', 'GET');
-	$totalcredit = calcRefunds($books);
+	$opt = $child['opt'];
+	$totalcredit = $this->calcRefunds($books);
 	
-	if ($opt == 'a') {
-	    $opt = 'A - 5% Discount';
-	}
-	elseif($opt == 'b') {
-	    $opt = 'B - 2 Part Payment';
-	}
         $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'] .' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id=' .$child['s_id'].'">Edit</a>]</th><th class="money" align="left">Price</th></tr><thead>';
-        $table .= '<tbody><tr><td>Payment Option</td><td><span class="randv">R</span><span class="randnum">' . $opt . '</span></td></tr>';
+        $table .= '<tbody><tr><td>Payment Option</td><td>' . $opt . '</td></tr>';
         $table .= '<tr><td>Tuition Due</td><td><span class="randv">R</span><span class="randnum">' . $child['fees'] . '</span></td></tr>';
         $table .= '<tr><td><strong style="margin-right: 5px">Less total credit</strong><a style="color: red;" href="index.php?option=com_clonard&view=stepfour&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
         
@@ -85,17 +80,13 @@ class Cart
         $collection = 0;
         $overnight = $this->calcShipping($this->num_packs, 'overnight');
         $registered_mail = $this->calcShipping($this->num_packs, 'registered');
-		
-        $this->shippingcost = $shipping;
-		$grandtotal = $total + $shipping;
-		
-		$this->session->set('total', $grandtotal);
+
 
         $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Sub Total</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . ($this->subtotal - $this->refundstotal) .'</span></strong></td></tr></table>';	
         
-        $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options - '. $this->num_packs .' package(s) </h2></td></tr></table>';
+        $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options for '. $this->num_packs .' package(s) </h2></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Self Collection - R0</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Self Collection - R0</strong></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >></a></td></tr></table>';
         
         $footer .= '<table class="cart foo"><tr><td align="left"><strong>Registered Mail - R' . $registered_mail .'</strong></td><td style="width: 30%" class="money" align="right"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >> </a></td></tr></table>';
         
