@@ -28,7 +28,7 @@ class ClonardControllerSteptwo extends JController
     
     function save_student() {
         $mainframe =& JFactory::getApplication();
-        $model =& $this->getModel('stepone');
+        $model =& $this->getModel('steptwo');
         $session =& JFactory::getSession();
         $session->clear('errors');
         
@@ -86,6 +86,14 @@ class ClonardControllerSteptwo extends JController
                 $student_id = $this->createUniqueId(6, $students);
             }
             
+            $fees = $model->getFees($child['grade'], 2013);
+            
+            if(!$fees) {
+                $mainframe->redirect('index.php?option=com_clonard&view=steptwo', 'Database error',  'error');
+            }
+            
+            $child['fees'] = $fees;
+            $child['s_id'] = $student_id;
             $students[$student_id] = $child;
             $session->set('students', $students);
             

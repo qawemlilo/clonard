@@ -9,9 +9,9 @@ class ClonardViewSteptwo extends JView
 	function display($tpl = null)
 	{
 	    $model = &$this->getModel();
-        $cgrades = $model->getGrades(2013);
+        $grades = $model->getGrades(2013);
         
-        $this->assignRef('cgrades', $cgrades);
+        $this->assignRef('cgrades', $grades);
 		parent::display($tpl);
 	}
 }

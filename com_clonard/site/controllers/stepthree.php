@@ -54,10 +54,28 @@ class ClonardControllerStepthree extends JController
             }
 	    }
         
-        print_r($refund);
-        exit();
+
         $refunds[$student_id] = $refund;
         $session->set('refunds', $refunds);
         $mainframe->redirect('index.php?option=com_clonard&view=final');      
+    }
+    
+    
+    function remove() {
+        $mainframe =& JFactory::getApplication();
+        $session =& JFactory::getSession();
+	   
+	    $refunds = $session->get('refunds');
+        $students = $session->get('students');
+        
+        $student_id = JRequest::getString('s_id', '', 'GET');
+        
+        unset($students[$student_id]);
+        unset($refunds[$student_id]);
+        
+        $session->set('students', $students);
+        $session->set('refunds', $refunds);
+        
+        $mainframe->redirect('index.php?option=com_clonard&view=final', 'Item removed!');      
     }
 }
