@@ -8,8 +8,7 @@ class Cart
 {
 
 	private $html = '';
-    
-	public $num_packs = 0;
+    public $num_packs = 0;
     
     public $subtotal = 0;
     public $refundstotal = 0;
@@ -59,17 +58,21 @@ class Cart
 	
     function addBody($child, $books)
 	{
-        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'] .' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepthree&task=remove&s_id=' .$child['s_id'].'">Remove</a>]</th><th class="money" align="left">Price</th></tr><thead>';
-        $table .= '<tbody><tr><td>Tuition</td><td><span class="randv">R</span><span class="randnum">' . $child['fees'] . '</span></td></tr>';
+	$opt = JRequest::getString('opt', '', 'GET');
+	$totalcredit = calcRefunds($books);
+	
+	if ($opt == 'a') {
+	    $opt = 'A - 5% Discount';
+	}
+	elseif($opt == 'b') {
+	    $opt = 'B - 2 Part Payment';
+	}
+        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'] .' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id=' .$child['s_id'].'">Edit</a>]</th><th class="money" align="left">Price</th></tr><thead>';
+        $table .= '<tbody><tr><td>Payment Option</td><td><span class="randv">R</span><span class="randnum">' . $opt . '</span></td></tr>';
+        $table .= '<tr><td>Tuition Due</td><td><span class="randv">R</span><span class="randnum">' . $child['fees'] . '</span></td></tr>';
+        $table .= '<tr><td><strong style="margin-right: 5px">Less total credit</strong><a style="color: red;" href="index.php?option=com_clonard&view=stepfour&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
         
-        if (is_array($books) && count($books) > 0) {
-            $table .= '<tr><td><strong style="margin-right: 5px">Less books not required:</strong> <a style="color: red;" href="index.php?option=com_clonard&view=stepthree&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
-            
-            foreach($books as $book)
-            {
-                $table .= '<tr><td><span>' . $book->title . '</span></td><td><span class="randv">R</span><span class="randnum">' . $book->price . '</span></td></tr>';
-            }
-        }
+        $table .= '<tr><td><span>Total Credit</span></td><td><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
         
         $table .= '</tbody></table>';
         
@@ -94,9 +97,9 @@ class Cart
         
         $footer .= '<table class="cart foo"><tr><td align="left"><strong>Self Collection - R0</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Registered Mail - R' . $registered_mail .'</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Registered Mail - R' . $registered_mail .'</strong></td><td style="width: 30%" class="money" align="right"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >> </a></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Overnight - R' . $overnight .'</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table><br>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Overnight - R' . $overnight .'</strong></td><td class="money" style="width: 30%" align="right"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >></a></td></tr></table><br>';
 	
         $this->html .= $footer;
     }

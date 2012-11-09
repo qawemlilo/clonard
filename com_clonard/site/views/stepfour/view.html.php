@@ -69,12 +69,12 @@ class Cart {
         
         $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Payment Options</h2></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option A - 5% Discount - Full Payment Upfront </strong><br>Total Due - R '. (ceil($fees * 0.95 )) .'</td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final&opt=a&s_id='.$s_id.'" class="button blue">Select</a></td></tr></table>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option A - 5% Discount - Full Payment Upfront </strong><br>Total Due - R '. (ceil($fees * 0.95 )) .'</td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=final&opt=a&s_id='.$s_id.'" class="button blue">Select >></a></td></tr></table>';
         
         $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option B - Payment Plan</strong>';
         $footer  .= '<br>Amount due now: R '. ceil($fees * 0.75 ).'<br >';
         $footer  .= 'Amount due at mid year: R '. (ceil($fees * 0.25 )).' </td>';
-        $footer  .= '<td class="money" align="left"><a href="index.php?option=com_clonard&view=final&opt=b&s_id='. $s_id .'" class="button blue">Select</a></td></tr></table>';
+        $footer  .= '<td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=final&opt=b&s_id='. $s_id .'" class="button blue">Select >></a></td></tr></table>';
 	
         $this->html .= $footer;
     }
