@@ -50,14 +50,14 @@ class ClonardControllerStepthree extends JController
                 $refund = $result; 
             }
             else {
-                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id, 'Database error, please try again',  'error'); 
+                $mainframe->redirect('index.php?option=com_clonard&view=stepfour&s_id=' . $student_id, 'Database error, please try again',  'error'); 
             }
 	    }
         
 
         $refunds[$student_id] = $refund;
         $session->set('refunds', $refunds);
-        $mainframe->redirect('index.php?option=com_clonard&view=final');      
+        $mainframe->redirect('index.php?option=com_clonard&view=stepfour&s_id=' . $student_id);      
     }
     
     
@@ -76,6 +76,6 @@ class ClonardControllerStepthree extends JController
         $session->set('students', $students);
         $session->set('refunds', $refunds);
         
-        $mainframe->redirect('index.php?option=com_clonard&view=final', 'Item removed!');      
+        $mainframe->redirect('index.php?option=com_clonard&view=stepfour&s_id=' . $student_id , 'Item removed!');      
     }
 }

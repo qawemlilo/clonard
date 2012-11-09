@@ -35,10 +35,6 @@ $document->addStyleSheet('components/com_clonard/css/steps.css');
 	  <?php echo $this->html; ?>  
 	  
 	  
-	    <form name="ch-details" method="POST" action="index.php?option=com_clonard&view=steptwo">
-		   <input type="hidden" name="import" value="1" />
-	       <p style="text-align:left; margin-left: 15%;"><button type="submit" name="submit" value="child" class="button orange" style="float:left;"><< Add another child</button></p>
-		</form>
 	  <div class="clear"></div>
 	</fieldset>
  </div>

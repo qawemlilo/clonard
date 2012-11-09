@@ -4,99 +4,77 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
 
 
-class Cart
-{
-
-	private $html = '';
-    
-	public $num_packs = 0;
-    
-    public $subtotal = 0;
-    public $refundstotal = 0;
-    public $shippingtotal = 0;
-    
-    public $total = 0;
-    
+class Cart {
+    private $html = '';
     public $session;
 	
     
     function __construct()
-	{
-	    $this->session = JFactory::getSession();
-	}
+    {
+        $this->session = JFactory::getSession();
+    }
     
     
-	function getHTML()
-	{
-        //Check if calculations have been done
-        if($this->num_packs > 0) {
-            return false;
-        }
+    function getHTML()
+    {
         
-		$students = $this->session->get('students');
-        $refunds = $this->session->get('refunds');
- 
-        if (is_array($students) && count($students) > 0) 
-		{
-            foreach($students as $student_id=>$student_details) 
-			{
-               $books = $refunds[$student_id];
-               $totalRefunds = $this->calcRefunds($books); 
-               
-               $this->num_packs = $this->num_packs + 1;
-               $this->refundstotal = $this->refundstotal + $totalRefunds;
-               $this->subtotal = ($this->subtotal + (int)$student_details['fees']);
-               
-               $this->addBody($student_details, $books );
-		    }
+            $students = $this->session->get('students');
+            $refunds = $this->session->get('refunds');
+            $student_id = JRequest::getString('s_id', '', 'GET');
             
-            $this->addShipping($student_details, $refund);
-		}
+            $books = $refunds[$student_id];
+            $student = $students[$student_id];
+            
+            $this->addBody($student, $books);
+            $this->addOptions($student['fees'], $student_id);
         
-        return $this->html;
-	}
+            return $this->html;
+    }
 
 	
     function addBody($child, $books)
-	{
-        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'] .' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepthree&task=remove&s_id=' .$child['s_id'].'">Remove</a>]</th><th class="money" align="left">Price</th></tr><thead>';
-        $table .= '<tbody><tr><td>Tuition</td><td><span class="randv">R</span><span class="randnum">' . $child['fees'] . '</span></td></tr>';
+    {
+	 $boookstotal = $this->calcRefunds($books);
+	
+        $table = '<table class="cart" style="margin-top:20px;"><thead>';
+        $table .= '<tr><th align="left">Grade '. $child['grade'] .' Curriculum for ' . $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepthree&task=remove&s_id=' . $child['s_id'] . '">Remove</a>]';
+        $table .= '</th><th class="money" align="left">Credit</th></tr><thead>';
+        
+        $table .= '<tbody>';
         
         if (is_array($books) && count($books) > 0) {
-            $table .= '<tr><td><strong style="margin-right: 5px">Less books not required:</strong> <a style="color: red;" href="index.php?option=com_clonard&view=stepthree&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
+            $table .= '<tr><td><strong style="margin-right: 5px">Refundable Items:</strong>';
+            $table .= '<a style="color: red;" href="index.php?option=com_clonard&view=stepthree&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
             
             foreach($books as $book)
             {
-                $table .= '<tr><td><span>' . $book->title . '</span></td><td><span class="randv">R</span><span class="randnum">' . $book->price . '</span></td></tr>';
+                $table .= '<tr><td><span>' . $book->title . '</span></td><td><span class="randv">R</span>';
+                $table .= '<span class="randnum">' . $book->price . '</span></td></tr>';
             }
+           
         }
         
         $table .= '</tbody></table>';
         
+        $table .= '<table class="cart foo" style="margin-top:20px;">';
+        $table .= '<tr><td align="left"><strong>Sub Total</strong></td><td class="money" align="left">';
+        $table .= '<strong><span class="randv">R</span><span class="randnum">' . $boookstotal .'</span></strong></td></tr></table>';	
+        
         $this->html .= $table;	  
-	}
+    }
     
     
-    function addShipping()
-	{
-        $collection = 0;
-        $overnight = $this->calcShipping($this->num_packs, 'overnight');
-        $registered_mail = $this->calcShipping($this->num_packs, 'registered');
-		
-        $this->shippingcost = $shipping;
-		$grandtotal = $total + $shipping;
-		
-		$this->session->set('total', $grandtotal);
-
-        $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Sub Total</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . ($this->subtotal - $this->refundstotal) .'</span></strong></td></tr></table>';	
+    function addMyOptions($fees, $s_id)
+    {
         
-        $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options - '. $this->num_packs .' package(s) </h2></td></tr></table>';
+        $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Payment Options</h2></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Self Collection - R0</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option A - 5% Discount Full payment upfront </strong><br>Total Due - R '. (ceil($fees * 0.95 )) .'</td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final&opt=a&s_id='.$s_id.'" class="button blue">Select</a></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Registered Mail - R' . $registered_mail .'</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table>';
-        
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Overnight - R' . $overnight .'</strong></td><td class="money" align="left"><a href="index.php?option=com_clonard&view=final" class="button blue">Choose</a></td></tr></table><br>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option B - Payment plan</strong>';
+        $footer  .= '<br>Amount due now: R '. ceil($fees * 0.75 ).'<br >';
+        $footer  .= 'Amount due at mid year: R '. (ceil($fees * 0.25 )).' </td>';
+        $footer  .= '<td class="money" align="left"><a href="index.php?option=com_clonard&view=final&opt=b&s_id='. $s_id .'" class="button blue">Select</a></td></tr></table>';
 	
         $this->html .= $footer;
     }
@@ -104,72 +82,21 @@ class Cart
     
     
     function calcRefunds($refinds)
-	{
+    {
         $total = 0;
         
         if(is_array($refinds) && count($refinds) > 0) {
-		    foreach($refinds as $refind) {
-		        $total = $total + (int)$refind->price;
-		    }
-        }
-		
-		return $total;
-	}
-    
-    
-    function calcShipping($num_items, $selected_option)
-	{
-        $total = 0;
-    
-        if ($selected_option == 'registered') {
-            switch($num_items) {
-                case 1:
-                    $total = 90;
-                break;
-            
-                case 2:
-                    $total = 130;
-                break;
-            
-                default:
-                    if ($num_items > 2) {
-                        $extra_items = ($num_items - 2);
-                        $extra_items_total = ($extra_items * 90);
-                    
-                        $total = $extra_items_total + 130;
-                    }
+            foreach($refinds as $refind) {
+                $total = $total + (int)$refind->price;
             }
-        } 
-        
-        elseif ($selected_option == 'overnight') {
-            switch($num_items) {
-                case 1:
-                    $total = 380;
-                break;
-            
-                case 2:
-                    $total = 480;
-                break;
-            
-                default:
-                    if($num_items > 2) {
-                        $extra_reg_items = ($num_items - 2);
-                        $extra_reg_total = ($extra_reg_items * 380);
-                    
-                        $total = $extra_reg_total + 480;
-                    }
-            }  
         }
         
-        elseif ($selected_option == 'noshipping') {
-            $total = 0; 
-        }
-    
         return $total;
-	}
+    }
 }
 
-class ClonardViewFinal extends JView
+
+class ClonardViewStepfour extends JView
 {
 	function display($tpl = null)
 	{

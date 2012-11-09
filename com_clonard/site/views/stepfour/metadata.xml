@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<view title="Order Summary">
-		<message><![CDATA[Order Summary]]></message>
+	<view title="Step Three">
+		<message><![CDATA[Step Three]]></message>
 	</view>
 </metadata>
