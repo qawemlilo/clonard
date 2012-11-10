@@ -45,7 +45,7 @@ class Cart
                
                $this->num_packs = $this->num_packs + 1;
                $this->refundstotal = $this->refundstotal + $totalRefunds;
-               $this->subtotal = ($this->subtotal + (int)$student_details['fees']);
+               $this->subtotal = ($this->subtotal + (int)$student_details['amount_due']);
                
                $this->addBody($student_details, $books );
 		    }
@@ -62,12 +62,12 @@ class Cart
 	$opt = $child['opt'];
 	$totalcredit = $this->calcRefunds($books);
 	
-        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'] .' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id=' .$child['s_id'].'">Edit</a>]</th><th class="money" align="left">Price</th></tr><thead>';
-        $table .= '<tbody><tr><td>Payment Option</td><td>' . $opt . '</td></tr>';
-        $table .= '<tr><td>Tuition Due</td><td><span class="randv">R</span><span class="randnum">' . $child['fees'] . '</span></td></tr>';
-        $table .= '<tr><td><strong style="margin-right: 5px">Less total credit</strong><a style="color: red;" href="index.php?option=com_clonard&view=stepfour&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
+        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'] .' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id=' .$child['s_id'].'">Edit</a>]</th><th class="money" align="right">Price</th></tr><thead>';
+        $table .= '<tbody><tr><td>Payment Option</td><td style="width: 19%; text-align: right;">' . $opt . '</td></tr>';
+        $table .= '<tr><td>Tuition Due</td><td><span class="randv">R</span><span class="randnum">' . $child['amount_due'] . '</span></td></tr>';
+        $table .= '<tr><td><strong style="margin-right: 5px">Less total credit</strong></td><td>&nbsp;</td></tr>';
         
-        $table .= '<tr><td><span>Total Credit</span></td><td><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
+        $table .= '<tr><td><span>Total Credit</span> <a style="color: red;" href="index.php?option=com_clonard&view=stepthree&et=1&s_id=' .$child['s_id'].'">Edit</a></td><td style="width: 19%;"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
         
         $table .= '</tbody></table>';
         

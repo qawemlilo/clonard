@@ -37,14 +37,14 @@ class Cart {
 	 $boookstotal = $this->calcRefunds($books);
 	
         $table = '<table class="cart" style="margin-top:20px;"><thead>';
-        $table .= '<tr><th align="left">Grade '. $child['grade'] .' Curriculum for ' . $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepthree&task=remove&s_id=' . $child['s_id'] . '">Remove</a>]';
+        $table .= '<tr><th align="left">Grade '. $child['grade'] .' Curriculum for ' . $child['name'] . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=steptwo&s_id=' . $child['s_id'] . '">Edit</a>]  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepthree&task=remove&s_id=' . $child['s_id'] . '">Remove</a>]';
         $table .= '</th><th class="money" align="left">Credit</th></tr><thead>';
         
         $table .= '<tbody>';
         
         if (is_array($books) && count($books) > 0) {
             $table .= '<tr><td><strong style="margin-right: 5px">Refundable Items:</strong>';
-            $table .= '<a style="color: red;" href="index.php?option=com_clonard&view=stepthree&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
+            $table .= '<a style="color: red;" href="index.php?option=com_clonard&view=stepthree&et=1&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
             
             foreach($books as $book)
             {

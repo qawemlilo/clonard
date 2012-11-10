@@ -8,20 +8,11 @@ $document->addStyleSheet('components/com_clonard/css/steps.css');
 $document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
 $document->addScript('components/com_clonard/js/jquery-ui-1.8.16.custom.min.js');
 $document->addScript('components/com_clonard/js/clonard.front.v8.js');
+$document->addScriptDeclaration('var CART={}; CART.total=0;');
 
 
-$errors = array();
-
-$session = JFactory::getSession(); 
-
-if ($session->has('errors')) $errors = $session->get('errors');
-
-$children = $session->get('children');
-$currentChild = $children[$session->get('current')]; 
-
-$total = $session->get('total');
-if(!$total) $total = 0;
-echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</script>'
+$currentChild = $this->child; 
+$errors = $this->errors;
 ?>
 
 <div id="form-cont">
@@ -37,7 +28,7 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 
 <div class="clear"></div>
 
-<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount"><?php echo $total; ?></span><span></div>
+<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount">0</span><span></div>
 
 
 <div class="clear"></div>
@@ -281,8 +272,8 @@ echo '<script type="text/javascript">var CART={}; CART.total='. $total .';</scri
 	  <p class="three four allopts" style="margin-left: 90px;"><span style="color:black">*</span> Economics &amp; Management Sciences</p>
       
      <input type="hidden" name="task" value="save_student" />
-	 <input type="hidden" name="import" value="1" />
-     <input type="hidden" name="step_completed" value="two" />
+     <input type="hidden" name="import" value="1" />
+     <input type="hidden" name="s_id" value="<?php echo $this->s_id; ?>" />
      <p> &nbsp; </p>	  
 	   
 	  <p>

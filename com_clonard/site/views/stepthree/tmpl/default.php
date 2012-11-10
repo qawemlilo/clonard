@@ -7,7 +7,7 @@ $document->addStyleSheet('components/com_clonard/css/steps.css');
 
 
 $currentChild = $this->currentChild; 
-
+$et = JRequest::getString('et', '', 'GET');
 ?>
 
 <div id="form-cont">
@@ -56,7 +56,7 @@ $currentChild = $this->currentChild;
 
      <div class="clear"></div> 	  
 	  <p>  	   
-		   <button type="submit" name="submit" value="order" class="button blue" id="submit">Order Summary >></button>
+		   <button type="submit" name="submit" value="order" class="button blue" id="submit"> <?php if($et) echo 'Save'; else echo 'Payment Option >>'; ?></button>
 	  </p>
 	  <div class="clear"></div>
 	</fieldset>

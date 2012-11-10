@@ -10,10 +10,12 @@ $provs = array("Eastern Cape", "Free State", "Gauteng", "KwaZulu Natal", "Limpop
 $errors = array();
 $session = JFactory::getSession(); 
 
-if ($session->has('errors')) $errors = $session->get('errors');
+if ($session->has('errors')) {
+    $errors = $session->get('errors');
+}
 
 $parent = $session->get('parent');
-$total = $session->get('total');
+
 ?>
 <script type="text/javascript">
 jQuery.noConflict();
@@ -47,7 +49,7 @@ jQuery.noConflict();
 
 <div class="clear"></div>
 
-<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount"><?php echo (!$total) ? '0' : $total; ?></span><span></div>
+<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount">0</span><span></div>
 
 <div class="clear"></div>
 <!-- Our form -->
@@ -158,7 +160,7 @@ jQuery.noConflict();
 	  <h2>Additional Information</h2>
 	  <p>
 	    <label for="comments">Comment(s):</label>
-		<textarea tabindex="4" rows="5" <?php if(isset($errors['comments'])) echo 'class="error"'; ?> cols="40" id="comments" name="comments"><?php echo $parent['comments']; ?></textarea>
+		<textarea tabindex="4" rows="5" <?php if(isset($errors['comments'])) echo 'class="error"'; ?> cols="40" id="comments" name="comments"><?php if(isset($parent['comments'])) echo $parent['comments']; ?></textarea>
 	  </p>
 	  
 	  <p> &nbsp; </p> 

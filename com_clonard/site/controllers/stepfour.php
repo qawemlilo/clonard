@@ -34,12 +34,18 @@ class ClonardControllerStepfour extends JController
             
             if ($opt == 'a') {
                 $opt = 'A - 5% Discount';
+                $amount_due =  0.95;               
             }
             elseif($opt == 'b') {
                 $opt = 'B - Part Payment';
+                $amount_due =  0.75; 
+            }
+            else {
+                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $s_id, 'Payment option not provide', 'error');
             }
             
             $students[$s_id]['opt'] = $opt;
+            $students[$s_id]['amount_due'] = ceil($amount_due * $students[$s_id]['fees']);
             
             $session->set('students', $students);
             

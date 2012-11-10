@@ -5,7 +5,7 @@ jimport( 'joomla.application.component.model' );
 
 class ClonardModelAdmin extends JModel
 {
-	public $orders;
+    public $orders;
     public $_total = null;
     public $_pagination = null;
     
@@ -28,7 +28,7 @@ class ClonardModelAdmin extends JModel
 	
 	function getOrders()
 	{
-	    if (!isset($this->$orders)) 
+	    if (!isset($this->orders)) 
 		{
 			$db =& JFactory::getDBO();
 			

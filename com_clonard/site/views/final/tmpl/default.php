@@ -28,7 +28,7 @@ $document->addStyleSheet('components/com_clonard/css/steps.css');
  <div id="contactForm">
  
     <fieldset>
-	  <legend>Order Summary</legend>
+	  <legend>Shipping Option</legend>
 	  <p style="width:100%; height:10px; margin:0px; padding:0px;"> &nbsp; </p>
 	  
 	  

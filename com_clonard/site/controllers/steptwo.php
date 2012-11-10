@@ -25,6 +25,8 @@ class ClonardControllerSteptwo extends JController
 	   
 	    parent::display();
 	}
+	
+	
     
     function save_student() {
         $mainframe =& JFactory::getApplication();
@@ -33,59 +35,61 @@ class ClonardControllerSteptwo extends JController
         $session->clear('errors');
         
         $child = array();
-	    $students = array();
-	    $errors = array();
+        $students = array();
+        $errors = array();
         $parent = $session->get('parent');
-        $student_id = JRequest::getString('s_id', '', 'GET');
-	   
-	    if($session->has('students')) {
-		   $students = $session->get('students');
+        $student_id = JRequest::getString('s_id', '', 'POST');
+        
+        if($session->has('students')) {
+            $students = $session->get('students');
         }
-	   
-	    $child['name'] = JRequest::getString('name', '', 'POST');
-	    $child['surname'] = JRequest::getString('surname', '', 'POST');
-	    $child['dob'] = JRequest::getString('dob', '', 'POST');
-	    $child['gender'] = JRequest::getWord('gender', '', 'POST');
+        
+        if(empty($student_id)) {
+                $student_id = $this->createUniqueId(6, $students);
+        }
+        
+        $child['name'] = JRequest::getString('name', '', 'POST');
+        $child['surname'] = JRequest::getString('surname', '', 'POST');
+        $child['dob'] = JRequest::getString('dob', '', 'POST');
+        $child['gender'] = JRequest::getWord('gender', '', 'POST');
         $child['grade'] = JRequest::getInt('grade', '', 'POST');	
         $child['gradepassed'] = JRequest::getString('gradepassed', '', 'POST');	
         $child['afrikaans'] = JRequest::getString('afrikaans', '', 'POST');
-	    $child['maths'] = JRequest::getString('maths', '', 'POST');
-	    $child['choice'] = JRequest::getString('choice', '', 'POST');
-	    $child['parent'] = $parent['id'];
+	$child['maths'] = JRequest::getString('maths', '', 'POST');
+	$child['choice'] = JRequest::getString('choice', '', 'POST');
+	$child['parent'] = $parent['id'];
 	   
-	    if(empty($child['name'])) 
+	if(empty($child['name'])) 
 	        $errors['name'] = 'Please fill in the name';
-	    if(empty($child['surname'])) 
+	if(empty($child['surname'])) 
 	        $errors['surname'] = 'Please fill in the surname';
-	    if(empty($child['dob'])) 
+	if(empty($child['dob'])) 
 	        $errors['dob'] = 'Please fill in the date of birth';
-	    if(empty($child['gender'])) 
+	if(empty($child['gender'])) 
 	        $errors['gender'] = 'Please fill in gender';
-	    if(empty($child['gradepassed']))	   
+	if(empty($child['gradepassed']))	   
 	        $errors['gradepassed'] = 'Please fill in last grade passed';
-	    if(empty($child['grade']) && $child['grade'] !== 0) {  
+	if(empty($child['grade']) && $child['grade'] !== 0) {  
 	        $errors['grade'] = 'Please fill in selected grade';
-	    }
+	}
         if($child['grade'] == 8 || $child['grade'] == 9) {
             if (empty($child['maths']))
 			    $errors['maths'] = 'Please fill in maths field';
             if (empty($child['choice']))
 			    $errors['choice'] = 'Please fill in optional subject';   
-	    }
+	}
  
-	    $id = $session->get('current');
+	    
         
         if (count($errors) > 0) {
+            $child['s_id'] = $student_id;
+            $students[$student_id] = $child;
+            $session->set('students', $students);
             $session->set('errors', $errors);
-            $session->set('steptwo', false);
            
-            $mainframe->redirect('index.php?option=com_clonard&view=steptwo', 'Missing feilds error',  'error');      
+            $mainframe->redirect('index.php?option=com_clonard&view=steptwo&s_id=' . $student_id, 'Missing feilds error',  'error');      
         }
         else {
-            if(empty($student_id)) {
-                $student_id = $this->createUniqueId(6, $students);
-            }
-            
             $fees = $model->getFees($child['grade'], 2013);
             
             if(!$fees) {

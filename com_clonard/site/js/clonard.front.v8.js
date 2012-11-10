@@ -27,6 +27,11 @@ var CART;
                 yearRange: '1991:2011'
             });
             
+            if($("#grade").val()) {
+                Steptwo.feilds.grade = Number($("#grade").val());
+                Steptwo.changeView();
+            }
+            
             Steptwo.bindChanges('gradepassed');
             Steptwo.bindChanges('grade');
             Steptwo.handleFormSubmit();
