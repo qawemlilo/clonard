@@ -81,6 +81,8 @@ class Cart
         
         $table .= '<tr><td><span>Total Credit</span> <a style="color: red;" href="index.php?option=com_clonard&view=stepthree&et=1&s_id=' .$child['s_id'].'">Edit</a></td><td><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
         
+         $table .= '<tr><td><strong>Amount Payable</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . ($child['amount_due'] - $totalcredit) . '</span></strong></td></tr>';
+        
         $table .= '</tbody></table>';
         
         $this->html .= $table;	  
@@ -98,11 +100,11 @@ class Cart
         
         $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options for '. $this->num_packs .' package(s) </h2></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Collect - R0</strong></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >></a></td></tr></table>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Collect - R0</strong></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=checkout&sp=Collect" class="button blue">Select >></a></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Registered Mail - R' . $registered_mail .'</strong></td><td style="width: 30%" class="money" align="right"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >> </a></td></tr></table>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Registered Mail - R' . $registered_mail .'</strong></td><td style="width: 30%" class="money" align="right"><a href="index.php?option=com_clonard&view=checkout&sp=Registered" class="button blue">Select >> </a></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Overnight Mail - R' . $overnight .'</strong></td><td class="money" style="width: 30%" align="right"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >></a></td></tr></table><br>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Overnight Mail - R' . $overnight .'</strong></td><td class="money" style="width: 30%" align="right"><a href="index.php?option=com_clonard&view=checkout&sp=Overnight" class="button blue">Select >></a></td></tr></table><br>';
 	
         $this->html .= $footer;
     }

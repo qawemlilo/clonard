@@ -43,7 +43,7 @@ class Cart {
         $table .= '<tbody>';
         
         if (is_array($books) && count($books) > 0) {
-            $table .= '<tr><td><strong style="margin-right: 5px">Pack Items:</strong>';
+            $table .= '<tr><td><strong style="margin-right: 5px">Refundable Pack Items:</strong>';
             $table .= '<a style="color: red;" href="index.php?option=com_clonard&view=stepthree&et=1&s_id=' .$child['s_id'].'">Edit</a></td><td>&nbsp;</td></tr>';
             
             foreach($books as $book)
