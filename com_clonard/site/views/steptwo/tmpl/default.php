@@ -22,7 +22,7 @@ $errors = $this->errors;
     <li class="active prior"><a class="cl-menu" href="index.php?option=com_clonard&view=stepone">1. Parent / Guardian</a></li>
     <li class="active">2. Details of Child</li>
 	<li class="inactive">3. Select Books</li>
-	<li class="inactive last"><a class="cl-menu" href="index.php?option=com_clonard&view=final">4. Order Now</a></li>
+	<li class="inactive last">4. Payment Options</li>
   </ul>
 </div>
 
@@ -267,9 +267,9 @@ $errors = $this->errors;
 		</select>
 	  </p>
 	  
-	  <p style="margin-left: 90px;" class="one two three four allopts"><i>All subjects are compulsory</i></p>
+	  <p style="margin-top: 50px; margin-left: 90px;" class="one two three four allopts"><strong>Note:</strong> All subjects are compulsory</p>
 	  
-	  <p class="three four allopts" style="margin-left: 90px;"><span style="color:black">*</span> Economics &amp; Management Sciences</p>
+	  <p class="three four allopts" style="margin-top: -10px; margin-left: 90px;"><i><span style="color:black">*</span> Economics &amp; Management Sciences</i></p>
       
      <input type="hidden" name="task" value="save_student" />
      <input type="hidden" name="import" value="1" />

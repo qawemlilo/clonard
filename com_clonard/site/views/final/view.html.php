@@ -62,12 +62,24 @@ class Cart
 	$opt = $child['opt'];
 	$totalcredit = $this->calcRefunds($books);
 	
-        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'] .' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id=' .$child['s_id'].'">Edit</a>]</th><th class="money" align="right">Price</th></tr><thead>';
-        $table .= '<tbody><tr><td>Payment Option</td><td style="width: 19%; text-align: right;">' . $opt . '</td></tr>';
-        $table .= '<tr><td>Tuition Due</td><td><span class="randv">R</span><span class="randnum">' . $child['amount_due'] . '</span></td></tr>';
+        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'];
+        $table .= ' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id='. $child['s_id'].'">Edit</a>]</th>';
+        $table .= '<th class="money" align="right"><span class="randv" style="color: #fff;">R</span><span class="randnum" style="color: #fff;">' . $child['fees']. '</span></th></tr></thead>';
+        
+        if ($opt == 'a') {
+            $table .= '<tbody><tr><td span="2"><strong>Option A - 5% discount full payment</strong></td></tr>';
+            $table .= '<tr><td style="color: #1479C4">5% Discount</td><td><span class="randv" style="color: #1479C4">R</span><span class="randnum" style="color: #1479C4">' . ceil($child['fees'] * 0.05) . '</span></td></tr>';
+            $table .= '<tr><td>Amount due</td><td><span class="randv">R</span><span class="randnum">' . $child['amount_due'] . '</span></td></tr>';
+        }
+        else {
+            $table .= '<tbody><tr><td span="2"><strong>Option B - payment plan</strong></td></tr>';
+            $table .= '<tr><td style="color: red;">Amount due at mid year</td><td><span class="randv" style="color: red;">R</span><span class="randnum" style="color: red;">' . ceil($child['fees'] * 0.25) . '</span></td></tr>';
+            $table .= '<tr><td>Amount due now</td><td><span class="randv">R</span><span class="randnum">' . $child['amount_due'] . '</span></td></tr>';        
+        }
+        
         $table .= '<tr><td><strong style="margin-right: 5px">Less total credit</strong></td><td>&nbsp;</td></tr>';
         
-        $table .= '<tr><td><span>Total Credit</span> <a style="color: red;" href="index.php?option=com_clonard&view=stepthree&et=1&s_id=' .$child['s_id'].'">Edit</a></td><td style="width: 19%;"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
+        $table .= '<tr><td><span>Total Credit</span> <a style="color: red;" href="index.php?option=com_clonard&view=stepthree&et=1&s_id=' .$child['s_id'].'">Edit</a></td><td><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
         
         $table .= '</tbody></table>';
         
@@ -86,11 +98,11 @@ class Cart
         
         $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options for '. $this->num_packs .' package(s) </h2></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Self Collection - R0</strong></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >></a></td></tr></table>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Collect - R0</strong></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >></a></td></tr></table>';
         
         $footer .= '<table class="cart foo"><tr><td align="left"><strong>Registered Mail - R' . $registered_mail .'</strong></td><td style="width: 30%" class="money" align="right"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >> </a></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Overnight - R' . $overnight .'</strong></td><td class="money" style="width: 30%" align="right"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >></a></td></tr></table><br>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Overnight Mail - R' . $overnight .'</strong></td><td class="money" style="width: 30%" align="right"><a href="index.php?option=com_clonard&view=final" class="button blue">Select >></a></td></tr></table><br>';
 	
         $this->html .= $footer;
     }

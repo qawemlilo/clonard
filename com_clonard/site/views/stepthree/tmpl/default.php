@@ -17,7 +17,7 @@ $et = JRequest::getString('et', '', 'GET');
     <li class="active prior">1. Parent / Guardian</li>
 	<li class="active prior">2. Details of Child</li>
 	<li class="active">3. Select Books</li>
-	<li class="inactive last">4. Order Now</li>
+	<li class="inactive last">4. Payment Options</li>
   </ul>
 </div>
 
@@ -36,7 +36,7 @@ $et = JRequest::getString('et', '', 'GET');
       <input type="hidden" name="import" value="1" />
       <input type="hidden" name="s_id" value="<?php echo $this->s_id;?>" />
       <input type="hidden" name="task" value="save_books" />
-      <h2>Refundable Items</h2>
+      <h2>Pack Items</h2>
       <table class="booktable">
       <?php 
         if (is_array($this->refunds) && count($this->refunds) > 0) :

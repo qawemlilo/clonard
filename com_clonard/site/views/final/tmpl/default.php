@@ -11,10 +11,10 @@ $document->addStyleSheet('components/com_clonard/css/steps.css');
 
 <div class="steps"> 
   <ul>
-    <li class="active prior"><a class="cl-menu" href="index.php?option=com_clonard&view=stepone">1. Parent / Guardian</a></li>
-	<li class="active prior">2. Details of Child</a></li>
-	<li class="active prior">3. Select Books</li>
-	<li class="active last"><a class="cl-menu" href="index.php?option=com_clonard&view=final">4. Order Now</a></li>
+    <li class="active prior">3. Select Books</li>
+	<li class="active prior">4. Payment Options</li>
+	<li class="active">5. Shipping Options</li>
+	<li class="inactive last">6. Order Now</li>
   </ul>
 </div>
 

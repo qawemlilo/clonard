@@ -33,11 +33,9 @@ class ClonardControllerStepfour extends JController
             $s_id = JRequest::getString('s_id', '', 'GET');
             
             if ($opt == 'a') {
-                $opt = 'A - 5% Discount';
                 $amount_due =  0.95;               
             }
             elseif($opt == 'b') {
-                $opt = 'B - Part Payment';
                 $amount_due =  0.75; 
             }
             else {

@@ -43,7 +43,7 @@ jQuery.noConflict();
     <li class="active"><a class="cl-menu" href="index.php?option=com_clonard&view=stepone">1. Parent / Guardian</a></li>
     <li class="inactive">2. Details of Child</li>
 	<li class="inactive">3. Select Books</li>
-	<li class="inactive last"><a class="cl-menu" href="index.php?option=com_clonard&view=final">4. Order Now</a></li>
+	<li class="inactive last">4. Payment Options</li>
   </ul>
 </div>
 
