@@ -101,7 +101,12 @@ class ClonardControllerSteptwo extends JController
             $students[$student_id] = $child;
             $session->set('students', $students);
             
-            $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id);
+            if($child['choice']) {
+                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id . '&cs=' . $child['choice']);
+            }
+            else {
+                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id);
+            }
         }
     }
     
