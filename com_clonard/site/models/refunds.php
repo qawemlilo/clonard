@@ -33,7 +33,7 @@ class ClonardModelRefunds extends JModel
 	function updateRefund($id, $title, $grade, $price, $choice_subject)
 	{
 	    $db =& JFactory::getDBO();
-		$query = "UPDATE jos_clonard_refundables SET title='$title', grade=$grade, price=$price choice_subject='$choice_subject' WHERE id=$id";
+		$query = "UPDATE jos_clonard_refundables SET title='$title', grade=$grade, price=$price, choice_subject='$choice_subject' WHERE id=$id";
         $db->setQuery($query);
 		$result = $db->query();
 
@@ -56,7 +56,7 @@ class ClonardModelRefunds extends JModel
 	function getRefunds($grade, $year = 2013)
 	{
 	    $db =& JFactory::getDBO();
-		$query = "SELECT id, title, price, academic_year FROM jos_clonard_refundables WHERE grade=$grade AND academic_year=$year";
+		$query = "SELECT id, title, price, academic_year, choice_subject FROM jos_clonard_refundables WHERE grade=$grade AND academic_year=$year";
         $db->setQuery($query);
 		$data = $db->loadObjectList();
 

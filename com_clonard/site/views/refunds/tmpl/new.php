@@ -58,9 +58,9 @@ $gradedd = '<select name="grade" id="grade">';
       
         if($this->grade == 8 || $this->grade == 9) :
       ?>
-        <label for="choice_subject"><strong>Choice Subject Books</strong></label>
+        <label for="choice_subject"><strong>Choice Subject</strong></label>
         <select id="choice_subject" name="choice_subject">
-		  <option value="">Select if choice subject</option>
+		  <option value="">Select if applicable</option>
 		  <option value="Geography">Geography</option>
 		  <option value="History">History</option>
 		  <option value="Accounting">Accounting</option>

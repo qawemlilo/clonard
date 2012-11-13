@@ -12,9 +12,10 @@ class ClonardViewStepthree extends JView
         $session =& JFactory::getSession(); 
         $students = $session->get('students');
         $child_id = JRequest::getVar('s_id', '', 'get', 'string');
+        $choice_subject = JRequest::getVar('cs', '', 'get', 'string');
         $child = $students[$child_id];
 
-        $refunds = $model->getRefundables($child['grade'], 2013);
+        $refunds = $model->getRefundables($child['grade'], 2013, $choice_subject);
         
         $this->assignRef('currentChild', $child);
         $this->assignRef('refunds', $refunds);

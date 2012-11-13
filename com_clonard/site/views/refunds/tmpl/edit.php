@@ -59,15 +59,15 @@ $gradedd = '<select name="grade" id="grade">';
       
         if($this->grade == 8 || $this->grade == 9) :
       ?>
-        <label for="choice_subject"><strong>Choice Subject Books</strong></label>
+        <label for="choice_subject"><strong>Choice Subject</strong></label>
         <select id="choice_subject" name="choice_subject">
-		  <option value="">Select if choice subject</option>
-		  <option value="Geography">Geography</option>
-		  <option value="History">History</option>
-		  <option value="Accounting">Accounting</option>
-		  <option value="Home Economics">Home Economics</option>
-		  <option value="Agriculture">Agriculture</option>
-		  <option value="Physical Science">Physical Science</option>
+		  <option value="">Select if applicable</option>
+		  <option <?php if($this->refund->choice_subject == 'Geography') echo 'selected="selected"'; ?> value="Geography">Geography</option>
+		  <option <?php if($this->refund->choice_subject == 'History') echo 'selected="selected"'; ?> value="History">History</option>
+		  <option <?php if($this->refund->choice_subject == 'Accounting') echo 'selected="selected"'; ?> value="Accounting">Accounting</option>
+		  <option <?php if($this->refund->choice_subject == 'Home Economics') echo 'selected="selected"'; ?> value="Home Economics">Home Economics</option>
+		  <option <?php if($this->refund->choice_subject == 'Agriculture') echo 'selected="selected"'; ?> value="Agriculture">Agriculture</option>
+		  <option <?php if($this->refund->choice_subject == 'Physical Science') echo 'selected="selected"'; ?> value="Physical Science">Physical Science</option>
         </select>
       <?php 
         endif;
