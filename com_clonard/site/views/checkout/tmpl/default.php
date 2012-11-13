@@ -34,11 +34,7 @@ $document->addStyleSheet('components/com_clonard/css/steps.css');
 	  
 	  <?php echo $this->html; ?>  
 	  
-	  
-	    <form name="ch-details" method="POST" action="index.php?option=com_clonard&view=steptwo">
-		   <input type="hidden" name="import" value="1" />
-	       <p style="text-align:left; margin-left: 15%;"><button type="submit" name="submit" value="child" class="button blue" style="float:left;">Pay via MonsterPay >></button> &nbsp;  <button type="submit" name="submit" value="child" class="button blue" style="float:left;">Pay via EFT >></button></p>
-		</form>
+	 <?php echo $this->form; ?>
 	  <div class="clear"></div>
 	  <p>
 	    &nbsp;

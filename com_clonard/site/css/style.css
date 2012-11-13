@@ -42,7 +42,7 @@
     margin-right: 10px;
     margin-top: 0;
     text-align: right;
-    width: 200px;
+    width: 150px;
 	font-size: 14px;
 	color: #525253;
 }
@@ -57,7 +57,7 @@
 }
 
 #contactForm h2 {
- margin-left: 90px; 
+ margin-left: 30px; 
  margin-bottom: 5px; 
 }
 
@@ -166,12 +166,12 @@ textarea .error, #postaladd.error, #comments.error  {
 
 #contactForm  #submit {
     float: right;
-    margin-right: 10px;
+    margin-right: 0px;
 	color: #fff;
 }
 
 #contactForm  #pay {
-    margin-right: 10px;
+    margin-right: 0px;
 	color: #fff;
 }
 
@@ -245,13 +245,13 @@ textarea .error, #postaladd.error, #comments.error  {
 #contactForm button.white {
 	color: #000;
 	float: left;
-	margin-left: 10px;
+	margin-left: 0px;
 } 
 
 #contactForm .booktable  {
-	margin-left: 110px;
+	margin-left: 10px;
 	text-align: left;
-} 
+}
 
 #contactForm span.booktitle {
 	font-size: 14px;
@@ -266,6 +266,23 @@ textarea .error, #postaladd.error, #comments.error  {
 #contactForm .booktable td {
 	padding: 2px;
 } 
+
+#contactForm .booktable2  {
+	margin-left: 0px;
+    width: 100%;
+	text-align: left;
+    border: 1px solid #999;
+    border-collapse: collapse;
+}
+
+#contactForm .booktable2 td, #contactForm .booktable2 tr  {
+    border: 1px solid #999;
+} 
+
+
+#contactForm .booktable2 td {
+	padding: 5px 2px 5px 2px;
+}
 
 #contactForm .bookcheck {
 	margin-top: 5px;
