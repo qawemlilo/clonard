@@ -39,7 +39,7 @@ class Cart
         $shipping = JRequest::getString('sp', '', 'GET');
         
         
-        $this->html .= '<h2 style="margin-left: 15%;">Order Now</h2>';
+        $this->html .= '<h2 style="margin-left: 15%;">Order &amp; Pay</h2>';
         $this->html .=  '<table class="cart" style="margin-top:5px;"><thead><tr><th align="left">Item</th>';
         $this->html .=  '<th class="money" align="right">Price</th></tr></thead>';
         
@@ -88,6 +88,8 @@ class Cart
             
             $total = $this->calcTotal();
             
+            $this->session->set('total', $total);
+            
             $this->html .= '</tbody></table>';
             $this->html .=  '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Total</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . $total .'</span></strong></td></tr></table>';	
 	}
@@ -132,7 +134,7 @@ class Cart
     
     function getForm()
     {
-        $this->form .= '<table class="cart foo" style="margin-top:20px; border-bottom: 0px;"><tr><td align="left" span="2"><strong>Please Note:</strong><ul  style="margin-left: 0px"><li>Collect-Once payment has been received we will contact you to arrange collection.</li><li>Overnight Delivery or Courier - Please contact us on <a href="mailto:orders@clonard.co.za">orders@clonard.co.za</a> for prices.</li></td></tr>';
+        $this->form .= '<table class="cart foo" style="margin-top:20px; border-bottom: 0px;"><tr><td align="left" span="2"><strong>Please Note:</strong><ul  style="margin-left: 0px"><li>Collect - Once payment has been received we will contact you to arrange collection.</li><li>Overnight Delivery or Courier - Please contact us on <a href="mailto:orders@clonard.co.za">orders@clonard.co.za</a> for prices.</li></td></tr>';
         
         $this->form .= '<tr><td span="2"><BUTTON TYPE="SUBMIT" class="button blue" id="pay" onclick="location.href=\'index.php?option=com_clonard&view=eft\'; return false">Pay via EFT >></BUTTON> <BUTTON TYPE="SUBMIT" VALUE="Buy Now" class="button blue" id="pay" name="submit">Pay via CREDIT CARD >></BUTTON></td></tr></table>';
        
@@ -225,12 +227,32 @@ class ClonardViewCheckout extends JView
 {
     function display($tpl = null)
     {
-	$cart = new Cart();
-	$html = $cart->getHTML();
-	$form = $cart->getForm();
+        $model =& $this->getModel();
+        $session = JFactory::getSession();
+        $students = $session->get('students');
+        
+	      $cart = new Cart();
+	      $html = $cart->getHTML();
+	      $form = $cart->getForm();
+	      
+	      foreach ($students as $id=>$data) {
+            $result = $model->createStudent($data);
+
+            if($result) {
+                $ordercreated = $model->createOrder($data, $result); 
+                
+                if (!$ordercreated) {
+                    die('Order not created');
+                }   
+            }
+            else {
+                die('Student not created');
+            }
+        }
 		
-	$this->assignRef('html', $html);
-	$this->assignRef('form', $form);
-	parent::display($tpl);
+	      $this->assignRef('html', $html);
+	      $this->assignRef('form', $form);
+	      
+	      parent::display($tpl);
     }
 }

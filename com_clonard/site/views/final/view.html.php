@@ -51,7 +51,12 @@ class Cart
 		    }
             
             $this->addShipping($student_details, $books);
+            $this->session->set('total', ($this->subtotal - $this->refundstotal));
 		}
+		else {
+		    $mainframe =& JFactory::getApplication();
+        $mainframe->redirect('index.php?option=com_clonard&view=steptwo', 'Your basket is currently empty');
+    }
         
         return $this->html;
 	}

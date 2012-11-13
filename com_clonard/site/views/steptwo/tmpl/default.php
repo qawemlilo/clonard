@@ -10,6 +10,8 @@ $document->addScript('components/com_clonard/js/jquery-ui-1.8.16.custom.min.js')
 $document->addScript('components/com_clonard/js/clonard.front.v8.js');
 $document->addScriptDeclaration('var CART={}; CART.total=0;');
 
+$session =& JFactory::getSession(); 
+$total = $session->get('total');
 
 $currentChild = $this->child; 
 $errors = $this->errors;
@@ -28,7 +30,7 @@ $errors = $this->errors;
 
 <div class="clear"></div>
 
-<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount">0</span><span></div>
+<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount"><?php echo (!$total) ? '0' : $total; ?></span><span></div>
 
 
 <div class="clear"></div>
@@ -269,7 +271,7 @@ $errors = $this->errors;
 	  
 	  <p style="margin-top: 50px; margin-left: 90px;" class="one two three four allopts"><strong>Note:</strong> All subjects are compulsory</p>
 	  
-	  <p class="three four allopts" style="margin-top: -10px; margin-left: 90px;"><i><span style="color:black">*</span> Economics &amp; Management Sciences</i></p>
+	  <p class="three four allopts" style="margin-top: 30px; margin-left: 90px;"><i><span style="color:black">*</span> Economics &amp; Management Sciences</i></p>
       
      <input type="hidden" name="task" value="save_student" />
      <input type="hidden" name="import" value="1" />

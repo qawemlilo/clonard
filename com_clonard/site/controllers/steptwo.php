@@ -57,7 +57,7 @@ class ClonardControllerSteptwo extends JController
         $child['afrikaans'] = JRequest::getString('afrikaans', '', 'POST');
 	$child['maths'] = JRequest::getString('maths', '', 'POST');
 	$child['choice'] = JRequest::getString('choice', '', 'POST');
-	$child['parent'] = $parent['id'];
+	$child['parent'] = $model->getParentID();
 	   
 	if(empty($child['name'])) 
 	        $errors['name'] = 'Please fill in the name';

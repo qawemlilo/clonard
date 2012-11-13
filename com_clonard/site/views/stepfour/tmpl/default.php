@@ -5,6 +5,9 @@ $document = &JFactory::getDocument();
 $document->addStyleSheet('components/com_clonard/css/style.css');
 $document->addStyleSheet('components/com_clonard/css/steps.css');
 
+$session =& JFactory::getSession(); 
+$total = $session->get('total');
+
 ?>
 
 <div id="form-cont">
@@ -14,13 +17,13 @@ $document->addStyleSheet('components/com_clonard/css/steps.css');
     <li class="active prior">3. Select Books</li>
     <li class="active">4. Payment Options</li>
 	<li class="inactive">5. Shipping Options</li>
-	<li class="inactive last">6. Order Now</li>
+	<li class="inactive last">6. Order &amp; Pay</li>
   </ul>
 </div>
 
 <div class="clear"></div>
 
-<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount">0</span><span></div>
+<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount"><?php echo (!$total) ? '0' : $total; ?></span><span></div>
 
 
 <div class="clear"></div>

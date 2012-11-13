@@ -13,9 +13,9 @@ class ClonardControllerRefunds extends JController
         $title = JRequest::getVar('title', '', 'post', 'string');
         $grade = JRequest::getInt('grade', '', 'post');
         $year = JRequest::getInt('academic_year', '', 'post');
-        $price = JRequest::getInt('price', '', 'post');     
+        $price = JRequest::getInt('price', 0, 'post');     
         
-        if(empty($title) || (empty($grade) && $grade !== 0) || empty($year) || empty($price)) {
+        if(empty($title) || (empty($grade) && $grade !== 0) || empty($year) || (empty($price) && $price !== 0)) {
             $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
         }
         else {
@@ -42,7 +42,7 @@ class ClonardControllerRefunds extends JController
         $year = JRequest::getInt('academic_year', '', 'post');
         $price = JRequest::getInt('price', '', 'post');     
         
-        if(empty($id) || empty($title) || (empty($grade) && $grade !== 0) || empty($year) || empty($price)) {
+        if(empty($id) || empty($title) || (empty($grade) && $grade !== 0) || empty($year) || (empty($price) && $price !== 0)) {
             $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
         }
         else {

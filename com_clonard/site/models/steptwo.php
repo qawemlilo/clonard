@@ -173,4 +173,17 @@ class ClonardModelSteptwo extends JModel
 		
 		return $result;
 	}
+	
+	function getParentID()
+	{
+	    $user = JFactory::getUser();
+		$email = $user->email;
+		
+	    $db =& JFactory::getDBO();
+		$query = "SELECT id FROM jos_clonard_parents WHERE email='$email'";
+        $db->setQuery($query);
+		$id = $db->loadResult();
+		
+		return $id;
+	}
 }

@@ -66,7 +66,7 @@ $gradedd = '<select name="grade" id="grade">';
       <input type="hidden" name="academic_year" value="2013">
       <label></label>
       <button type="submit" class="btn btn-large btn-success" style="color: #fff"> <i class="icon-ok icon-white"></i> Save </button>
-      <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->gradeid; ?>" class="btn btn-large"> <i class="icon-remove"></i> Cancel </a>
+      <a href="index.php?option=com_clonard&view=refunds&grade=<?php echo $this->grade; ?>" class="btn btn-large"> <i class="icon-remove"></i> Cancel </a>
     </form>
   </div>
 </div>

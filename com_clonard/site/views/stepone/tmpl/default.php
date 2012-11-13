@@ -4,7 +4,6 @@ defined('_JEXEC') or die('Restricted access');
 $document = &JFactory::getDocument();
 $document->addStyleSheet('components/com_clonard/css/style.css');
 $document->addStyleSheet('components/com_clonard/css/steps.css');
-$document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
 $provs = array("Eastern Cape", "Free State", "Gauteng", "KwaZulu Natal", "Limpopo", "Mpumalanga", "Northern Cape", "North West", "North West");
 
 $errors = array();
@@ -15,6 +14,7 @@ if ($session->has('errors')) {
 }
 
 $parent = $session->get('parent');
+$total = $session->get('total');
 
 ?>
 <script type="text/javascript">
@@ -49,7 +49,7 @@ jQuery.noConflict();
 
 <div class="clear"></div>
 
-<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount">0</span><span></div>
+<div id="total"><span style="margin-left: 40px; font-size: 12px;"><strong>Total:</strong> R<span id="amount"><?php echo (!$total) ? '0' : $total; ?></span><span></div>
 
 <div class="clear"></div>
 <!-- Our form -->

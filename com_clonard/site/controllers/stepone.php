@@ -103,6 +103,7 @@ class ClonardControllerStepone extends JController
         else {
             $session->set('stepone', 'complete');
             $session->set('new', 'yes');
+            $session->get('total', 0);
             
             $success = $model->createParent($parent);
             

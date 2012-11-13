@@ -9,17 +9,92 @@ jimport( 'joomla.application.component.model' );
 
 
 class ClonardModelCheckout extends JModel
-{
-	function getParentID()
+{	
+	function createOrder($child, $id)
 	{
-	    $user = JFactory::getUser();
-		$email = $user->email;
-		
-	    $db =& JFactory::getDBO();
-		$query = "SELECT id FROM jos_clonard_parents WHERE email='$email'";
-        $db->setQuery($query);
-		$id = $db->loadResult();
-		
-		return $id;
-	}
+			    $db =& JFactory::getDBO();
+			    $session =& JFactory::getSession();
+			    $refunds = $session->get('refunds');
+			    $comments = $session->get('comments');
+			    $s_id = $child['s_id'];
+			    $books = '';
+			    $books_arr = array();
+			    
+			    if(isset($refunds[$s_id]) && is_array($refunds[$s_id]) && count($refunds[$s_id]) > 0) {
+              foreach($refunds[$s_id] as $book){
+                  $books_arr[] = $book->title;
+              }
+              
+              $books = implode(',', $books_arr);
+          }
+			    
+			    $orderNumber = false;
+            
+			    if ($id)
+			    {
+			        if(!$comments)
+			            $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`) VALUES({$child['parent']}, $id, {$child['grade']}, '$books')"; 
+              else
+                  $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`, `comments`) VALUES({$child['parent']}, $id, {$child['grade']}, '$books', '$comments')";	
+					
+				    $db->setQuery($query);
+				    
+				    if ($db->query()) {
+				        $orderNumber = $db->insertid();
+			      }
+            else {
+               die($db->ErrorMsg());
+            }   
+		      }
+			 
+			   return $orderNumber;
+  }
+  
+
+	function createStudent($child)
+	{
+      $db =& JFactory::getDBO();
+      $insertid = false;
+			
+      if (is_array($child))
+      {
+          $query = $this->buildQuery('insert', $child);
+          $db->setQuery($query);
+          $results = $db->query();
+          
+          if(!$results){
+             die($db->ErrorMsg());
+          }
+          
+          $insertid = $db->insertid();
+		  }
+      
+      return $insertid;
+
+  }
+  
+  function buildQuery($method,  array $child) {
+      $query = "";
+      
+      if($method == 'update') {
+		      $query .= "UPDATE jos_clonard_students SET ";
+		      $query .= "grade={$child['grade']}";
+          $query .= ", gradepassed={$child['gradepassed']}";
+          $query .= ", name='{$child['name']}'";
+          $query .= ", surname='{$child['surname']}'";
+          $query .= ", dob='{$child['dob']}'";
+          $query .= ", gender='{$child['gender']}'";
+          $query .= ", afrikaans='{$child['afrikaans']}'";
+          $query .= ", maths='{$child['maths']}'";
+          $query .= ", choice='{$child['choice']}'";
+          
+          $query .= " WHERE id={$child['id']}";      
+      }
+      elseif ($method == 'insert') {
+		      $query .= "INSERT INTO jos_clonard_students(`parent`, `grade`, `gradepassed`, `name`, `surname`, `dob`, `gender`, `afrikaans`, `maths`, `choice`) ";
+		      $query .= "VALUES ({$child['parent']}, {$child['grade']}, {$child['gradepassed']}, '{$child['name']}', '{$child['surname']}', '{$child['dob']}', '{$child['gender']}', '{$child['afrikaans']}', '{$child['maths']}', '{$child['choice']}')";      
+      }
+      
+      return $query;
+  }
 }

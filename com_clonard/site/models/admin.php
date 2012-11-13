@@ -32,7 +32,7 @@ class ClonardModelAdmin extends JModel
 		{
 			$db =& JFactory::getDBO();
 			
-			$query = "SELECT *  FROM jos_clonard_orders ORDER BY ts DESC";
+			$query = "SELECT *  FROM jos_clonard_orders ORDER BY id DESC";
             
             $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
             

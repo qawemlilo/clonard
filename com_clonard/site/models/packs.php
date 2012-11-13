@@ -20,6 +20,9 @@ class ClonardModelPacks extends JModel
     
 	function newPack($grade, $year, $price)
 	{
+	  if($this->packExists($grade, $year)){
+        return false;
+    }
 	    $db =& JFactory::getDBO();
 		$query = "INSERT INTO jos_cld_grades(`grade`, `academic_year`, `price`) VALUES('$grade', $year, $price)";
         $db->setQuery($query);
@@ -28,6 +31,17 @@ class ClonardModelPacks extends JModel
 		$insertid = $db->insertid();
         
         return $insertid;
+	}
+	
+	
+	private function packExists($grade, $year)
+	{
+	    $db =& JFactory::getDBO();
+		  $query = "SELECT id FROM jos_cld_grades WHERE grade=$grade AND academic_year=$year";
+      $db->setQuery($query);
+		  $result = $db->loadResult();
+      
+      return $result;
 	}
 	
 	function updatePack($id, $grade, $year, $price)

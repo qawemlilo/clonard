@@ -76,6 +76,6 @@ class ClonardControllerStepthree extends JController
         $session->set('students', $students);
         $session->set('refunds', $refunds);
         
-        $mainframe->redirect('index.php?option=com_clonard&view=stepfour&s_id=' . $student_id , 'Item removed!');      
+        $mainframe->redirect('index.php?option=com_clonard&view=final', 'Item removed!');      
     }
 }
