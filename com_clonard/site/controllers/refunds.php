@@ -13,13 +13,14 @@ class ClonardControllerRefunds extends JController
         $title = JRequest::getVar('title', '', 'post', 'string');
         $grade = JRequest::getInt('grade', '', 'post');
         $year = JRequest::getInt('academic_year', '', 'post');
+        $choice_subject = JRequest::getInt('choice_subject', '', 'post');
         $price = JRequest::getInt('price', 0, 'post');     
         
         if(empty($title) || (empty($grade) && $grade !== 0) || empty($year) || (empty($price) && $price !== 0)) {
             $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
         }
         else {
-            $success = $model->newRefund($grade, $title, $price, $year);
+            $success = $model->newRefund($grade, $title, $price, $year, $choice_subject);
             
             if ($success) {
                 $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $grade, "Refundable item saved!");
@@ -40,13 +41,14 @@ class ClonardControllerRefunds extends JController
         $grade = JRequest::getInt('grade', '', 'post');
         $id = JRequest::getInt('id', '', 'post');
         $year = JRequest::getInt('academic_year', '', 'post');
+        $choice_subject = JRequest::getInt('choice_subject', '', 'post');
         $price = JRequest::getInt('price', '', 'post');     
         
         if(empty($id) || empty($title) || (empty($grade) && $grade !== 0) || empty($year) || (empty($price) && $price !== 0)) {
             $mainframe->redirect($refer, "Error! Please fill in all the fields", "error");
         }
         else {
-            $success = $model->updateRefund($id, $title, $grade, $price);
+            $success = $model->updateRefund($id, $title, $grade, $price, $choice_subject);
 
             if ($success) {
                 $mainframe->redirect('index.php?option=com_clonard&view=refunds&grade=' . $grade, "Refundable item updated!");

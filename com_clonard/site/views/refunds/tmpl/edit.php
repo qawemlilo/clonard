@@ -54,8 +54,24 @@ $gradedd = '<select name="grade" id="grade">';
   <div class="span9" style="padding-top:10px">
     <form class="well" name="refund-edit" method="post" action="index.php?option=com_clonard&view=refunds">
       <label for="grade"><strong>Grade</strong></label>
-      <?php echo $gradedd; ?>
+      <?php 
+        echo $gradedd;
       
+        if($this->grade == 8 || $this->grade == 9) :
+      ?>
+        <label for="choice_subject"><strong>Choice Subject Books</strong></label>
+        <select id="choice_subject" name="choice_subject">
+		  <option value="">Select if choice subject</option>
+		  <option value="Geography">Geography</option>
+		  <option value="History">History</option>
+		  <option value="Accounting">Accounting</option>
+		  <option value="Home Economics">Home Economics</option>
+		  <option value="Agriculture">Agriculture</option>
+		  <option value="Physical Science">Physical Science</option>
+        </select>
+      <?php 
+        endif;
+      ?>       
       <label for="title"><strong>Title</strong></label>
       <input type="text" class="input-xxlarge" value="<?php echo $this->refund->title; ?>" name="title" id="title">
       
