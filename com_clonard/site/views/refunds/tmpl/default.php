@@ -68,7 +68,12 @@ $document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
         ?>
             <tr>
               <td>
-                <?php echo $refundable->title; ?>
+                <?php 
+                 echo $refundable->title; 
+                 if($refundable->choice_subject) {
+                    echo ' <span class="label label-info">' . $refundable->choice_subject . '</span>';
+                 }
+                ?>
               </td>
               <td>
                 R<?php echo $refundable->price; ?> .00

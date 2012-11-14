@@ -90,7 +90,7 @@ class ClonardControllerSteptwo extends JController
             $mainframe->redirect('index.php?option=com_clonard&view=steptwo&s_id=' . $student_id, 'Missing feilds error',  'error');      
         }
         else {
-            $fees = $model->getFees($child['grade'], 2013);
+            $fees = $model->getFees($child['grade'], 2013, $child['choice']);
             
             if(!$fees) {
                 $mainframe->redirect('index.php?option=com_clonard&view=steptwo', 'Database error',  'error');
@@ -101,7 +101,12 @@ class ClonardControllerSteptwo extends JController
             $students[$student_id] = $child;
             $session->set('students', $students);
             
-            $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id);
+            if(!empty($child['choice'])) {
+                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id . '&cs=' . $child['choice']);
+            }
+            else {
+                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id);
+            }
         }
     }
     

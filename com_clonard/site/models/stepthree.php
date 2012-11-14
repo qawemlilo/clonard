@@ -11,10 +11,10 @@ class ClonardModelStepthree extends JModel
 	    $db =& JFactory::getDBO();
         
         if($choice_subject) {
-		    $query = "SELECT id, title, price FROM jos_clonard_refundables WHERE (choice_subject IS NULL OR LEN(choice_subject) = 0 OR choice_subject='$choice_subject') AND grade=$grade AND academic_year=$year";
+		    $query = "SELECT id, title, price FROM jos_clonard_refundables WHERE (choice_subject LIKE '' OR choice_subject='$choice_subject') AND grade=$grade AND academic_year=$year ORDER BY title ASC";
         }
         else {
-            $query = "SELECT id, title, price FROM jos_clonard_refundables WHERE (choice_subject IS NULL OR LEN(choice_subject) = 0) AND grade=$grade AND academic_year=$year";
+            $query = "SELECT id, title, price FROM jos_clonard_refundables WHERE choice_subject LIKE '' AND grade=$grade AND academic_year=$year ORDER BY title ASC";
         }
         $db->setQuery($query);
 		$results = $db->loadObjectList();

@@ -56,7 +56,7 @@ class ClonardModelRefunds extends JModel
 	function getRefunds($grade, $year = 2013)
 	{
 	    $db =& JFactory::getDBO();
-		$query = "SELECT id, title, price, academic_year, choice_subject FROM jos_clonard_refundables WHERE grade=$grade AND academic_year=$year";
+		$query = "SELECT id, title, price, academic_year, choice_subject FROM jos_clonard_refundables WHERE grade=$grade AND academic_year=$year ORDER BY title ASC";
         $db->setQuery($query);
 		$data = $db->loadObjectList();
 
