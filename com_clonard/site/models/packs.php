@@ -9,7 +9,7 @@ class ClonardModelPacks extends JModel
 	{
 		$db =& JFactory::getDBO();
         
-        $query = "SELECT * FROM jos_cld_grades WHERE academic_year=$year";
+        $query = "SELECT * FROM jos_cld_grades WHERE academic_year=$year ORDER BY grade ASC";
 	    $db->setQuery($query);
 			
 		$results = $db->loadObjectList();
