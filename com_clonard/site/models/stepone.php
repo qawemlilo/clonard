@@ -23,12 +23,20 @@ class ClonardModelStepone extends JModel
 				$db->setQuery($query);
 				$this->results = $db->query();
 				$this->parentID = $db->insertid();
+				
+				if(!$this->results) {
+				   die($db->ErrorMsg());
+				}
 		    }
 			else {
 			     $query = $this->createUpdateQuery($arr, $id);
 			     $db->setQuery($query);
 			     $this->results = $db->query();
-                 $this->parentID = $id;				 
+                 $this->parentID = $id;
+                 
+				if(!$this->results) {
+				   die($db->ErrorMsg());
+				}				 
 			}
 		}
 		
@@ -44,7 +52,7 @@ class ClonardModelStepone extends JModel
 		$query = "SELECT id FROM jos_clonard_parents WHERE email='$email'";
         $db->setQuery($query);
 		$id = $db->loadResult();
-		
+				
 		return $id;
 	} 
 	

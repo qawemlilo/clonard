@@ -53,7 +53,6 @@ class ClonardControllerStepone extends JController
         $parent['comments'] = JRequest::getString('comments', '', 'POST');
         $parent['city'] = JRequest::getString('city', '', 'POST');
         $parent['province'] = JRequest::getString('province', '', 'POST');
-        $parent['user_id'] = $currentUser->id; 
         
 	    if($parent['province'] == "other") 
 	    {
