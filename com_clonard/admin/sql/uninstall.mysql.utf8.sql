@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `#__clonard_parents`, `#__clonard_comments`, `#__clonard_students`, `#__clonard_grades`, `#__clonard_books`, `#__clonard_orders`, `#__clonard_refundables`, `#__clonard_refunds`, `#__cld_grades`;
