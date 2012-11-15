@@ -76,7 +76,10 @@ class Cart
                            
                $this->addBody($student_details, $totalRefunds);
                
-               $this->addFormItem('Grade ' . $student_details['grade'] . ' Pack', ((int)$student_details['amount_due'] - (int)$totalRefunds), $counter);   
+               $gr = $student_details['grade'];
+               if(!$gr) $gr = 'R';
+               
+               $this->addFormItem('Grade ' . $gr . ' Pack', ((int)$student_details['amount_due'] - (int)$totalRefunds), $counter);   
                
                $counter = $counter + 1;
 	    }
@@ -100,7 +103,11 @@ class Cart
 	
     function addBody($child, $totalrefunds)
     {
-        $this->html .= '<tr><td>Grade '. $child['grade'] . ' Carriculum for ' . $child['name'];
+        $gr = $child['grade'];
+        
+        if(!$gr) $gr = 'R';
+        
+        $this->html .= '<tr><td>Grade '. $gr . ' Carriculum for ' . $child['name'];
         $this->html .=  ' [<small><a href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id=' .$child['s_id'].'" style="color: red">Edit</a></small>]';
         $this->html .= '</td><td><span class="randv">R</span><span class="randnum">' . ($child['amount_due'] - $totalrefunds) . '</span></td></tr>';  
     }

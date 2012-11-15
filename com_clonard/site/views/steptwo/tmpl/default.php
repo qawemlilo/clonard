@@ -7,8 +7,7 @@ $document->addStyleSheet('components/com_clonard/css/style.css');
 $document->addStyleSheet('components/com_clonard/css/steps.css');
 $document->addScript('components/com_clonard/js/jquery-1.6.2.min.js');
 $document->addScript('components/com_clonard/js/jquery-ui-1.8.16.custom.min.js');
-$document->addScript('components/com_clonard/js/clonard.front.v8.js');
-$document->addScriptDeclaration('var CART={}; CART.total=0;');
+$document->addScript('components/com_clonard/js/clonard.front.v9.js');
 
 $session =& JFactory::getSession(); 
 $total = $session->get('total');

@@ -55,8 +55,9 @@ class Cart
 		}
 		else {
 		    $mainframe =& JFactory::getApplication();
-        $mainframe->redirect('index.php?option=com_clonard&view=steptwo', 'Your basket is currently empty');
-    }
+            $this->session->set('total', 0);
+            $mainframe->redirect('index.php?option=com_clonard&view=steptwo', 'Your basket is currently empty');
+        }
         
         return $this->html;
 	}
@@ -65,9 +66,12 @@ class Cart
     function addBody($child, $books)
 	{
 	$opt = $child['opt'];
+    $gr = $child['grade'];
 	$totalcredit = $this->calcRefunds($books);
+    
+    if(!$gr) $gr = 'R';
 	
-        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $child['grade'];
+        $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $gr;
         $table .= ' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id='. $child['s_id'].'">Edit</a>]</th>';
         $table .= '<th class="money" align="right"><span class="randv" style="color: #fff;">R</span><span class="randnum" style="color: #fff;">' . $child['fees']. '</span></th></tr></thead>';
         

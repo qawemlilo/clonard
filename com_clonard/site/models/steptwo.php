@@ -150,7 +150,7 @@ class ClonardModelSteptwo extends JModel
 	{
 		$db =& JFactory::getDBO();
         
-        $query = "SELECT id, grade, price FROM jos_cld_grades WHERE academic_year=$year";
+        $query = "SELECT id, grade, price FROM jos_cld_grades WHERE academic_year=$year ORDER BY grade ASC";
 	    $db->setQuery($query);
 			
 		$results = $db->loadObjectList();

@@ -30,9 +30,14 @@ $total = $session->get('total');
 <!-- Our form -->
  <form id="contactForm" name="stepthree" method="POST" action="index.php?option=com_clonard&view=stepthree">
     <fieldset>
-	  <legend>Grade <?php echo $currentChild['grade'] . " Curriculum for " . $currentChild['name'];?></legend>
+      <?php 
+        $gr = $currentChild['grade'];
+        
+        if(!$gr) $gr = 'R';
+      ?>
+	  <legend>Grade <?php echo $gr . " Curriculum for " . $currentChild['name'];?></legend>
 	  
-	  <?php if($currentChild['grade'] != 'Grade R') { ?> <p id="responseP" class="f-notice showp" style="display:block">Please select any books which you have in your possession for which you require a credit.</p> <?php } ?>
+	 <p id="responseP" class="f-notice showp" style="display:block">Please select any books which you have in your possession for which you require a credit.</p>
       
       <input type="hidden" name="import" value="1" />
       <input type="hidden" name="s_id" value="<?php echo $this->s_id;?>" />
