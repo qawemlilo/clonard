@@ -114,7 +114,7 @@ class ClonardModelSteptwo extends JModel
 			        $update .= " $key='$value',";
 			}
 			
-			$where = "WHERE id=$id";
+			$where = " WHERE id=$id";
 			$query = substr($update, 0, -1) . $where;
 			
 			return $query;

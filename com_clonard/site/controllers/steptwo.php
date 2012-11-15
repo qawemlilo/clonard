@@ -53,7 +53,7 @@ class ClonardControllerSteptwo extends JController
         $child['dob'] = JRequest::getString('dob', '', 'POST');
         $child['gender'] = JRequest::getWord('gender', '', 'POST');
         $child['grade'] = JRequest::getInt('grade', '', 'POST');	
-        $child['gradepassed'] = JRequest::getString('gradepassed', '', 'POST');	
+        $child['gradepassed'] = JRequest::getInt('gradepassed', '', 'POST');	
         $child['afrikaans'] = JRequest::getString('afrikaans', '', 'POST');
 	$child['maths'] = JRequest::getString('maths', '', 'POST');
 	$child['choice'] = JRequest::getString('choice', '', 'POST');
@@ -67,9 +67,9 @@ class ClonardControllerSteptwo extends JController
 	        $errors['dob'] = 'Please fill in the date of birth';
 	if(empty($child['gender'])) 
 	        $errors['gender'] = 'Please fill in gender';
-	if(empty($child['gradepassed']))	   
+	if($child['gradepassed'] == -5)	   
 	        $errors['gradepassed'] = 'Please fill in last grade passed';
-	if(empty($child['grade']) && $child['grade'] !== 0) {  
+	if($child['grade'] == -5) {  
 	        $errors['grade'] = 'Please fill in selected grade';
 	}
         if($child['grade'] == 8 || $child['grade'] == 9) {
