@@ -107,7 +107,7 @@ class Cart
         
         if(!$gr) $gr = 'R';
         
-        $this->html .= '<tr><td>Grade '. $gr . ' Carriculum for ' . $child['name'];
+        $this->html .= '<tr><td>Grade '. $gr . ' Curriculum for ' . $child['name'];
         $this->html .=  ' [<small><a href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id=' .$child['s_id'].'" style="color: red">Edit</a></small>]';
         $this->html .= '</td><td><span class="randv">R</span><span class="randnum">' . ($child['amount_due'] - $totalrefunds) . '</span></td></tr>';  
     }
