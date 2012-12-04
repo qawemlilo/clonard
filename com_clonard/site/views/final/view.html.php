@@ -73,11 +73,12 @@ class Cart
 	
         $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $gr;
         $table .= ' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id='. $child['s_id'].'">Edit</a>]</th>';
-        $table .= '<th class="money" align="right"><span class="randv" style="color: #fff;">R</span><span class="randnum" style="color: #fff;">' . $child['fees']. '</span></th></tr></thead>';
+        $table .= '<th class="money" align="right"><span class="randv" style="color: #fff;">R</span><span class="randnum" style="color: #fff; font-weight: normal">' . $child['fees']. '</span></th></tr></thead>';
         
         if ($opt == 'a') {
-            $table .= '<tbody><tr><td span="2"><strong>Option A - 5% discount full payment</strong></td></tr>';
-            $table .= '<tr><td style="color: #1479C4">5% Discount</td><td><span class="randv" style="color: #1479C4">R</span><span class="randnum" style="color: #1479C4">' . ceil($child['fees'] * 0.05) . '</span></td></tr>';
+            $table .= '<tr><td>Less total credit</td><td>' . $totalcredit . '</td></tr>';
+            $table .= '<tr><td>&nbsp;</td><td>' . ($child['fees'] - $totalcredit) . '</td></tr>';
+            $table .= '<tr><td style="color: #1479C4">5% Discount</td><td><span class="randv" style="color: #1479C4">R</span><span class="randnum" style="color: #1479C4">' . ceil(($child['fees'] - $totalcredit) * 0.05) . '</span></td></tr>';
             $table .= '<tr><td>Amount due</td><td><span class="randv">R</span><span class="randnum">' . $child['amount_due'] . '</span></td></tr>';
         }
         else {
