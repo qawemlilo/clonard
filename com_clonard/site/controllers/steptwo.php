@@ -101,7 +101,11 @@ class ClonardControllerSteptwo extends JController
             $students[$student_id] = $child;
             $session->set('students', $students);
             
+<<<<<<< HEAD
             if(!empty($child['choice'])) {
+=======
+            if($child['choice']) {
+>>>>>>> 6995c2f12014534d71a820ba493d98d895780cb3
                 $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $student_id . '&cs=' . $child['choice']);
             }
             else {
