@@ -48,13 +48,16 @@ $total = $session->get('total');
         if (is_array($this->refunds) && count($this->refunds) > 0) : ?>
             <thead>
               <tr>
-                <th style="padding: 5px; font-size:16px;">
-                  Pack Items
+                <th>
+                  &nbsp;
                 </th>
                 <th span="2" style="border-left: 1px solid #999; padding: 5px; font-size:16px;">
                   Credit Available
                 </th>
-              <tr>
+                <th>
+                  &nbsp;
+                </th>
+              </tr>
             </thead>
             <tbody>            
        <?php  foreach($this->refunds as $refund) { ?>

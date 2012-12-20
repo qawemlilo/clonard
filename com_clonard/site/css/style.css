@@ -184,11 +184,12 @@ textarea .error, #postaladd.error, #comments.error  {
 }
 
 #contactForm  table.cart  thead {
-  background: #222226;
+  background: #3399cc url(../images/bg-table-header.png) repeat-x;
   font-size: 1.2em;
   font-weight: bold;
   color: #fff;
   text-align: left;
+  overflow: hidden;
 }
 
 #contactForm  table.foo {

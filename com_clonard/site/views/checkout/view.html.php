@@ -12,10 +12,7 @@ class Cart
     public $num_packs = 0;
     
     public $subtotal = 0;
-    public $refundstotal = 0;
     public $shippingtotal = 0;
-    
-    public $total = 0;
     
     public $session;
 	
@@ -68,18 +65,19 @@ class Cart
             foreach($students as $student_id=>$student_details) 
 	    {
                $books = $refunds[$student_id];
-               $totalRefunds = $this->calcRefunds($books); 
+               $refundTotal = $this->calcRefunds($books);
+               
+               $itemtotal = $this->calcDiscount($student_details['fees'], $refundTotal, $student_details['opt']);
                
                $this->num_packs = $this->num_packs + 1;
-               $this->refundstotal = $this->refundstotal + $totalRefunds;
-               $this->subtotal = ($this->subtotal + (int)$student_details['amount_due']);
+               $this->subtotal += $itemtotal;
                            
-               $this->addBody($student_details, $totalRefunds);
+               $this->addBody($student_details, $itemtotal);
                
                $gr = $student_details['grade'];
                if(!$gr) $gr = 'R';
                
-               $this->addFormItem('Grade ' . $gr . ' Pack', ((int)$student_details['amount_due'] - (int)$totalRefunds), $counter);   
+               $this->addFormItem('Grade ' . $gr . ' Pack', $itemtotal, $counter);   
                
                $counter = $counter + 1;
 	    }
@@ -89,7 +87,7 @@ class Cart
             
             $this->addFormItem('Shipping - ' . $this->num_packs . ' Packs', $this->shippingtotal, $this->num_packs);
             
-            $total = $this->calcTotal();
+            $total = ($this->subtotal + $this->shippingtotal);
             
             $this->session->set('total', $total);
             
@@ -101,7 +99,7 @@ class Cart
     }
 
 	
-    function addBody($child, $totalrefunds)
+    function addBody($child, $amount_due)
     {
         $gr = $child['grade'];
         
@@ -109,7 +107,7 @@ class Cart
         
         $this->html .= '<tr><td>Grade '. $gr . ' Curriculum for ' . $child['name'];
         $this->html .=  ' [<small><a href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id=' .$child['s_id'].'" style="color: red">Edit</a></small>]';
-        $this->html .= '</td><td><span class="randv">R</span><span class="randnum">' . ($child['amount_due'] - $totalrefunds) . '</span></td></tr>';  
+        $this->html .= '</td><td><span class="randv">R</span><span class="randnum">' . $amount_due . '</span></td></tr>';  
     }
     
     
@@ -152,29 +150,33 @@ class Cart
     }    
     
     
-    function calcRefunds($refinds)
+    function calcRefunds($refunds)
     {
         $total = 0;
         
-        if(is_array($refinds) && count($refinds) > 0) {
-            foreach($refinds as $refind) {
-                $total = $total + (int)$refind->price;
+        if(is_array($refunds) && count($refunds) > 0) {
+            foreach($refunds as $refund) {
+                $total = $total + (int)$refund->price;
             }
         }
         
         return $total;
     }
     
- 
-    function calcTotal()
-    {
-        $total = 0;
-        $total = (($this->subtotal + $this->shippingtotal) - $this->refundstotal);
+    
+    function calcDiscount($fees, $refundAmount, $opt)
+	{
+        if($opt == 'a') {
+            $totalMinusRefunds = $fees - $refundAmount;
+            $total = ($totalMinusRefunds - ceil($totalMinusRefunds * 0.05));
+        }
+        else {
+            $amount_due = ceil($fees * 0.75);
+            $total =  $amount_due - $refundAmount;           
+        }
         
-        $this->total = $total;
-        
-        return $total;
-    }
+		return $total;
+	}
     
     
     function calcShipping($selected_option)

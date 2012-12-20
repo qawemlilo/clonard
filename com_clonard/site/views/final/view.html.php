@@ -41,17 +41,14 @@ class Cart
             foreach($students as $student_id=>$student_details) 
 			{
                $books = $refunds[$student_id];
-               $totalRefunds = $this->calcRefunds($books); 
                
                $this->num_packs = $this->num_packs + 1;
-               $this->refundstotal = $this->refundstotal + $totalRefunds;
-               $this->subtotal = ($this->subtotal + (int)$student_details['amount_due']);
                
                $this->addBody($student_details, $books );
 		    }
             
             $this->addShipping($student_details, $books);
-            $this->session->set('total', ($this->subtotal - $this->refundstotal));
+            $this->session->set('total', $this->subtotal);
 		}
 		else {
 		    $mainframe =& JFactory::getApplication();
@@ -67,31 +64,43 @@ class Cart
 	{
 	$opt = $child['opt'];
     $gr = $child['grade'];
-	$totalcredit = $this->calcRefunds($books);
+    $fees = $child['fees'];
+    
+    $totalcredit = $this->calcRefunds($books);
     
     if(!$gr) $gr = 'R';
 	
         $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $gr;
-        $table .= ' Curriculum for '. $child['name']  . '  [<a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id='. $child['s_id'].'">Edit</a>]</th>';
-        $table .= '<th class="money" align="right"><span class="randv" style="color: #fff;">R</span><span class="randnum" style="color: #fff; font-weight: normal">' . $child['fees']. '</span></th></tr></thead>';
+        $table .= ' Curriculum for '. $child['name']  . ' <small> [ <a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id='. $child['s_id'].'">Edit</a> ]</small></th>';
+        $table .= '<th class="money" align="right"><span class="randv" style="color: #fff; font-weight: normal">R</span><span class="randnum" style="color: #fff; font-weight: normal">' . $fees . '</span></th></tr></thead>';
         
         if ($opt == 'a') {
-            $table .= '<tr><td>Less total credit</td><td>' . $totalcredit . '</td></tr>';
-            $table .= '<tr><td>&nbsp;</td><td>' . ($child['fees'] - $totalcredit) . '</td></tr>';
-            $table .= '<tr><td style="color: #1479C4">5% Discount</td><td><span class="randv" style="color: #1479C4">R</span><span class="randnum" style="color: #1479C4">' . ceil(($child['fees'] - $totalcredit) * 0.05) . '</span></td></tr>';
-            $table .= '<tr><td>Amount due</td><td><span class="randv">R</span><span class="randnum">' . $child['amount_due'] . '</span></td></tr>';
+            $totalMinusRefunds = ($fees - $totalcredit);        
+            $discount = $this->calcDiscount($totalMinusRefunds);
+            $subtotal = ($totalMinusRefunds - $discount);
+            
+            $this->subtotal += $subtotal;
+            
+            $table .= '<tr><td><strong>5% Option</strong></td><td>&nbsp;</td></tr>';
+            $table .= '<tr><td>Less total credit</td><td style="border-bottom: 1px solid #000"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
+            $table .= '<tr><td>&nbsp;</td><td><strong><span class="randv">R</span><span class="randnum">' . $totalMinusRefunds . '</span></strong></td></tr>';
+            $table .= '<tr><td style="color: #1479C4">Less 5% Discount</td><td style="border-bottom: 1px solid #000"><span class="randv" style="color: #1479C4">R</span><span class="randnum" style="color: #1479C4">' . $discount . '</span></td></tr>';
+            $table .= '<tr><td><strong>Sub total (excl postage)</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . $subtotal . '</span></strong></td></tr>';
         }
         else {
-            $table .= '<tbody><tr><td span="2"><strong>Option B - payment plan</strong></td></tr>';
-            $table .= '<tr><td style="color: red;">Amount due at mid year</td><td><span class="randv" style="color: red;">R</span><span class="randnum" style="color: red;">' . ceil($child['fees'] * 0.25) . '</span></td></tr>';
-            $table .= '<tr><td>Amount due now</td><td><span class="randv">R</span><span class="randnum">' . $child['amount_due'] . '</span></td></tr>';        
+            $credit = ceil($fees * 0.25);
+            $currentFees = ceil($fees * 0.75);
+            $subtotal = ($currentFees - $totalcredit);
+            
+            $this->subtotal += $subtotal;
+
+            $table .= '<tr><td><strong>75/25% Option</strong></td><td>&nbsp;</td></tr>';
+            $table .= '<tr><td>Less total credit</td><td style="border-bottom: 1px solid #000"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>'; 
+            $table .= '<tr><td><strong>Sub total</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . ($fees - $totalcredit) . '</span></strong></td></tr>';
+            
+            $table .= '<tr><td>Amount Due now (excl postage)</td><td><span class="randv">R</span><span class="randnum">' . $subtotal . '</span></td></tr>';
+            $table .= '<tr><td style="color: red;">Amount Due Mid Year</td><td><span class="randv" style="color: red;">R</span><span class="randnum" style="color: red;">' . $credit . '</span></td></tr>';
         }
-        
-        $table .= '<tr><td><strong style="margin-right: 5px">Less total credit</strong></td><td>&nbsp;</td></tr>';
-        
-        $table .= '<tr><td><span>Total Credit</span> <a style="color: red;" href="index.php?option=com_clonard&view=stepthree&et=1&s_id=' .$child['s_id'].'">Edit</a></td><td><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
-        
-         $table .= '<tr><td><strong>Amount Payable</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . ($child['amount_due'] - $totalcredit) . '</span></strong></td></tr>';
         
         $table .= '</tbody></table>';
         
@@ -105,8 +114,9 @@ class Cart
         $overnight = $this->calcShipping($this->num_packs, 'overnight');
         $registered_mail = $this->calcShipping($this->num_packs, 'registered');
 
-
-        $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Sub Total</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . ($this->subtotal - $this->refundstotal) .'</span></strong></td></tr></table>';	
+        if($this->num_packs > 1) {
+          $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Total (excl postage)</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . $this->subtotal .'</span></strong></td></tr></table>';
+        }        
         
         $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options for '. $this->num_packs .' package(s) </h2></td></tr></table>';
         
@@ -131,6 +141,14 @@ class Cart
 		    }
         }
 		
+		return $total;
+	}
+    
+    
+    function calcDiscount($fees)
+	{
+        $total = ceil($fees * 0.05);
+        
 		return $total;
 	}
     
