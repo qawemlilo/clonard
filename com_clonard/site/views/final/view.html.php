@@ -88,15 +88,16 @@ class Cart
             $table .= '<tr><td><strong>Sub total (excl postage)</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . $subtotal . '</span></strong></td></tr>';
         }
         else {
-            $credit = ceil($fees * 0.25);
-            $currentFees = ceil($fees * 0.75);
-            $subtotal = ($currentFees - $totalcredit);
+            $tobepaid = ($fees - $totalcredit);
+
+            $credit = ceil($tobepaid * 0.25);
+            $subtotal = ceil($tobepaid * 0.75);
             
             $this->subtotal += $subtotal;
 
             $table .= '<tr><td><strong>75/25% Option</strong></td><td>&nbsp;</td></tr>';
             $table .= '<tr><td>Less total credit</td><td style="border-bottom: 1px solid #000"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>'; 
-            $table .= '<tr><td><strong>Sub total</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . ($fees - $totalcredit) . '</span></strong></td></tr>';
+            $table .= '<tr><td><strong>Sub total</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . $tobepaid . '</span></strong></td></tr>';
             
             $table .= '<tr><td>Amount Due now (excl postage)</td><td><span class="randv">R</span><span class="randnum">' . $subtotal . '</span></td></tr>';
             $table .= '<tr><td style="color: red;">Amount Due Mid Year</td><td><span class="randv" style="color: red;">R</span><span class="randnum" style="color: red;">' . $credit . '</span></td></tr>';

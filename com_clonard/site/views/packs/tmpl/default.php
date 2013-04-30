@@ -40,8 +40,8 @@ function moneyFt($num) {
           <tr>
             <th>Grade</th>
             <th>Academic Year</th>
-            <th>Option A (5% discout )</th>
-            <th>Option B (No discout)</th>
+            <th>Option A (5% discount )</th>
+            <th>Option B (No discount)</th>
             <th></th>
           </tr>
         </thead>

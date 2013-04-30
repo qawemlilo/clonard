@@ -46,9 +46,9 @@ class Cart
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="MerchantIdentifier" VALUE="79YW25SUQC">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="CurrencyAlphaCode" VALUE="ZAR">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="ShippingRequired" VALUE="1">';
-        $form .= '<INPUT TYPE="HIDDEN" NAME="BuyerInformation" VALUE="1">';
+        $this->form .= '<INPUT TYPE="HIDDEN" NAME="BuyerInformation" VALUE="1">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="Title" VALUE="' . $parent['title'] . '">';
-        $form .= '<INPUT TYPE="HIDDEN" NAME="FirstName" VALUE="' . $parent['name'] . '">';
+        $this->form .= '<INPUT TYPE="HIDDEN" NAME="FirstName" VALUE="' . $parent['name'] . '">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="LastName" VALUE="' . $parent['surname'] . '">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="Email" VALUE="' . $parent['email'] . '">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="MobileNumber" VALUE="' . $parent['cell'] . '">';
@@ -171,8 +171,8 @@ class Cart
             $total = ($totalMinusRefunds - ceil($totalMinusRefunds * 0.05));
         }
         else {
-            $amount_due = ceil($fees * 0.75);
-            $total =  $amount_due - $refundAmount;           
+            $tobepaid = ($fees - $refundAmount);
+            $total = ceil($tobepaid * 0.75);       
         }
         
 		return $total;
