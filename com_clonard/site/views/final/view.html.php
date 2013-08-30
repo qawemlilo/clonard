@@ -74,34 +74,12 @@ class Cart
         $table .= ' Curriculum for '. $child['name']  . ' <small> [ <a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id='. $child['s_id'].'">Edit</a> ]</small></th>';
         $table .= '<th class="money" align="right"><span class="randv" style="color: #fff; font-weight: normal">R</span><span class="randnum" style="color: #fff; font-weight: normal">' . $fees . '</span></th></tr></thead>';
         
-        if ($opt == 'a') {
-            $totalMinusRefunds = ($fees - $totalcredit);        
-            $discount = $this->calcDiscount($totalMinusRefunds);
-            $subtotal = ($totalMinusRefunds - $discount);
+        $tobepaid = ($fees - $totalcredit);
             
-            $this->subtotal += $subtotal;
-            
-            $table .= '<tr><td><strong>5% Option</strong></td><td>&nbsp;</td></tr>';
-            $table .= '<tr><td>Less total credit</td><td style="border-bottom: 1px solid #000"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
-            $table .= '<tr><td>&nbsp;</td><td><strong><span class="randv">R</span><span class="randnum">' . $totalMinusRefunds . '</span></strong></td></tr>';
-            $table .= '<tr><td style="color: #1479C4">Less 5% Discount</td><td style="border-bottom: 1px solid #000"><span class="randv" style="color: #1479C4">R</span><span class="randnum" style="color: #1479C4">' . $discount . '</span></td></tr>';
-            $table .= '<tr><td><strong>Sub total (excl postage)</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . $subtotal . '</span></strong></td></tr>';
-        }
-        else {
-            $tobepaid = ($fees - $totalcredit);
+        $this->subtotal += $tobepaid;
 
-            $credit = ceil($tobepaid * 0.25);
-            $subtotal = ceil($tobepaid * 0.75);
-            
-            $this->subtotal += $subtotal;
-
-            $table .= '<tr><td><strong>75/25% Option</strong></td><td>&nbsp;</td></tr>';
-            $table .= '<tr><td>Less total credit</td><td style="border-bottom: 1px solid #000"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>'; 
-            $table .= '<tr><td><strong>Sub total</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . $tobepaid . '</span></strong></td></tr>';
-            
-            $table .= '<tr><td>Amount Due now (excl postage)</td><td><span class="randv">R</span><span class="randnum">' . $subtotal . '</span></td></tr>';
-            $table .= '<tr><td style="color: red;">Amount Due Mid Year</td><td><span class="randv" style="color: red;">R</span><span class="randnum" style="color: red;">' . $credit . '</span></td></tr>';
-        }
+        $table .= '<tr><td>Less total credit</td><td style="border-bottom: 1px solid #000"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>'; 
+        $table .= '<tr><td><strong>Amount Due</strong> (excl postage)</td><td><strong><span class="randv">R</span><span class="randnum">' . $tobepaid . '</span></strong></td></tr>';
         
         $table .= '</tbody></table>';
         

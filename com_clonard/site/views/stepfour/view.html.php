@@ -34,7 +34,7 @@ class Cart {
 	
     function addBody($child, $books)
     {
-	 $boookstotal = $this->calcRefunds($books);
+	    $boookstotal = $this->calcRefunds($books);
 	    $gr = $child['grade'];
         
         if(!$gr) $gr = 'R'; 
