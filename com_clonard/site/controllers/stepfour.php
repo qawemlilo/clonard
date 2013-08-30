@@ -29,6 +29,9 @@ class ClonardControllerStepfour extends JController
             
             $students = $session->get('students');
             
+            /* This has been commented out to remove 2 payment options. Only one option will work until 1 November
+            
+            
             $opt = JRequest::getString('opt', '', 'GET');
             $s_id = JRequest::getString('s_id', '', 'GET');
             
@@ -40,10 +43,12 @@ class ClonardControllerStepfour extends JController
             }
             else {
                 $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $s_id, 'Payment option not provide', 'error');
-            }
+            } */
             
             $students[$s_id]['opt'] = $opt;
-            $students[$s_id]['amount_due'] = ceil($amount_due * $students[$s_id]['fees']);
+            //$students[$s_id]['amount_due'] = ceil($amount_due * $students[$s_id]['fees']); // see above comment
+            
+            $students[$s_id]['amount_due'] = $students[$s_id]['fees'];
             
             $session->set('students', $students);
             

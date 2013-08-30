@@ -78,7 +78,7 @@ $total = $session->get('total');
 
      <div class="clear"></div> 	  
 	  <p>  	   
-		   <button type="submit" name="submit" value="order" class="button blue" id="submit"> <?php if($et) echo 'Save'; else echo 'Payment Option >>'; ?></button>
+		   <button type="submit" name="submit" value="order" class="button blue" id="submit"> <?php if($et) echo 'Save'; else echo 'Next >>'; ?></button>
 	  </p>
 	  <div class="clear"></div>
 	</fieldset>
