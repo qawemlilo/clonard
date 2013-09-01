@@ -97,6 +97,7 @@ class Cart
     function addShipping()
 	{
         $collection = 0;
+        $overnight = $this->calcShipping($this->num_packs, 'overnight');
         $registered_mail = $this->calcShipping($this->num_packs, 'registered');
 
 

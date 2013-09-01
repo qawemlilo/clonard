@@ -44,7 +44,6 @@ class Cart
         $this->html .=  '<th class="money" align="right">Price</th></tr></thead>';
         
         $msg = "'You will now be taken to MonsterPay Secure website to make payment, please dont close this window'";
-        
         $this->form .= "<FORM METHOD=\"POST\" ACTION=\"https://www.monsterpay.com/secure/\" onSubmit=\"alert({$msg}); return true;\">";
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="ButtonAction" VALUE="checkout">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="MerchantIdentifier" VALUE="79YW25SUQC">';
