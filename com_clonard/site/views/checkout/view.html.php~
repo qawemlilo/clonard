@@ -12,7 +12,10 @@ class Cart
     public $num_packs = 0;
     
     public $subtotal = 0;
+    public $refundstotal = 0;
     public $shippingtotal = 0;
+    
+    public $total = 0;
     
     public $session;
 	
@@ -41,15 +44,14 @@ class Cart
         $this->html .=  '<th class="money" align="right">Price</th></tr></thead>';
         
         $msg = "'You will now be taken to MonsterPay Secure website to make payment, please dont close this window'";
-        
         $this->form .= "<FORM METHOD=\"POST\" ACTION=\"https://www.monsterpay.com/secure/\" onSubmit=\"alert({$msg}); return true;\">";
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="ButtonAction" VALUE="checkout">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="MerchantIdentifier" VALUE="79YW25SUQC">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="CurrencyAlphaCode" VALUE="ZAR">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="ShippingRequired" VALUE="1">';
-        $this->form .= '<INPUT TYPE="HIDDEN" NAME="BuyerInformation" VALUE="1">';
+        $form .= '<INPUT TYPE="HIDDEN" NAME="BuyerInformation" VALUE="1">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="Title" VALUE="' . $parent['title'] . '">';
-        $this->form .= '<INPUT TYPE="HIDDEN" NAME="FirstName" VALUE="' . $parent['name'] . '">';
+        $form .= '<INPUT TYPE="HIDDEN" NAME="FirstName" VALUE="' . $parent['name'] . '">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="LastName" VALUE="' . $parent['surname'] . '">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="Email" VALUE="' . $parent['email'] . '">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="MobileNumber" VALUE="' . $parent['cell'] . '">';
@@ -66,19 +68,15 @@ class Cart
             foreach($students as $student_id=>$student_details) 
 	    {
                $books = $refunds[$student_id];
-               $refundTotal = $this->calcRefunds($books);
-               
-               $itemtotal = $this->calcDiscount($student_details['fees'], $refundTotal, $student_details['opt']);
+               $totalRefunds = $this->calcRefunds($books); 
                
                $this->num_packs = $this->num_packs + 1;
-               $this->subtotal += $itemtotal;
+               $this->refundstotal = $this->refundstotal + $totalRefunds;
+               $this->subtotal = ($this->subtotal + (int)$student_details['amount_due']);
                            
-               $this->addBody($student_details, $itemtotal);
+               $this->addBody($student_details, $totalRefunds);
                
-               $gr = $student_details['grade'];
-               if(!$gr) $gr = 'R';
-               
-               $this->addFormItem('Grade ' . $gr . ' Pack', $itemtotal, $counter);   
+               $this->addFormItem('Grade ' . $student_details['grade'] . ' Pack', ((int)$student_details['amount_due'] - (int)$totalRefunds), $counter);   
                
                $counter = $counter + 1;
 	    }
@@ -88,7 +86,7 @@ class Cart
             
             $this->addFormItem('Shipping - ' . $this->num_packs . ' Packs', $this->shippingtotal, $this->num_packs);
             
-            $total = ($this->subtotal + $this->shippingtotal);
+            $total = $this->calcTotal();
             
             $this->session->set('total', $total);
             
@@ -100,15 +98,11 @@ class Cart
     }
 
 	
-    function addBody($child, $amount_due)
+    function addBody($child, $totalrefunds)
     {
-        $gr = $child['grade'];
-        
-        if(!$gr) $gr = 'R';
-        
-        $this->html .= '<tr><td>Grade '. $gr . ' Curriculum for ' . $child['name'];
+        $this->html .= '<tr><td>Grade '. $child['grade'] . ' Carriculum for ' . $child['name'];
         $this->html .=  ' [<small><a href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id=' .$child['s_id'].'" style="color: red">Edit</a></small>]';
-        $this->html .= '</td><td><span class="randv">R</span><span class="randnum">' . $amount_due . '</span></td></tr>';  
+        $this->html .= '</td><td><span class="randv">R</span><span class="randnum">' . ($child['amount_due'] - $totalrefunds) . '</span></td></tr>';  
     }
     
     
@@ -151,33 +145,29 @@ class Cart
     }    
     
     
-    function calcRefunds($refunds)
+    function calcRefunds($refinds)
     {
         $total = 0;
         
-        if(is_array($refunds) && count($refunds) > 0) {
-            foreach($refunds as $refund) {
-                $total = $total + (int)$refund->price;
+        if(is_array($refinds) && count($refinds) > 0) {
+            foreach($refinds as $refind) {
+                $total = $total + (int)$refind->price;
             }
         }
         
         return $total;
     }
     
-    
-    function calcDiscount($fees, $refundAmount, $opt)
-	{
-        if($opt == 'a') {
-            $totalMinusRefunds = $fees - $refundAmount;
-            $total = ($totalMinusRefunds - ceil($totalMinusRefunds * 0.05));
-        }
-        else {
-            $tobepaid = ($fees - $refundAmount);
-            $total = ceil($tobepaid * 0.75);       
-        }
+ 
+    function calcTotal()
+    {
+        $total = 0;
+        $total = (($this->subtotal + $this->shippingtotal) - $this->refundstotal);
         
-		return $total;
-	}
+        $this->total = $total;
+        
+        return $total;
+    }
     
     
     function calcShipping($selected_option)
