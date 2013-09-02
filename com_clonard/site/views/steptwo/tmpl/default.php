@@ -44,25 +44,25 @@ $errors = $this->errors;
 	  
 	  <p class="feilds">
 	    <label for="name">First Name:<span class="req">*</span></label>
-		<input type="text" id="name" name="name" class="<?php if(isset($errors['name'])) echo 'txt error'; else echo 'txt'; ?>" size="22" value="<?php echo $currentChild['name']; ?>" />
+		<input type="text" id="name" name="name" class="<?php if(isset($errors['name'])) echo 'txt error'; else echo 'txt'; ?>" size="22" value="<?php if(!empty($currentChild)) echo $currentChild['name']; ?>" />
 	  </p>
 	  
 	  <p class="feilds">
 	    <label for="surname">Surname:<span class="req">*</span></label>
-		<input type="text" id="surname" name="surname" class="<?php if(isset($errors['surname'])) echo 'txt error'; else echo 'txt'; ?>" size="22" value="<?php echo $currentChild['surname']; ?>" />
+		<input type="text" id="surname" name="surname" class="<?php if(isset($errors['surname'])) echo 'txt error'; else echo 'txt'; ?>" size="22" value="<?php if(!empty($currentChild)) echo $currentChild['surname']; ?>" />
 	  </p>
 	  
 	  <p class="feilds">
 	    <label for="dob">Date of Birth:<span class="req">*</span></label>
-		<input type="text" name="dob" id="dob" class="<?php if(isset($errors['dob'])) echo 'txt error'; else echo 'txt'; ?>" size="22" value="<?php echo $currentChild['dob']; ?>" />
+		<input type="text" name="dob" id="dob" class="<?php if(isset($errors['dob'])) echo 'txt error'; else echo 'txt'; ?>" size="22" value="<?php if(!empty($currentChild)) echo $currentChild['dob']; ?>" />
 	  </p>
 	  
 	  <p class="feilds">
 	    <label for="gender">Gender:<span class="req">*</span></label>
 		<select name="gender" <?php if(isset($errors['gender'])) echo 'class="error"'; ?>>
 		  <option value="">Gender</option>
-		  <option value="boy" <?php if($currentChild['gender'] == 'boy') echo 'selected="selected"' ; ?>>Boy</option>
-		  <option value="girl" <?php if($currentChild['gender'] == 'girl') echo 'selected="selected"' ; ?>>Girl</option>
+		  <option value="boy" <?php if(!empty($currentChild) && $currentChild['gender'] == 'boy') echo 'selected="selected"' ; ?>>Boy</option>
+		  <option value="girl" <?php if(!empty($currentChild) && $currentChild['gender'] == 'girl') echo 'selected="selected"' ; ?>>Girl</option>
 		</select>
 	  </p> 
 	  
@@ -76,7 +76,7 @@ $errors = $this->errors;
 		    <?php
               foreach ($this->cgrades as $cgrade) {
             ?>
-                  <option value="<?php echo $cgrade->grade; ?>" <?php if($currentChild['gradepassed'] == $cgrade->grade) echo 'selected="selected"' ; ?>>
+                  <option value="<?php echo $cgrade->grade; ?>" <?php if(!empty($currentChild) && $currentChild['gradepassed'] == $cgrade->grade) echo 'selected="selected"' ; ?>>
                     Grade <?php
                         if (!$cgrade->grade) {
                             echo "R";
@@ -99,7 +99,7 @@ $errors = $this->errors;
 		  <?php
               foreach ($this->cgrades as $cgrade) {
           ?>
-                  <option value="<?php echo $cgrade->grade; ?>" <?php if($currentChild['grade'] == $cgrade->grade) echo 'selected="selected"' ; ?>>
+                  <option value="<?php echo $cgrade->grade; ?>" <?php if(!empty($currentChild) && $currentChild['grade'] == $cgrade->grade) echo 'selected="selected"' ; ?>>
                     <?php 
                         if (!$cgrade->grade) {
                           echo "Grade R - (R{$cgrade->price})"; 
@@ -142,8 +142,8 @@ $errors = $this->errors;
 	    <label for="afrikaans">Afrikaans:</label>
 		<select name="afrikaans" id="afrikaans" <?php if(isset($errors['afrikaans'])) echo 'class="error"'; ?>>
 		  <option value="">Choose</option>
-		  <option value="first" <?php if($currentChild['afrikaans'] == "first") echo 'selected="selected"' ; ?>>First Language</option>
-		  <option value="second" <?php if($currentChild['afrikaans'] == "second") echo 'selected="selected"' ; ?>>Second Language</option>
+		  <option value="first" <?php if(!empty($currentChild) && $currentChild['afrikaans'] == "first") echo 'selected="selected"' ; ?>>First Language</option>
+		  <option value="second" <?php if(!empty($currentChild) && $currentChild['afrikaans'] == "second") echo 'selected="selected"' ; ?>>Second Language</option>
 		</select>
 	  </p>
 	  
@@ -171,8 +171,8 @@ $errors = $this->errors;
 	    <label for="maths">Maths:<span class="req">*</span></label>
 		<select name="maths" id="maths" <?php if(isset($errors['maths'])) echo 'class="error"'; ?>>
 		  <option value="">Choose Type</option>
-		  <option value="core" <?php if($currentChild['maths'] == "core") echo 'selected="selected"' ; ?>>Maths Core</option>
-		  <option value="advanced" <?php if($currentChild['maths'] == "advancedd") echo 'selected="selected"' ; ?>>Maths Advanced</option>
+		  <option value="core" <?php if(!empty($currentChild) && $currentChild['maths'] == "core") echo 'selected="selected"' ; ?>>Maths Core</option>
+		  <option value="advanced" <?php if(!empty($currentChild) && $currentChild['maths'] == "advancedd") echo 'selected="selected"' ; ?>>Maths Advanced</option>
 		</select>
 	  </p>	
 
@@ -259,12 +259,12 @@ $errors = $this->errors;
 	    <label for="choice">Choice Subject:<span class="req">*</span></label>
 		<select name="choice" id="subject" <?php if(isset($errors['choice'])) echo 'class="error"'; ?>>
 		  <option value="">Choose Subject</option>
-		  <option value="Geography" <?php if($currentChild['choice'] == 'Geography') echo 'selected="selected"' ; ?>>Geography</option>
-		  <option value="History" <?php if($currentChild['choice'] == 'History') echo 'selected="selected"' ; ?>>History</option>
-		  <option value="Accounting" <?php if($currentChild['choice'] == 'Accounting') echo 'selected="selected"' ; ?>>Accounting</option>
-		  <option value="Home Economics" <?php if($currentChild['choice'] == 'Home Economics') echo 'selected="selected"' ; ?>>Home Economics</option>
-		  <option value="Agriculture" <?php if($currentChild['choice'] == 'Agriculture') echo 'selected="selected"' ; ?>>Agriculture</option>
-		  <option value="Physical Science" <?php if($currentChild['choice'] == 'Physical Science') echo 'selected="selected"' ; ?>>Physical Science</option>
+		  <option value="Geography" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Geography') echo 'selected="selected"' ; ?>>Geography</option>
+		  <option value="History" <?php if(!empty($currentChild) && $currentChild['choice'] == 'History') echo 'selected="selected"' ; ?>>History</option>
+		  <option value="Accounting" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Accounting') echo 'selected="selected"' ; ?>>Accounting</option>
+		  <option value="Home Economics" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Home Economics') echo 'selected="selected"' ; ?>>Home Economics</option>
+		  <option value="Agriculture" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Agriculture') echo 'selected="selected"' ; ?>>Agriculture</option>
+		  <option value="Physical Science" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Physical Science') echo 'selected="selected"' ; ?>>Physical Science</option>
 		</select>
 	  </p>
 	  

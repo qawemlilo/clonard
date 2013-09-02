@@ -30,7 +30,7 @@ class Cart
             return false;
         }
         
-	$students = $this->session->get('students');
+	   $students = $this->session->get('students');
         $refunds = $this->session->get('refunds');
         $parent = $this->session->get('parent');
         $shipping = JRequest::getString('sp', '', 'GET');
@@ -68,7 +68,7 @@ class Cart
                $books = $refunds[$student_id];
                $refundTotal = $this->calcRefunds($books);
                
-               $itemtotal = $this->calcDiscount($student_details['fees'], $refundTotal, $student_details['opt']);
+               $itemtotal = $this->calcDiscount($student_details['fees'], $refundTotal);
                
                $this->num_packs = $this->num_packs + 1;
                $this->subtotal += $itemtotal;
@@ -114,7 +114,7 @@ class Cart
     
     function addShipping($shipping)
     {
-        if($shipping != 'Collect') $shipping = $shipping . ' Mail';
+        if($shipping != 'Collect') $shipping = 'Courier';
         
         $this->html .= '<tr><td><strong>Shipping - ' . $shipping . ' </strong></td>';
         $this->html .= '<td><span class="randv">R</span><span class="randnum">' . $this->shippingtotal .'</span></td></tr>';
@@ -140,7 +140,7 @@ class Cart
     
     function getForm()
     {
-        $this->form .= '<table class="cart foo" style="margin-top:20px; border-bottom: 0px;"><tr><td align="left" span="2"><strong>Please Note:</strong><ul  style="margin-left: 0px"><li>Collect - Once payment has been received we will contact you to arrange collection.</li><li>Overnight Delivery or Courier - Please contact us on <a href="mailto:orders@clonard.co.za">orders@clonard.co.za</a> for prices.</li></td></tr>';
+        $this->form .= '<table class="cart foo" style="margin-top:20px; border-bottom: 0px;"><tr><td align="left" span="2"><strong>Please Note:</strong><ul  style="margin-left: 0px"><li>Collect - Once payment has been received we will contact you to arrange collection.</li></ul></td></tr>';
         
         $this->form .= '<tr><td span="2"><BUTTON TYPE="SUBMIT" class="button blue" id="pay" onclick="location.href=\'index.php?option=com_clonard&view=eft\'; return false">Pay via EFT >></BUTTON> <BUTTON TYPE="SUBMIT" VALUE="Buy Now" class="button blue" id="pay" name="submit">Pay via CREDIT CARD >></BUTTON></td></tr></table>';
        
@@ -165,18 +165,11 @@ class Cart
     }
     
     
-    function calcDiscount($fees, $refundAmount, $opt)
+    function calcDiscount($fees, $refundAmount)
 	{
-        if($opt == 'a') {
-            $totalMinusRefunds = $fees - $refundAmount;
-            $total = ($totalMinusRefunds - ceil($totalMinusRefunds * 0.05));
-        }
-        else {
-            $tobepaid = ($fees - $refundAmount);
-            $total = ceil($tobepaid * 0.75);       
-        }
+        $tobepaid = ($fees - $refundAmount);
         
-		return $total;
+		return $tobepaid;
 	}
     
     

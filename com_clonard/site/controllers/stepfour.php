@@ -24,29 +24,10 @@ class ClonardControllerStepfour extends JController
         
         function add_opt() {
             $mainframe =& JFactory::getApplication();
-            $model =& $this->getModel('stepthree');
             $session =& JFactory::getSession();
+            $s_id = JRequest::getVar('s_id', '', 'get');
             
             $students = $session->get('students');
-            
-            /* This has been commented out to remove 2 payment options. Only one option will work until 1 November
-            
-            
-            $opt = JRequest::getString('opt', '', 'GET');
-            $s_id = JRequest::getString('s_id', '', 'GET');
-            
-            if ($opt == 'a') {
-                $amount_due =  0.95;               
-            }
-            elseif($opt == 'b') {
-                $amount_due =  0.75; 
-            }
-            else {
-                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $s_id, 'Payment option not provide', 'error');
-            } */
-            
-            $students[$s_id]['opt'] = $opt;
-            //$students[$s_id]['amount_due'] = ceil($amount_due * $students[$s_id]['fees']); // see above comment
             
             $students[$s_id]['amount_due'] = $students[$s_id]['fees'];
             

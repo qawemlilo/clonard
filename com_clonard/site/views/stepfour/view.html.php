@@ -26,7 +26,7 @@ class Cart {
             $student = $students[$student_id];
             
             $this->addBody($student, $books);
-            $this->addMyOptions($student['fees'], $student_id);
+            $this->addMyOptions($student_id);
         
             return $this->html;
     }
@@ -67,17 +67,12 @@ class Cart {
     }
     
     
-    function addMyOptions($fees, $s_id)
+    function addMyOptions($s_id)
     {
         
-        $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Payment Options</h2></td></tr></table>';
+        //$footer = '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Payment Options</h2></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option A - Pay in Full and receive a <span style="font-size:16px; color:#000;">5% Discount</span></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=stepfour&task=add_opt&opt=a&s_id='.$s_id.'" class="button blue">Select >></a></td></tr></table>';
-        
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option B - Payment Plan</strong>';
-        $footer  .= '<br>75% due now<br >';
-        $footer  .= '25% due when Mid Year exams are written</td>';
-        $footer  .= '<td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=stepfour&task=add_opt&opt=b&s_id='. $s_id .'" class="button blue">Select >></a></td></tr></table>';
+        $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left">&nbsp;</td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=stepfour&task=add_opt&opt=a&s_id='.$s_id.'" class="button blue">Next >></a></td></tr></table>';
 	
         $this->html .= $footer;
     }

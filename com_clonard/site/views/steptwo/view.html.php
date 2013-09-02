@@ -21,6 +21,9 @@ class ClonardViewSteptwo extends JView
         if ($session->has('students')) {
             $students = $session->get('students');
         }
+        else {
+            $students[$student_id] = array();
+        }
         
         $this->assignRef('cgrades', $grades);
         $this->assignRef('errors', $errors);
