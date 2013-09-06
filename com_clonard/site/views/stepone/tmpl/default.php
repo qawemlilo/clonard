@@ -15,7 +15,6 @@ if ($session->has('errors')) {
 
 $parent = $session->get('parent');
 $total = $session->get('total');
-
 ?>
 <script type="text/javascript">
 jQuery.noConflict();
