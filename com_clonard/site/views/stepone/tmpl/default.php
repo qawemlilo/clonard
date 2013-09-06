@@ -157,10 +157,10 @@ jQuery.noConflict();
 		<input type="text" id="pcode" class="txt<?php if(isset($errors['postalcode'])) echo ' error'; ?>" size="4" value="<?php if($parent['postalcode']) echo $parent['postalcode']; ?>" name="postalcode" style="width:60px" /> <span style="color:#88888F">e.g 4001</span>
 	  </p>
 	  
-	  <h2>Additional Information</h2>
+	  <h2>Special Instructions</h2>
 	  <p>
-	    <label for="comments">Comment(s):</label>
-		<textarea tabindex="4" rows="5" <?php if(isset($errors['comments'])) echo 'class="error"'; ?> cols="40" id="comments" name="comments"><?php if(isset($parent['comments'])) echo $parent['comments']; ?></textarea>
+	    <label for="comments">Instructions:</label>
+		<textarea tabindex="4" placeholder="e.g: Hoot at gate" rows="5" <?php if(isset($errors['comments'])) echo 'class="error"'; ?> cols="40" id="comments" name="comments"><?php if(isset($parent['comments'])) echo $parent['comments']; ?></textarea>
 	  </p>
 	  
 	  <p> &nbsp; </p> 
