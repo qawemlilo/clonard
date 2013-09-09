@@ -9,6 +9,7 @@ function createTable($orders)
     if(!is_array($orders)) return '<h2 style="color:red; margin-left:0px;">No orders have been made</h2><br /><br />';
 	
     $table = '<div id="accordion">';
+    
     foreach($orders as $order)
 	{ 	    	    
 	    $table .= '<h3><a href="#">Order #' . $order->id  . ' - ' . $order->parent['title'] . ' ' . $order->parent['name'] . ' ' . $order->parent['surname'] . '</a></h3>';
@@ -16,54 +17,49 @@ function createTable($orders)
 		$books_arr = explode(",", $order->books);
 		//$feesObj = new Fees();
 		//$fees = $feesObj->getTotal($order['grade'], $books_arr);
-		
-        $table .= '<div><p><strong>Date: </strong>' .  $order->ts  . '</p>';
-	    $table .= '<p><strong>Email Address:</strong> <a href="mailto: ' . $order->parent['email'] . '">'.$order->parent['email'] . '</a></p>';
-		$table .= '<p><strong>Telephone:</strong> 0' . $order->parent['phone'] . '</p>';
-		
-		if (!empty($order->parent['fax'])) 
-		    $table .= '<p><strong>Fax:</strong> 0' . $order->parent['fax'] . '</p>';
+        
+        $table .= '<div>';
+        $table .= '<p><i class="icon-calendar"></i> ' .  $order->ts  . '</p>';
+        
+        $table .= '<div class="row-fluid"><div class="span6">';
+        $table .= '<p><strong>CHILD\'S INFO</strong></p>';
+        $table .= '<p>';
+		if (!empty($order->grade)) {
+		    $table .= '<strong>Grade:</strong> Grade ' . $order->grade . '<br>';
+        }
+	    else {
+		    $table .= '<strong>Grade:</strong> Grade R<br>';
+        }
 			
-		if (!empty($order->parent['cell'])) 
-		    $table .= '<p><strong>Cell:</strong> 0' . $order->parent['cell'] . '</p>';
+		if (!empty($order->chidData['name'])) {
+		    $table .= "<strong>Name:</strong> " . $order->chidData['name'] ." " . $order->chidData['surname'] . "<br>";
+        }
 			
-		if (!empty($order->parent['address'])) 
-		    $table .= '<p><strong>Postal Address:</strong> ' . $order->parent['address'] . '</p>';
+		if (!empty($order->chidData['dob'])) {
+		    $table .= "<strong>Date of Birth:</strong> " . $order->chidData['dob'] . "<br>";
+        }
 			
-		if (!empty($order->parent['code'])) 
-		    $table .= '<p><strong>Postal Code:</strong> ' . $order->parent['code'] . '</p>';
-		
-    	$table .= "<p><strong>Child's Info:</strong> ";
-        $table .= '<ul>';
-		
-		if (!empty($order->grade)) 
-		    $table .= '<li>Grade: Grade ' . $order->grade . '</li>';
-	    else
-		    $table .= '<li>Grade: Grade R</li>';
-			
-		if (!empty($order->chidData['name'])) 
-		    $table .= "<li>Name: " . $order->chidData['name'] ." " . $order->chidData['surname'] . "</li>";
-			
-		if (!empty($order->chidData['dob'])) 
-		    $table .= "<li>Date of Birth: " . $order->chidData['dob'] . "</li>";
-			
-		if (!empty($order->chidData['gender'])) 
-		    $table .= '<li>Gender: ' . $order->chidData['gender'] . '</li>';
+		if (!empty($order->chidData['gender'])) {
+		    $table .= '<strong>Gender:</strong> ' . $order->chidData['gender'] . '<br>';
+        }
 
-		if (!empty($order->chidData['afrikaans'])) 
-		    $table .= "<li>Afrikaans: " . $order->chidData['afrikaans'] . " language</li>";
-		else
-		    $table .= "<li>Afrikaans: first language</li>";
+		if (!empty($order->chidData['afrikaans'])) { 
+		    $table .= "<strong>Afrikaans:</strong> " . $order->chidData['afrikaans'] . " language<br>";
+        }
+		else {
+		    $table .= "<strong>Afrikaans:</strong> first language<br>";
+        }
 
-		if (!empty($order->chidData['maths'])) 
-		    $table .= "<li>Maths: " . $order->chidData['maths'] . "</li>";
+		if (!empty($order->chidData['maths'])) {
+		    $table .= "<strong>Maths:</strong> " . $order->chidData['maths'] . "<br>";
+        }
 			
-		if (!empty($order->chidData['choice'])) 
-		    $table .= "<li>Subject Choice: " . $order->chidData['choice'] . "</li>";
-			
-		$table .= '</ul></p>';
-		
-        $table .= '<p><strong>Books not required:</strong> ';		
+		if (!empty($order->chidData['choice'])) {
+		    $table .= "<strong>Subject Choice:</strong> " . $order->chidData['choice'];
+        }
+		$table .= '</p>';
+        
+        $table .= '<p><strong>Books not required:</strong></p>';		
 		if (!empty($order->books))
 		{
 		    		    
@@ -84,11 +80,41 @@ function createTable($orders)
             $table .= $b_list;
             			
 		} else {
-		    $table .= 'All books required';
+		    $table .= '<p>All books required</p>';
 		}
+        $table .= '</div>';
+        
+        $table .= '<div class="span6">';
+        $table .= '<p><strong>CONTACT DETAILS</strong></p>';
 		
-		$table .= '</p>';
-		$table .= '</div>';
+	    $table .= '<p><strong>Email Address:</strong> <a href="mailto: ' . $order->parent['email'] . '">'.$order->parent['email'] . '</a><br>';
+		$table .= '<strong>Telephone:</strong> 0' . $order->parent['phone'] . '<br>';
+		
+		if (!empty($order->parent['fax'])) {
+		    $table .= '<strong>Fax:</strong> 0' . $order->parent['fax'] . '<br>';
+        }
+			
+		if (!empty($order->parent['cell'])) {
+		    $table .= '<strong>Cell:</strong> 0' . $order->parent['cell'] . '<br>';
+	    }
+        
+		if (!empty($order->parent['address'])) {
+		    $table .= '<strong>Address:</strong> ' . $order->parent['address'] . ', ' . $order->parent['code'] . '<br>';
+        }
+			
+		if (!empty($order->parent['postaladd'])) {
+		    $table .= '<strong>Postal Address:</strong> ' . $order->parent['postaladd'] . ', ' . $order->parent['postalcode'] . '<br>';
+        }
+        
+        $table .= '</p>';
+            
+        if (!empty($order->parent['comments'])) {
+            $table .= '<p><strong>Special Instructions</strong></p>';
+            $table .= '<blockquote><p>' . $order->parent['comments'] . '</strong></blockquote>';
+        }
+            
+            
+        $table .= '</div></div></div>';
 	}
 	
 	$table .= '</div>';

@@ -81,7 +81,7 @@ class ClonardModelAdmin extends JModel
 	function getParent($id)
 	{
 	    $db =& JFactory::getDBO();
-		$query = "SELECT title, name, surname, email, phone, cell, address, code  FROM jos_clonard_parents WHERE id='$id'";
+		$query = "SELECT title, name, surname, email, phone, cell, address, code, postaladd, postalcode  FROM jos_clonard_parents WHERE id='$id'";
         $db->setQuery($query);
 		$data = $db->loadAssoc();
 
