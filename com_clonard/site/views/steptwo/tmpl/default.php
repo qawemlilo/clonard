@@ -259,12 +259,12 @@ $errors = $this->errors;
 	    <label for="choice">Choice Subject:<span class="req">*</span></label>
 		<select name="choice" id="subject" <?php if(isset($errors['choice'])) echo 'class="error"'; ?>>
 		  <option value="">Choose Subject</option>
-		  <option value="Geography" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Geography') echo 'selected="selected"' ; ?>>Geography</option>
-		  <option value="History" <?php if(!empty($currentChild) && $currentChild['choice'] == 'History') echo 'selected="selected"' ; ?>>History</option>
-		  <option value="Accounting" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Accounting') echo 'selected="selected"' ; ?>>Accounting</option>
-		  <option value="Home Economics" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Home Economics') echo 'selected="selected"' ; ?>>Home Economics</option>
-		  <option value="Agriculture" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Agriculture') echo 'selected="selected"' ; ?>>Agriculture</option>
-		  <option value="Physical Science" <?php if(!empty($currentChild) && $currentChild['choice'] == 'Physical Science') echo 'selected="selected"' ; ?>>Physical Science</option>
+		  <option value="Geography" <?php if($currentChild['choice'] == 'Geography') echo 'selected="selected"' ; ?>>Geography</option>
+		  <option value="History" <?php if($currentChild['choice'] == 'History') echo 'selected="selected"' ; ?>>History</option>
+		  <option value="Accounting" <?php if($currentChild['choice'] == 'Accounting') echo 'selected="selected"' ; ?>>Accounting</option>
+		  <option value="Home Economics" <?php if($currentChild['choice'] == 'Home Economics') echo 'selected="selected"' ; ?>>Home Economics</option>
+		  <option value="Technology" <?php if($currentChild['choice'] == 'Technology') echo 'selected="selected"' ; ?>>Technology</option>
+		  <option value="Physical Science" <?php if($currentChild['choice'] == 'Physical Science') echo 'selected="selected"' ; ?>>Physical Science</option>
 		</select>
 	  </p>
 	  
