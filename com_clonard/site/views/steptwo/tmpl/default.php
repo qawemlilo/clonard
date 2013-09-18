@@ -263,7 +263,7 @@ $errors = $this->errors;
 		  <option value="History" <?php if($currentChild['choice'] == 'History') echo 'selected="selected"' ; ?>>History</option>
 		  <option value="Accounting" <?php if($currentChild['choice'] == 'Accounting') echo 'selected="selected"' ; ?>>Accounting</option>
 		  <option value="Home Economics" <?php if($currentChild['choice'] == 'Home Economics') echo 'selected="selected"' ; ?>>Home Economics</option>
-		  <option value="Agriculture" <?php if($currentChild['choice'] == 'Agriculture') echo 'selected="selected"' ; ?>>Agriculture</option>
+		  <option value="Technology" <?php if($currentChild['choice'] == 'Technology') echo 'selected="selected"' ; ?>>Technology</option>
 		  <option value="Physical Science" <?php if($currentChild['choice'] == 'Physical Science') echo 'selected="selected"' ; ?>>Physical Science</option>
 		</select>
 	  </p>
