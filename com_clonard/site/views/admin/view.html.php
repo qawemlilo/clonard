@@ -4,7 +4,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
 
 function createTable($orders)
-{
+{   
     $i = 0;
     if(!is_array($orders)) return '<h2 style="color:red; margin-left:0px;">No orders have been made</h2><br /><br />';
 	
@@ -106,11 +106,11 @@ function createTable($orders)
 		    $table .= '<strong>Postal Address:</strong> ' . $order->parent['postaladd'] . ', ' . $order->parent['postalcode'] . '<br>';
         }
         
-        $table .= '</p>';
+        $table .= '</p><br>';
             
-        if (!empty($order->parent['comments'])) {
-            $table .= '<p><strong>Special Instructions</strong></p>';
-            $table .= '<blockquote><p>' . $order->parent['comments'] . '</strong></blockquote>';
+        if (!empty($order->comments)) {
+            $table .= '<p><strong>SPECIAL INSTRUCTIONS</strong></p>';
+            $table .= '<blockquote>' . $order->comments . '</strong></blockquote>';
         }
             
             
