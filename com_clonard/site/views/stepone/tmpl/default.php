@@ -16,25 +16,6 @@ if ($session->has('errors')) {
 $parent = $session->get('parent');
 $total = $session->get('total');
 ?>
-<script type="text/javascript">
-jQuery.noConflict();
-(function($) {
-   $(function () {
-	  $("#filladd").click(function () {
-	      var v1 = $("#address").val(), v2 = $("#code").val();
-
-		  if ($("#postaladd").val()) {
-		      $("#postaladd").val('');
-			  $("#pcode").val('');
-		  }
-		  else {
-		      $("#postaladd").val(v1);
-			  $("#pcode").val(v2);
-		  }
-	  });	  
-   });
- })(jQuery);
-</script>
 <div id="form-cont">
 
 <div class="steps"> 
@@ -162,7 +143,13 @@ jQuery.noConflict();
 		<textarea tabindex="4" placeholder="e.g: Hoot at gate" rows="5" <?php if(isset($errors['comments'])) echo 'class="error"'; ?> cols="40" id="comments" name="comments"><?php if(isset($parent['comments'])) echo $parent['comments']; ?></textarea>
 	  </p>
 	  
-	  <p> &nbsp; </p> 
+	  <p>
+        <label for="comments"> &nbsp; </label> 
+        <input type="checkbox" id="termsandconditions" value="" /> 
+        <span>
+          I agree to the Clonard Education <a href="http://www.clonard.co.za/index.php?option=com_content&view=article&id=25&Itemid=36" target="_blank">Terms & Conditions</a>
+        </span>
+      </p> 
 	  
 	  <p>
 	    <button type="submit" value="submit" class="button blue" id="submit" name="submit">Details of Children >></button>
@@ -172,3 +159,34 @@ jQuery.noConflict();
  </form>
  <p><img src="components/com_clonard/images/CardLogos.png" style="margin-left: 15px; margin-right: 10px; vertical-align: middle"/></p>
  </div>
+ 
+ <script type="text/javascript">
+jQuery.noConflict();
+(function($) {
+   $(function () {
+	  $("#filladd").click(function () {
+	      var v1 = $("#address").val(), v2 = $("#code").val();
+
+		  if ($("#postaladd").val()) {
+		      $("#postaladd").val('');
+			  $("#pcode").val('');
+		  }
+		  else {
+		      $("#postaladd").val(v1);
+			  $("#pcode").val(v2);
+		  }
+	  });
+      
+      $("#contactForm").submit(function (event) {
+          
+          if ($('input#termsandconditions').is(':checked')) {
+            return true;
+          }
+          else {
+            alert("You need to agree to our Terms and Conditions to proceed.");
+            return false;
+          }
+      });
+   });
+ })(jQuery);
+</script>
