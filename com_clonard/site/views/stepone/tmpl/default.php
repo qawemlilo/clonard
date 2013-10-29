@@ -189,8 +189,4 @@ jQuery.noConflict();
       });
    });
  })(jQuery);
-<<<<<<< HEAD
 </script>
-=======
-</script>
->>>>>>> master
