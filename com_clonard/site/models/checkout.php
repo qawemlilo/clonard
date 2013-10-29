@@ -15,7 +15,8 @@ class ClonardModelCheckout extends JModel
 			    $db =& JFactory::getDBO();
 			    $session =& JFactory::getSession();
 			    $refunds = $session->get('refunds');
-			    $comments = $session->get('comments');
+                $parent = $session->get('parent');
+			    $comments = $parent['comments'];
 			    $s_id = $child['s_id'];
 			    $books = '';
 			    $books_arr = array();

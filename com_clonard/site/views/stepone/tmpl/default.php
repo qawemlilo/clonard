@@ -178,8 +178,7 @@ jQuery.noConflict();
 	  });
       
       $("#contactForm").submit(function (event) {
-          event.preventDefault();
-          
+
           if ($('input#termsandconditions').is(':checked')) {
             return true;
           }
@@ -190,4 +189,8 @@ jQuery.noConflict();
       });
    });
  })(jQuery);
+<<<<<<< HEAD
 </script>
+=======
+</script>
+>>>>>>> master
