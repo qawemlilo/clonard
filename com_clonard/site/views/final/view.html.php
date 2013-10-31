@@ -92,17 +92,17 @@ class Cart
         $collection = 0;
         $registered_mail = $this->calcShipping($this->num_packs, 'registered');
 
-        if($this->num_packs > 1) {
-          $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Total (excl postage)</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . $this->subtotal .'</span></strong></td></tr></table>';
-        }        
+        if($this->num_packs > 0) {
+          $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Total (excl postage)</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . $this->subtotal .'</span></strong></td></tr></table>';        
         
-        $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options for '. $this->num_packs .' package(s) </h2></td></tr></table>';
-        
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Collect/Other - R0</strong></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=checkout&sp=Collect" class="button blue">Select >></a></td></tr></table>';
-        
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Courier - R' . $registered_mail .'</strong></td><td style="width: 30%" class="money" align="right"><a href="index.php?option=com_clonard&view=checkout&sp=Registered" class="button blue">Select >> </a></td></tr></table><br>';
-	
-        $this->html .= $footer;
+          $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options for '. $this->num_packs .' package(s) </h2></td></tr></table>';
+          
+          $footer .= '<table class="cart foo"><tr><td align="left"><strong>Collect/Other - R0</strong></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=checkout&sp=Collect" class="button blue">Select >></a></td></tr></table>';
+          
+          $footer .= '<table class="cart foo"><tr><td align="left"><strong>Courier - R' . $registered_mail .'</strong></td><td style="width: 30%" class="money" align="right"><a href="index.php?option=com_clonard&view=checkout&sp=Registered" class="button blue">Select >> </a></td></tr></table><br>';
+	      
+          $this->html .= $footer;
+        }
     }
         
     

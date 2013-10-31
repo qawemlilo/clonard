@@ -11,10 +11,6 @@
 	<version>0.6.4</version>
 
 	<description>Clonard Application form</description>
-
-	<installfile>install.helloworld.php</installfile>
-
-	<uninstallfile>uninstall.helloworld.php</uninstallfile>
 	
 	<install> <!-- Runs on install -->
 		<sql>

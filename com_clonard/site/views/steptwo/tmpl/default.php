@@ -259,12 +259,12 @@ $errors = $this->errors;
 	    <label for="choice">Choice Subject:<span class="req">*</span></label>
 		<select name="choice" id="subject" <?php if(isset($errors['choice'])) echo 'class="error"'; ?>>
 		  <option value="">Choose Subject</option>
-		  <option value="Geography" <?php if($currentChild['choice'] == 'Geography') echo 'selected="selected"' ; ?>>Geography</option>
-		  <option value="History" <?php if($currentChild['choice'] == 'History') echo 'selected="selected"' ; ?>>History</option>
-		  <option value="Accounting" <?php if($currentChild['choice'] == 'Accounting') echo 'selected="selected"' ; ?>>Accounting</option>
-		  <option value="Home Economics" <?php if($currentChild['choice'] == 'Home Economics') echo 'selected="selected"' ; ?>>Home Economics</option>
-		  <option value="Technology" <?php if($currentChild['choice'] == 'Technology') echo 'selected="selected"' ; ?>>Technology</option>
-		  <option value="Physical Science" <?php if($currentChild['choice'] == 'Physical Science') echo 'selected="selected"' ; ?>>Physical Science</option>
+		  <option value="Geography" <?php if(isset($currentChild['choice']) && $currentChild['choice'] == 'Geography') echo 'selected="selected"' ; ?>>Geography</option>
+		  <option value="History" <?php if(isset($currentChild['choice']) && $currentChild['choice'] == 'History') echo 'selected="selected"' ; ?>>History</option>
+		  <option value="Accounting" <?php if(isset($currentChild['choice']) && $currentChild['choice'] == 'Accounting') echo 'selected="selected"' ; ?>>Accounting</option>
+		  <option value="Home Economics" <?php if(isset($currentChild['choice']) && $currentChild['choice'] == 'Home Economics') echo 'selected="selected"' ; ?>>Home Economics</option>
+		  <option value="Technology" <?php if(isset($currentChild['choice']) && $currentChild['choice'] == 'Technology') echo 'selected="selected"' ; ?>>Technology</option>
+		  <option value="Physical Science" <?php if(isset($currentChild['choice']) && $currentChild['choice'] == 'Physical Science') echo 'selected="selected"' ; ?>>Physical Science</option>
 		</select>
 	  </p>
 	  

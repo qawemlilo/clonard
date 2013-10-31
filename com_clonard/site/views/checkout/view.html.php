@@ -142,7 +142,7 @@ class Cart
     {
         $this->form .= '<table class="cart foo" style="margin-top:20px; border-bottom: 0px;"><tr><td align="left" span="2"><strong>Please Note:</strong><ul  style="margin-left: 0px"><li>Collect - Once payment has been received we will contact you to arrange collection.</li></ul></td></tr>';
         
-        $this->form .= '<tr><td span="2"><BUTTON TYPE="SUBMIT" class="button blue" id="pay" onclick="location.href=\'index.php?option=com_clonard&view=eft\'; return false">Pay via EFT >></BUTTON> <BUTTON TYPE="SUBMIT" VALUE="Buy Now" class="button blue" id="pay" name="submit">Pay via CREDIT CARD >></BUTTON></td></tr></table>';
+        $this->form .= '<tr><td span="2"><BUTTON class="button blue" id="pay" onclick="location.href=\'index.php?option=com_clonard&view=collect\';">Pay on Collection >></BUTTON> <BUTTON class="button blue" id="pay" onclick="location.href=\'index.php?option=com_clonard&view=eft\'; return false">Pay via EFT >></BUTTON> <BUTTON TYPE="SUBMIT" VALUE="Buy Now" class="button blue" id="pay" name="submit">Pay via CREDIT CARD >></BUTTON></td></tr></table>';
        
         $this->form .= '</p></FORM>';
         

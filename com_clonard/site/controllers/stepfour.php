@@ -25,14 +25,27 @@ class ClonardControllerStepfour extends JController
         function add_opt() {
             $mainframe =& JFactory::getApplication();
             $session =& JFactory::getSession();
-            $s_id = JRequest::getVar('s_id', '', 'get');
             
             $students = $session->get('students');
             
-            $students[$s_id]['amount_due'] = $students[$s_id]['fees'];
+            $opt = JRequest::getString('opt', '', 'GET');
+            $s_id = JRequest::getString('s_id', '', 'GET');
+            
+            if ($opt == 'a') {
+                $amount_due = 0.95;
+            }
+            elseif($opt == 'b') {
+                $amount_due = 0.50;
+            }
+            else {
+                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $s_id, 'Payment option not provide', 'error');
+            }
+            
+            $students[$s_id]['opt'] = $opt;
+            $students[$s_id]['amount_due'] = ceil($amount_due * $students[$s_id]['fees']);
             
             $session->set('students', $students);
             
-            $mainframe->redirect('index.php?option=com_clonard&view=final'); 
+            $mainframe->redirect('index.php?option=com_clonard&view=final');
         }
 }

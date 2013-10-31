@@ -99,18 +99,18 @@ function createTable($orders)
 	    }
         
 		if (!empty($order->parent['address'])) {
-		    $table .= '<strong>Address:</strong> ' . $order->parent['address'] . ', ' . $order->parent['code'] . '<br>';
+		    $table .= '<strong>Postal Address:</strong> ' . $order->parent['address'] . ', ' . $order->parent['code'] . '<br>';
         }
 			
 		if (!empty($order->parent['postaladd'])) {
-		    $table .= '<strong>Postal Address:</strong> ' . $order->parent['postaladd'] . ', ' . $order->parent['postalcode'] . '<br>';
+		    $table .= '<strong>Delivery Address:</strong> ' . $order->parent['postaladd'] . ', ' . $order->parent['postalcode'] . '<br>';
         }
         
         $table .= '</p><br>';
             
         if (!empty($order->comments)) {
             $table .= '<p><strong>SPECIAL INSTRUCTIONS</strong></p>';
-            $table .= '<blockquote>' . $order->comments . '</strong></blockquote>';
+            $table .= '<blockquote>"' . $order->comments . '"</blockquote>';
         }
             
             
