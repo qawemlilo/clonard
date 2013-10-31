@@ -4,30 +4,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
 
 
-class Cart
-{
+class Cart {
 
-	private $html = '';
-    
-	public $num_packs = 0;
-    
+    private $html = '';
+    public $num_packs = 0;
     public $subtotal = 0;
     public $refundstotal = 0;
     public $shippingtotal = 0;
-    
     public $total = 0;
-    
     public $session;
 	
     
-    function __construct()
-	{
-	    $this->session = JFactory::getSession();
-	}
+    function __construct() {
+        $this->session = JFactory::getSession();
+    }
     
     
-	function getHTML()
-	{
+    function getHTML() {
         //Check if calculations have been done
         if($this->num_packs > 0) {
             return false;
@@ -57,43 +50,69 @@ class Cart
         }
         
         return $this->html;
-	}
+    }
 
 	
-    function addBody($child, $books)
-	{
-	$opt = $child['opt'];
-    $gr = $child['grade'];
-    $fees = $child['fees'];
-    
-    $totalcredit = $this->calcRefunds($books);
-    
-    if(!$gr) $gr = 'R';
+    function addBody($child, $books) {
+        $opt = $child['opt'];
+        $gr = $child['grade'];
+        $fees = $child['fees'];
+        
+        $totalcredit = $this->calcRefunds($books);
+        
+        if (!$gr) $gr = 'R';
 	
         $table = '<table class="cart" style="margin-top:20px;"><thead><tr><th align="left">Grade '. $gr;
         $table .= ' Curriculum for '. $child['name']  . ' <small> [ <a style="text-decoration: none; color: red; font-weight: normal" href="index.php?option=com_clonard&view=stepfour&task=edit_pack&s_id='. $child['s_id'].'">Edit</a> ]</small></th>';
-        $table .= '<th class="money" align="right"><span class="randv" style="color: #fff; font-weight: normal">R</span><span class="randnum" style="color: #fff; font-weight: normal">' . $fees . '</span></th></tr></thead>';
+        $table .= '<th class="money" align="right"><span class="randv" style="color: #fff; font-weight: normal">R</span><span class="randnum" style="color: #fff; font-weight: normal">' . $fees . '</span></th></tr></thead>';  
         
-        $tobepaid = ($fees - $totalcredit);
+        
+        if ($opt == 'a') {
+            $totalMinusRefunds = ($fees - $totalcredit);
+            $discount = $this->calcDiscount($totalMinusRefunds);
+            $subtotal = ($totalMinusRefunds - $discount);
             
-        $this->subtotal += $tobepaid;
+            $this->subtotal += $subtotal;
+            
+            $table .= '<tr><td><strong>5% Option</strong></td><td>&nbsp;</td></tr>';
+            $table .= '<tr><td>Less total credit</td><td style="border-bottom: 1px solid #000"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
+            $table .= '<tr><td>&nbsp;</td><td><strong><span class="randv">R</span><span class="randnum">' . $totalMinusRefunds . '</span></strong></td></tr>';
+            $table .= '<tr><td style="color: #1479C4">Less 5% Discount</td><td style="border-bottom: 1px solid #000"><span class="randv" style="color: #1479C4">R</span><span class="randnum" style="color: #1479C4">' . $discount . '</span></td></tr>';
+            $table .= '<tr><td><strong>Sub total (excl postage)</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . $subtotal . '</span></strong></td></tr>';
+        }
+        else {
+            $tobepaid = ($fees - $totalcredit);
 
-        $table .= '<tr><td>Less total credit</td><td style="border-bottom: 1px solid #000"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>'; 
-        $table .= '<tr><td><strong>Amount Due</strong> (excl postage)</td><td><strong><span class="randv">R</span><span class="randnum">' . $tobepaid . '</span></strong></td></tr>';
+            $credit = ceil($tobepaid * 0.5);
+            $subtotal = ceil($tobepaid * 0.5);
+            
+            $this->subtotal += $subtotal;
+
+            $table .= '<tr><td><strong>50% Option</strong></td><td>&nbsp;</td></tr>';
+            $table .= '<tr><td>Less total credit</td><td style="border-bottom: 1px solid #000"><span class="randv">R</span><span class="randnum">' . $totalcredit . '</span></td></tr>';
+            $table .= '<tr><td><strong>Sub total</strong></td><td><strong><span class="randv">R</span><span class="randnum">' . $tobepaid . '</span></strong></td></tr>';
+            
+            $table .= '<tr><td>Amount Due now (excl Courier)</td><td><span class="randv">R</span><span class="randnum">' . $subtotal . '</span></td></tr>';
+            $table .= '<tr><td style="color: red;">Amount Due Within 4 Months</td><td><span class="randv" style="color: red;">R</span><span class="randnum" style="color: red;">' . $credit . '</span></td></tr>';
+        }        
+        
+        
+        
         
         $table .= '</tbody></table>';
         
         $this->html .= $table;	  
-	}
+    }
     
     
-    function addShipping()
-	{
+    
+    
+    function addShipping() {
         $collection = 0;
         $registered_mail = $this->calcShipping($this->num_packs, 'registered');
 
-        if($this->num_packs > 0) {
-          $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Total (excl postage)</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . $this->subtotal .'</span></strong></td></tr></table>';        
+        if ($this->num_packs > 0) {
+          $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Total (excl Courier)</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . $this->subtotal .'</span></strong></td></tr></table>';        
         
           $footer .= '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Shipping Options for '. $this->num_packs .' package(s) </h2></td></tr></table>';
           
@@ -107,30 +126,30 @@ class Cart
         
     
     
-    function calcRefunds($refinds)
-	{
+    
+    function calcRefunds($refinds) {
         $total = 0;
         
-        if(is_array($refinds) && count($refinds) > 0) {
-		    foreach($refinds as $refind) {
-		        $total = $total + (int)$refind->price;
-		    }
+        if (is_array($refinds) && count($refinds) > 0) {
+            foreach ($refinds as $refind) {
+                $total = $total + (int)$refind->price;
+            }
         }
-		
-		return $total;
-	}
+        
+        return $total;
+    }
     
     
-    function calcDiscount($fees)
-	{
+    
+    
+    function calcDiscount($fees) {
         $total = ceil($fees * 0.05);
         
-		return $total;
-	}
+        return $total;
+    }
     
     
-    function calcShipping($num_items, $selected_option)
-	{
+    function calcShipping($num_items, $selected_option) {
         $total = 0; 
         $onepack = 150;
         $twopacks = 190; 

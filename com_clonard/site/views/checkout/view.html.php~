@@ -63,7 +63,7 @@ class Cart {
                $books = $refunds[$student_id];
                $refundTotal = $this->calcRefunds($books);
                
-               $itemtotal = $this->calcDiscount($student_details['fees'], $refundTotal, $student_details['opt']);
+               $itemtotal = $this->calcDiscount($student_details['fees'], $refundTotal);
                
                $this->num_packs = $this->num_packs + 1;
                $this->subtotal += $itemtotal;

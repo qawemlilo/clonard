@@ -37,12 +37,11 @@ class ClonardModelCheckout extends JModel
                     $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`, `comments`) VALUES({$child['parent']}, $id, {$child['grade']}, '$books', '$comments')";
                     
                 $db->setQuery($query);
-                
                 if ($db->query()) {
-                    $orderNumber = $db->insertid();
+                $orderNumber = $db->insertid();
                 }
                 else {
-                    die($db->ErrorMsg());
+                die($db->ErrorMsg());
                 }
             }
             
