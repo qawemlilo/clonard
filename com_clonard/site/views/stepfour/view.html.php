@@ -72,11 +72,11 @@ class Cart {
         
         $footer = '<table class="cart foo" style="margin-top:20px;"><tr><td span="2"><h2 style="margin-left: 0px;">Payment Options</h2></td></tr></table>';
         
-        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option A - Pay in Full and receive a <span style="font-size:16px; color:#000;">5% Discount</span></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=stepfour&task=add_opt&opt=a&s_id='.$s_id.'" class="button blue">Select >></a></td></tr></table>';
+        $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option A - Pay in Full and receive a <span style="font-size:16px; color:#000;">5% Discount</span></strong></td><td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=stepfour&task=add_opt&opt=a&s_id='.$s_id.'" class="button blue">Select >></a></td></tr></table>';
         
         $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option B - Payment Plan</strong>';
-        $footer .= '<br>50% due now<br >';
-        $footer .= '(The remainder must be paid in 4 equal monthly installments over 4 consecutive months.)</td>';
+        $footer .= '<br><strong>50% due now</strong><br >';
+        $footer .= '(Please ensure you have read the payment information in the <a href="http://www.clonard.co.za/index.php?option=com_content&view=article&id=25&Itemid=36" target="_blank">Terms and Conditions</a>.<br>Payment Option B is subject to credit approval and is at Clonards Discretion.)</td>';
         $footer .= '<td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=stepfour&task=add_opt&opt=b&s_id='. $s_id .'" class="button blue">Select >></a></td></tr></table>';
         
         $this->html .= $footer;

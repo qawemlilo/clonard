@@ -83,8 +83,8 @@ class Cart {
         else {
             $tobepaid = ($fees - $totalcredit);
 
-            $credit = ceil($tobepaid * 0.5);
             $subtotal = ceil($tobepaid * 0.5);
+            $credit = ($tobepaid - $subtotal);
             
             $this->subtotal += $subtotal;
 

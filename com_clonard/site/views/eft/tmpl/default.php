@@ -3,6 +3,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $document = &JFactory::getDocument();
 $document->addStyleSheet('components/com_clonard/css/style.css');
+$document->addStyleSheet('components/com_clonard/css/steps.css');
 
 $session =& JFactory::getSession(); 
 $total = $session->get('total');

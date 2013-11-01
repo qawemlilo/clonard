@@ -18,33 +18,33 @@ class ClonardControllerStepfour extends JController
             }
             
             parent::display();
-        }
+    }
         
         
-        function add_opt() {
-            $mainframe =& JFactory::getApplication();
-            $session =& JFactory::getSession();
-            
-            $students = $session->get('students');
-            
-            $opt = JRequest::getString('opt', '', 'GET');
-            $s_id = JRequest::getString('s_id', '', 'GET');
-            
-            if ($opt == 'a') {
-                $amount_due = 0.95;
-            }
-            elseif($opt == 'b') {
-                $amount_due = 0.5;
-            }
-            else {
-                $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $s_id, 'Payment option not provide', 'error');
-            }
-            
-            $students[$s_id]['opt'] = $opt;
-            $students[$s_id]['amount_due'] = ceil($amount_due * $students[$s_id]['fees']);
-            
-            $session->set('students', $students);
-            
-            $mainframe->redirect('index.php?option=com_clonard&view=final');
+    function add_opt() {
+        $mainframe =& JFactory::getApplication();
+        $session =& JFactory::getSession();
+        
+        $students = $session->get('students');
+        
+        $opt = JRequest::getString('opt', '', 'GET');
+        $s_id = JRequest::getString('s_id', '', 'GET');
+        
+        if ($opt == 'a') {
+            $amount_due = 0.95;
         }
+        elseif($opt == 'b') {
+            $amount_due = 0.5;
+        }
+        else {
+            $mainframe->redirect('index.php?option=com_clonard&view=stepthree&s_id=' . $s_id, 'Payment option not provide', 'error');
+        }
+        
+        $students[$s_id]['opt'] = $opt;
+        $students[$s_id]['amount_due'] = ceil($amount_due * $students[$s_id]['fees']);
+        
+        $session->set('students', $students);
+        
+        $mainframe->redirect('index.php?option=com_clonard&view=final');
+    }
 }

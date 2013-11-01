@@ -106,7 +106,18 @@ function createTable($orders)
 		    $table .= '<strong>Delivery Address:</strong> ' . $order->parent['postaladd'] . ', ' . $order->parent['postalcode'] . '<br>';
         }
         
-        $table .= '</p><br>';
+        $table .= '</p>';
+            
+        if (!empty($order->payment_method)) { 
+            $mymethod = array(
+                'oncollection'=>'On Collection',
+                'eft'=>'EFT',
+                'card'=>'Via MonsterPay'
+            );
+            $table .= '<p><strong>Payment Method: ' . $mymethod[$order->payment_method] . '</strong></p>';
+        }
+        
+        $table .= '<br>';
             
         if (!empty($order->comments)) {
             $table .= '<p><strong>SPECIAL INSTRUCTIONS</strong></p>';

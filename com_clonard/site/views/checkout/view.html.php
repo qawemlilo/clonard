@@ -37,9 +37,7 @@ class Cart {
         $this->html .=  '<table class="cart" style="margin-top:5px;"><thead><tr><th align="left">Item</th>';
         $this->html .=  '<th class="money" align="right">Price</th></tr></thead>';
         
-        $msg = "'You will now be taken to MonsterPay Secure website to make payment, please dont close this window'";
-        
-        $this->form .= "<FORM METHOD=\"POST\" ACTION=\"https://www.monsterpay.com/secure/\" onSubmit=\"alert({$msg}); return true;\">";
+        $this->form .= "<FORM METHOD=\"POST\" ACTION=\"https://www.monsterpay.com/secure/\" id=\"payform\" >";
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="ButtonAction" VALUE="checkout">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="MerchantIdentifier" VALUE="79YW25SUQC">';
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="CurrencyAlphaCode" VALUE="ZAR">';
@@ -57,28 +55,28 @@ class Cart {
         $this->form .= '<INPUT TYPE="HIDDEN" NAME="State" VALUE="' . $parent['province'] . '">';
  
         if (is_array($students) && count($students) > 0) {
-	    $counter = 0;
+	        $counter = 0;
 	    
             foreach($students as $student_id=>$student_details) {
-               $books = $refunds[$student_id];
-               $refundTotal = $this->calcRefunds($books);
-               
-               $itemtotal = $this->calcDiscount($student_details['fees'], $refundTotal, $student_details['opt']);
-               
-               $this->num_packs = $this->num_packs + 1;
-               $this->subtotal += $itemtotal;
-                           
-               $this->addBody($student_details, $itemtotal);
-               
-               $gr = $student_details['grade'];
-               if(!$gr) $gr = 'R';
-               
-               $this->addFormItem('Grade ' . $gr . ' Pack', $itemtotal, $counter);   
-               
-               $counter = $counter + 1;
-	    }
+                 $books = $refunds[$student_id];
+                 $refundTotal = $this->calcRefunds($books);
+                 
+                 $itemtotal = $this->calcDiscount($student_details['fees'], $refundTotal, $student_details['opt']);
+                 
+                 $this->num_packs = $this->num_packs + 1;
+                 $this->subtotal += $itemtotal;
+                             
+                 $this->addBody($student_details, $itemtotal);
+                 
+                 $gr = $student_details['grade'];
+                 if(!$gr) $gr = 'R';
+                 
+                 $this->addFormItem('Grade ' . $gr . ' Pack', $itemtotal, $counter);   
+                 
+                 $counter = $counter + 1;
+	        }
 	    
-	    $this->shippingtotal = $this->calcShipping($shipping);
+	        $this->shippingtotal = $this->calcShipping($shipping);
             $this->addShipping($shipping);
             
             $this->addFormItem('Shipping - ' . $this->num_packs . ' Packs', $this->shippingtotal, $this->num_packs);
@@ -89,7 +87,7 @@ class Cart {
             
             $this->html .= '</tbody></table>';
             $this->html .=  '<table class="cart foo" style="margin-top:20px;"><tr><td align="left"><strong>Total</strong></td><td class="money" align="left"><strong><span class="randv">R</span><span class="randnum">' . $total .'</span></strong></td></tr></table>';	
-	}
+	    }
         
         return $this->html;
     }
@@ -133,9 +131,11 @@ class Cart {
     function getForm() {
         $this->form .= '<table class="cart foo" style="margin-top:20px; border-bottom: 0px;"><tr><td align="left" span="2"><strong>Please Note:</strong><ul  style="margin-left: 0px"><li>Collect - Once payment has been received we will contact you to arrange collection.</li></ul></td></tr>';
         
-        $this->form .= '<tr><td span="2"><a class="button blue" id="pay" href="index.php?option=com_clonard&view=collect">Pay on Collection >></a> <br>'; 
-        $this->form .= '<a class="button blue" id="pay" href="index.php?option=com_clonard&view=eft">Pay via EFT >></a> <br>';
-        $this->form .= '<BUTTON TYPE="SUBMIT" VALUE="Buy Now" class="button blue" id="pay" name="submit">Pay via CREDIT CARD >></BUTTON></td></tr></table>';
+        $this->form .= '<tr><td span="2"><img src="components/com_clonard/images/loading.gif" class="progress" style="display:none" /> <br><a class="button blue" id="payoncollection" href="index.php?option=com_clonard&view=collect" style="margin-bottom:5px;margin-top:10px; width:280px; padding-right:0px padding-left:0px">Pay on Collection >></a> <br>'; 
+        
+        $this->form .= '<a class="button blue" id="paywitheft" href="index.php?option=com_clonard&view=eft" style="margin-bottom:5px; width:280px; padding-right:0px padding-left:0px">Pay via EFT >></a> <br>';
+        
+        $this->form .= '<a VALUE="Buy Now" class="button blue" id="paywithcard" name="submit" style="width:280px; padding-right:0px padding-left:0px">Pay via CREDIT CARD >></a></td></tr></table>';
        
         $this->form .= '</p></FORM>';
         
@@ -160,11 +160,11 @@ class Cart {
     function calcDiscount($fees, $refundAmount, $opt) {
         if ($opt == 'a') {
             $feesMinusRefunds = ($fees - $refundAmount);
-            $stotal =  ($feesMinusRefunds - ceil($totalMinusRefunds * 0.05));   
+            $stotal =  ($feesMinusRefunds - ceil($feesMinusRefunds * 0.05));   
         }
         else {
             $feesMinusRefunds = ($fees - $refundAmount);
-            $stotal =  ($feesMinusRefunds - ceil($totalMinusRefunds * 0.5));
+            $stotal =  ceil($feesMinusRefunds * 0.5);
         }
         
         
@@ -213,12 +213,13 @@ class ClonardViewCheckout extends JView {
         $model =& $this->getModel();
         $session = JFactory::getSession();
         $students = $session->get('students');
+        $orderIds = array();
         
-	$cart = new Cart();
-	$html = $cart->getHTML();
-	$form = $cart->getForm();
+	    $cart = new Cart();
+	    $html = $cart->getHTML();
+	    $form = $cart->getForm();
 	      
-	foreach ($students as $id=>$data) {
+	    foreach ($students as $id=>$data) {
             $result = $model->createStudent($data);
 
             if($result) {
@@ -226,17 +227,22 @@ class ClonardViewCheckout extends JView {
                 
                 if (!$ordercreated) {
                     die('Order not created');
-                }   
+                }
+                else {
+                    $orderIds[] = $ordercreated; 
+                }
+                                
             }
             else {
                 die('Student not created');
             }
         }
 		
-	$this->assignRef('html', $html);
-	$this->assignRef('form', $form);
-	      
-	parent::display($tpl);
+	    $this->assignRef('html', $html);
+	    $this->assignRef('form', $form);
+        $this->assignRef('orders', $orderIds);
+	          
+	    parent::display($tpl);
     }
 }
 
