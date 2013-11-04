@@ -14,7 +14,7 @@ class ClonardViewRefunds extends JView
 		if ($currentUser->usertype == "Administrator")
 		{
             $grade =& JRequest::getInt('grade', 0);
-            $grades = $model->getGrades(2013);
+            $grades = $model->getGrades(2014);
             $refundables = $model->getRefunds($grade, 2013);
             
             if (JRequest::getVar('layout') == 'edit') {

@@ -214,6 +214,12 @@ class ClonardViewCheckout extends JView {
         $session = JFactory::getSession();
         $students = $session->get('students');
         $orderIds = array();
+        $shipping = JRequest::getString('sp', '', 'GET');
+        
+        $lookup = array(
+            'Registered'=>'Courier',
+            'Collect'=>'Self Collection'
+        );
         
 	    $cart = new Cart();
 	    $html = $cart->getHTML();
@@ -241,6 +247,7 @@ class ClonardViewCheckout extends JView {
 	    $this->assignRef('html', $html);
 	    $this->assignRef('form', $form);
         $this->assignRef('orders', $orderIds);
+        $this->assignRef('shipping', $lookup[$shipping]);
 	          
 	    parent::display($tpl);
     }

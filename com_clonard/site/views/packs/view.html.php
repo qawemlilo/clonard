@@ -13,7 +13,7 @@ class ClonardViewPacks extends JView
 
 		if ($currentUser->usertype == "Administrator")
 		{
-            $packs = $model->getPacks(2013);
+            $packs = $model->getPacks(2014);
             
             if (JRequest::getVar('layout') == 'edit') {
                 $id =& JRequest::getInt('id', 1);

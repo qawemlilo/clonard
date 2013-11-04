@@ -32,9 +32,9 @@ class ClonardModelCheckout extends JModel
             
             if ($id) {
                 if (!$comments)
-                    $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`) VALUES({$child['parent']}, $id, {$child['grade']}, '$books')";
+                    $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`, `payment_option`) VALUES({$child['parent']}, $id, {$child['grade']}, '$books', '{$child['opt']}')";
                 else
-                    $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`, `comments`) VALUES({$child['parent']}, $id, {$child['grade']}, '$books', '$comments')";
+                    $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`, `comments`, `payment_option`) VALUES({$child['parent']}, $id, {$child['grade']}, '$books', '$comments', '{$child['opt']}')";
                     
                 $db->setQuery($query);
                 

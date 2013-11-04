@@ -50,7 +50,7 @@ $total = $session->get('total');
 jQuery.noConflict();
 
 (function($) {
-    var ordersIds = '<?php echo implode(",", $this->orders); ?>', active = false;
+    var ordersIds = '<?php echo implode(",", $this->orders); ?>', active = false, shipping='<?php echo $this->shipping; ?>';
     $(function() {
         $("#payoncollection").click(function (e) {
             e.preventDefault();
@@ -83,7 +83,7 @@ jQuery.noConflict();
             active = true;
             $('.progress').slideDown(); 
             
-            send(ordersIds, pmethod, function (data) {
+            send(ordersIds, pmethod, shipping, function (data) {
                 location.href = 'index.php?option=com_clonard&view=eft';   
             });
             
@@ -102,7 +102,7 @@ jQuery.noConflict();
             active = true; 
             $('.progress').slideDown(); 
             
-            send(ordersIds, pmethod, function (data) {
+            send(ordersIds, pmethod, shipping, function (data) {
                 $('.progress').hide();
                 
                 alert('You will now be taken to MonsterPay Secure website to make payment, please dont close this window');
@@ -114,8 +114,8 @@ jQuery.noConflict();
     });
     
     
-    function send(ids, pmethod, done) {
-        $.post('index.php?option=com_clonard&view=checkout&task=update', {'mymethod': pmethod, 'ids':ids})
+    function send(ids, pmethod, myshipping, done) {
+        $.post('index.php?option=com_clonard&view=checkout&task=update', {'mymethod': pmethod, 'ids':ids, 'shipping': myshipping})
         .done(done)
         .fail(done);
     }

@@ -9,7 +9,7 @@ class ClonardViewSteptwo extends JView
     function display($tpl = null)
     {
         $model = &$this->getModel();
-        $grades = $model->getGrades(2013);
+        $grades = $model->getGrades(2014);
         $session = JFactory::getSession();
         $students = array();
         $student_id = JRequest::getString('s_id', '', 'GET');

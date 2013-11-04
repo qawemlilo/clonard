@@ -9,8 +9,9 @@ class ClonardControllerCheckout extends JController
 	    $db =& JFactory::getDBO();
         $ids = JRequest::getVar('ids');
         $method = JRequest::getVar('mymethod');
+        $shipping = JRequest::getVar('shipping');
         
-        $query = $this->createQuery($ids, $method);
+        $query = $this->createQuery($ids, $method, $shipping);
         $db->setQuery($query);
         $result = $db->query();
         
@@ -27,9 +28,9 @@ class ClonardControllerCheckout extends JController
     
     
     
-    private function createQuery($ids, $method) {
+    private function createQuery($ids, $method, $shipping) {
         $query = "UPDATE #__clonard_orders ";
-        $query .= "SET payment_method='" . $method . "' ";
+        $query .= "SET payment_method='" . $method . "', shipping='" . $shipping . "' ";
         
         if (strpos($ids, ',') !== false) {
             $query .= "WHERE id IN ({$ids})";

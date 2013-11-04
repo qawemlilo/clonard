@@ -108,13 +108,27 @@ function createTable($orders)
         
         $table .= '</p>';
             
-        if (!empty($order->payment_method)) { 
+        if (!empty($order->payment_method) && strlen($order->payment_method) > 2) { 
             $mymethod = array(
                 'oncollection'=>'On Collection',
                 'eft'=>'EFT',
                 'card'=>'Via MonsterPay'
             );
             $table .= '<p><strong>Payment Method: ' . $mymethod[$order->payment_method] . '</strong></p>';
+        }
+        
+        
+        if (!empty($order->payment_option) && ($order->payment_option == 'a' || $order->payment_option == 'b')) { 
+            $myoption = array(
+                'a'=>'Full Payment',
+                'b'=>'Half payment'
+            );
+            $table .= '<p><strong>Payment Option: ' . $myoption[$order->payment_option] . '</strong></p>';
+        }
+        
+        
+        if (!empty($order->shipping) && strlen($order->shipping) > 2) { 
+            $table .= '<p><strong>Shipping Option: ' . $order->shipping . '</strong></p>';
         }
         
         $table .= '<br>';
