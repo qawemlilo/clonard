@@ -76,7 +76,7 @@ class Cart {
         
         $footer .= '<table class="cart foo"><tr><td align="left"><strong>Option B - Payment Plan</strong>';
         $footer .= '<br><strong>50% due now</strong><br >';
-        $footer .= '(Please ensure you have read the payment information in the <a href="http://www.clonard.co.za/index.php?option=com_content&view=article&id=25&Itemid=36" target="_blank">Terms and Conditions</a>.<br>Payment Option B is subject to credit approval and is at Clonards Discretion.)</td>';
+        $footer .= '(Please ensure you have read the payment information in the <a href="http://www.clonard.co.za/index.php?option=com_content&view=article&id=25&Itemid=36" target="_blank">Terms and Conditions</a>.<br><span style="color: red">Payment Option B is subject to credit approval and is at Clonards discretion. A R250 Admin Fee is levied on all payment plans.</span>)</td>';
         $footer .= '<td class="money" align="right" style="width: 30%"><a href="index.php?option=com_clonard&view=stepfour&task=add_opt&opt=b&s_id='. $s_id .'" class="button blue">Select >></a></td></tr></table>';
         
         $this->html .= $footer;
