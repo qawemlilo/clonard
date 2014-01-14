@@ -15,6 +15,7 @@ class ClonardModelCheckout extends JModel
 	    $session =& JFactory::getSession();
 	    $refunds = $session->get('refunds');
 	    $parent = $session->get('parent');
+        $parentId = $this->getParentID();
 	    $comments = $parent['comments'];
 	    $s_id = $child['s_id'];
 	    $books = '';
@@ -32,9 +33,9 @@ class ClonardModelCheckout extends JModel
             
             if ($id) {
                 if (!$comments)
-                    $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`, `payment_option`) VALUES({$child['parent']}, $id, {$child['grade']}, '$books', '{$child['opt']}')";
+                    $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`, `payment_option`) VALUES({$parentId}, $id, {$child['grade']}, '$books', '{$child['opt']}')";
                 else
-                    $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`, `comments`, `payment_option`) VALUES({$child['parent']}, $id, {$child['grade']}, '$books', '$comments', '{$child['opt']}')";
+                    $query = "INSERT INTO jos_clonard_orders(`parent`,`child`, `grade`, `books`, `comments`, `payment_option`) VALUES({$parentId}, $id, {$child['grade']}, '$books', '$comments', '{$child['opt']}')";
                     
                 $db->setQuery($query);
                 
@@ -99,4 +100,21 @@ class ClonardModelCheckout extends JModel
       
       return $query;
     }
+    
+    
+    
+
+	
+	function getParentID()
+	{
+	    $user = JFactory::getUser();
+		$userid = $user->id;
+		
+	    $db =& JFactory::getDBO();
+		$query = "SELECT id FROM jos_clonard_parents WHERE userid={$userid}";
+        $db->setQuery($query);
+		$id = $db->loadResult();
+		
+		return $id;
+	}
 }

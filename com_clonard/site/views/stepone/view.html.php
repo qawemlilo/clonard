@@ -5,8 +5,7 @@ jimport( 'joomla.application.component.view');
 
 class ClonardViewStepone extends JView
 {
-	function display($tpl = null)
-	{
+	function display($tpl = null) {
 	    $mainframe =& JFactory::getApplication();
 	    $model = &$this->getModel();
         $parentData = $model->getParentData();		

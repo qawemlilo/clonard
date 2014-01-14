@@ -39,6 +39,7 @@ class ClonardControllerStepone extends JController
 	    $errors = array();
 	   
         $other = JRequest::getString('province2', '', 'POST');
+        $parent['userid'] = $currentUser->id;
         $parent['title'] = JRequest::getWord('title', '', 'POST');	   
 	    $parent['name'] = JRequest::getString('name', '', 'POST');
 	    $parent['surname'] = JRequest::getString('surname', '', 'POST');

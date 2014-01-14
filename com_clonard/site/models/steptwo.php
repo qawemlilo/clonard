@@ -177,10 +177,10 @@ class ClonardModelSteptwo extends JModel
 	function getParentID()
 	{
 	    $user = JFactory::getUser();
-		$email = $user->email;
+		$userid = $user->id;
 		
 	    $db =& JFactory::getDBO();
-		$query = "SELECT id FROM jos_clonard_parents WHERE email='$email'";
+		$query = "SELECT id FROM jos_clonard_parents WHERE userid={$userid}";
         $db->setQuery($query);
 		$id = $db->loadResult();
 		

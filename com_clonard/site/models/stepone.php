@@ -10,15 +10,13 @@ class ClonardModelStepone extends JModel
 	public $parentID;
 	private $parentData;
 	
-	function createParent(array $arr)
-	{
+	function createParent(array $arr) {
 	    if (!isset($this->results)) 
 		{
 			$id = $this->getParentID();
 			$db =& JFactory::getDBO();
             
-			if (!$id)
-			{
+			if (!$id) {
 			    $query = $this->createInsertQuery($arr);              
 				$db->setQuery($query);
 				$this->results = $db->query();
@@ -43,21 +41,19 @@ class ClonardModelStepone extends JModel
 		return $this->results;
     }
 	
-	function getParentID()
-	{
+	function getParentID() {
 	    $user = JFactory::getUser();
-		$email = $user->email;
+		$userid = $user->id;
 		
 	    $db =& JFactory::getDBO();
-		$query = "SELECT id FROM jos_clonard_parents WHERE email='$email'";
+		$query = "SELECT id FROM jos_clonard_parents WHERE userid={$userid}";
         $db->setQuery($query);
 		$id = $db->loadResult();
 				
 		return $id;
 	} 
 	
-	function createInsertQuery($arr)
-	{
+	function createInsertQuery($arr) {
 	    $q = "INSERT INTO jos_clonard_parents(";
 		$v = " VALUES(";
 		
@@ -84,8 +80,7 @@ class ClonardModelStepone extends JModel
 		return false;
 	}
 	
-	function createUpdateQuery($arr, $id)
-	{
+	function createUpdateQuery($arr, $id) {
 	    $query = "";
 
 	    $update = "UPDATE jos_clonard_parents SET";
@@ -108,20 +103,18 @@ class ClonardModelStepone extends JModel
 	}
 	
 
-    function getParentData() 
-    {
-		if (!isset($this->parentData))
-	    {
+    function getParentData() {
+		if (!isset($this->parentData)) {
 		    $user = JFactory::getUser();
 			$db =& JFactory::getDBO();
 
-			$email = $user->email;
+			$userid = $user->id;
 			$name = explode(" ", $user->name);
 				
-			$query = "SELECT * FROM jos_clonard_parents WHERE email='$email'";
+			$query = "SELECT * FROM jos_clonard_parents WHERE userid={$userid}";
 			$db->setQuery($query);           
 			$this->parentData = $db->loadAssoc();
-			$this->parentData['email'] = $email;
+			$this->parentData['email'] = $user->email;
 			$this->parentData['name'] = $name[0];
             
 			if(count($name) > 1) {
