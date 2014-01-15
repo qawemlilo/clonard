@@ -64,7 +64,7 @@ jQuery.noConflict();
             active = true;
             $('.progress').slideDown(); 
             
-            send(ordersIds, pmethod, function (data) {
+            send(ordersIds, pmethod, shipping, function (data) {
                 location.href = 'index.php?option=com_clonard&view=collect';   
             });
             

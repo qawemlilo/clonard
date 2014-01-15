@@ -114,11 +114,15 @@ class ClonardModelStepone extends JModel
 			$query = "SELECT * FROM jos_clonard_parents WHERE userid={$userid}";
 			$db->setQuery($query);           
 			$this->parentData = $db->loadAssoc();
-			$this->parentData['email'] = $user->email;
-			$this->parentData['name'] = $name[0];
             
-			if(count($name) > 1) {
-                $this->parentData['surname'] = end($name);
+            if (!$this->parentData) {
+			    $this->parentData['email'] = $user->email;
+			    $this->parentData['name'] = $name[0];
+                $this->parentData['userid'] = $userid;
+			    
+                if(count($name) > 1) {
+                    $this->parentData['surname'] = end($name);
+                }
             }
 		}
 			
